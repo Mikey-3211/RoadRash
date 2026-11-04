@@ -1,0 +1,1 @@
+const r="rr-muted",o=new Set;let t=!1;try{t=localStorage.getItem(r)==="1"}catch{}const n=()=>t;function c(){t=!t;try{localStorage.setItem(r,t?"1":"0")}catch{}for(const e of o)e(t)}function a(e){return o.add(e),()=>o.delete(e)}export{n as isMuted,a as onMuteChange,c as toggleMute};

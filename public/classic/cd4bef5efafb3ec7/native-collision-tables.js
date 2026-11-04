@@ -1,0 +1,1 @@
+const e=Object.freeze([196,196,256,196,256,196,196,128,128,128,128,64,128,256,196]);export{e as NATIVE_COLLISION_STEER};

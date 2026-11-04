@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "routes": [
+    {
+      "src": "/classic/cd4bef5efafb3ec7/(.*)",
+      "dest": "/classic/cd4bef5efafb3ec7/$1"
+    },
+    {
+      "src": "/classic-assets/414a4427a4dcdcc4/(.*)",
+      "dest": "/classic-assets/414a4427a4dcdcc4/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
+}
+

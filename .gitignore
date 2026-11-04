@@ -1,0 +1,8 @@
+node_modules/
+.temp/
+android/
+dangerous-dave-repo/
+cloudflared.exe
+*.log
+candidate_textures.json
+*.mjs

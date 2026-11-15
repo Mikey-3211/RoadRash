@@ -6,14 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b0c16">
   <title>RETRO ARCADE HUB — 90s Classic Games Reborn</title>
-  
+
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="alternate icon" type="image/png" href="/icon-192.png">
   <link rel="manifest" href="/manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@600;700;900&family=VT323&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@600;700;900&family=VT323&display=swap"
+    rel="stylesheet">
+
   <style>
     :root {
       --bg-dark: #07080f;
@@ -31,7 +33,12 @@
       --retro-font: 'VT323', monospace;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
 
     body {
       background: var(--bg-dark);
@@ -75,6 +82,7 @@
       z-index: 100;
       backdrop-filter: blur(8px);
     }
+
     .brand-link {
       display: flex;
       align-items: center;
@@ -82,10 +90,12 @@
       text-decoration: none;
       color: var(--text-main);
     }
+
     .brand-logo {
       width: 32px;
       height: 32px;
     }
+
     .brand-title {
       font-family: var(--arcade-font);
       font-size: 0.85rem;
@@ -93,6 +103,7 @@
       letter-spacing: 1px;
       text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
     }
+
     .nav-status-items {
       display: flex;
       align-items: center;
@@ -100,6 +111,7 @@
       font-family: var(--arcade-font);
       font-size: 0.55rem;
     }
+
     .status-badge {
       display: inline-flex;
       align-items: center;
@@ -110,6 +122,7 @@
       background: rgba(255, 255, 255, 0.03);
       color: var(--neon-green);
     }
+
     .pulse-dot {
       width: 6px;
       height: 6px;
@@ -118,7 +131,18 @@
       box-shadow: 0 0 8px var(--neon-green);
       animation: blink 1.5s infinite;
     }
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.3;
+      }
+    }
 
     /* Hero Platform & Marquee Section */
     .arcade-hero {
@@ -129,6 +153,7 @@
       margin: 0 auto;
       width: 100%;
     }
+
     .hero-marquee-badge {
       display: inline-block;
       font-family: var(--arcade-font);
@@ -143,6 +168,7 @@
       box-shadow: 0 0 15px rgba(255, 230, 0, 0.3);
       text-transform: uppercase;
     }
+
     h1.hero-title {
       font-family: var(--arcade-font);
       font-size: clamp(1.8rem, 5vw, 3.2rem);
@@ -153,6 +179,7 @@
       -webkit-text-fill-color: transparent;
       text-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
     }
+
     p.hero-subtitle {
       font-size: clamp(1.05rem, 2.5vw, 1.4rem);
       color: var(--text-muted);
@@ -170,15 +197,32 @@
       gap: 1.5rem;
       margin: 1.5rem auto 2rem;
     }
+
     .pixel-item {
       font-size: 2.2rem;
       animation: floatItem 3s ease-in-out infinite;
     }
-    .pixel-item:nth-child(2) { animation-delay: 0.4s; font-size: 2.8rem; }
-    .pixel-item:nth-child(3) { animation-delay: 0.8s; font-size: 2.2rem; }
+
+    .pixel-item:nth-child(2) {
+      animation-delay: 0.4s;
+      font-size: 2.8rem;
+    }
+
+    .pixel-item:nth-child(3) {
+      animation-delay: 0.8s;
+      font-size: 2.2rem;
+    }
+
     @keyframes floatItem {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
     }
 
     .cta-container {
@@ -188,6 +232,7 @@
       flex-wrap: wrap;
       margin-bottom: 2rem;
     }
+
     .btn-press-start {
       font-family: var(--arcade-font);
       font-size: 0.85rem;
@@ -205,6 +250,7 @@
       align-items: center;
       gap: 0.6rem;
     }
+
     .btn-press-start:hover {
       background: #fff;
       color: #000;
@@ -220,6 +266,7 @@
       padding: 1rem 1.5rem 4rem;
       width: 100%;
     }
+
     .section-header {
       display: flex;
       justify-content: space-between;
@@ -228,6 +275,7 @@
       border-bottom: 2px solid var(--card-border);
       padding-bottom: 0.75rem;
     }
+
     .section-title {
       font-family: var(--arcade-font);
       font-size: 1rem;
@@ -251,6 +299,7 @@
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
     }
+
     .game-card:hover {
       transform: translateY(-6px);
       border-color: var(--accent-color, var(--neon-cyan));
@@ -268,6 +317,7 @@
       position: relative;
       overflow: hidden;
     }
+
     .banner-top-row {
       display: flex;
       justify-content: space-between;
@@ -275,12 +325,14 @@
       width: 100%;
       z-index: 2;
     }
+
     .banner-chassis {
       font-family: var(--arcade-font);
       font-size: 0.55rem;
       color: var(--text-muted);
       letter-spacing: 1px;
     }
+
     .banner-badge {
       font-family: var(--arcade-font);
       font-size: 0.55rem;
@@ -290,6 +342,7 @@
       background: rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(4px);
     }
+
     .banner-center {
       display: flex;
       justify-content: center;
@@ -298,6 +351,7 @@
       inset: 0;
       pointer-events: none;
     }
+
     .banner-icon-glow {
       width: 74px;
       height: 74px;
@@ -310,6 +364,7 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
       transition: transform 0.3s ease;
     }
+
     .game-card:hover .banner-icon-glow {
       transform: scale(1.12);
     }
@@ -321,29 +376,34 @@
       flex: 1;
       gap: 0.85rem;
     }
+
     .card-header-line {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
       gap: 0.5rem;
     }
+
     .card-title {
       font-family: var(--arcade-font);
       font-size: 1.05rem;
       color: var(--text-main);
       line-height: 1.3;
     }
+
     .card-year {
       font-family: var(--retro-font);
       font-size: 1.15rem;
       color: var(--text-muted);
     }
+
     .card-genre {
       font-family: var(--arcade-font);
       font-size: 0.6rem;
       letter-spacing: 1px;
       text-transform: uppercase;
     }
+
     .card-desc {
       color: var(--text-muted);
       font-size: 0.95rem;
@@ -358,13 +418,18 @@
       padding: 0.75rem;
       font-size: 0.85rem;
     }
+
     .control-row {
       display: flex;
       gap: 0.5rem;
       margin-bottom: 0.3rem;
       color: var(--text-muted);
     }
-    .control-row:last-child { margin-bottom: 0; }
+
+    .control-row:last-child {
+      margin-bottom: 0;
+    }
+
     .control-label {
       font-family: var(--arcade-font);
       font-size: 0.55rem;
@@ -380,19 +445,37 @@
       color: var(--text-muted);
       font-family: monospace;
     }
+
     .status-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
     }
-    .status-dot.active { background: var(--neon-green); box-shadow: 0 0 8px var(--neon-green); }
-    .status-dot.online { background: var(--neon-cyan); box-shadow: 0 0 8px var(--neon-cyan); }
-    .status-dot.byor { background: var(--neon-amber); box-shadow: 0 0 8px var(--neon-amber); }
-    .status-dot.pending { background: var(--neon-yellow); box-shadow: 0 0 8px var(--neon-yellow); }
+
+    .status-dot.active {
+      background: var(--neon-green);
+      box-shadow: 0 0 8px var(--neon-green);
+    }
+
+    .status-dot.online {
+      background: var(--neon-cyan);
+      box-shadow: 0 0 8px var(--neon-cyan);
+    }
+
+    .status-dot.byor {
+      background: var(--neon-amber);
+      box-shadow: 0 0 8px var(--neon-amber);
+    }
+
+    .status-dot.pending {
+      background: var(--neon-yellow);
+      box-shadow: 0 0 8px var(--neon-yellow);
+    }
 
     .card-actions {
       margin-top: 0.5rem;
     }
+
     .btn-play {
       display: block;
       width: 100%;
@@ -406,6 +489,7 @@
       letter-spacing: 1px;
       transition: all 0.2s;
     }
+
     .btn-play:hover {
       filter: brightness(1.15);
       transform: translateY(-2px);
@@ -420,8 +504,16 @@
       color: var(--text-muted);
       font-size: 0.95rem;
     }
-    footer a { color: var(--neon-cyan); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
+
+    footer a {
+      color: var(--neon-cyan);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
     .disclaimer {
       max-width: 850px;
       margin: 1.5rem auto 0;
@@ -432,10 +524,21 @@
 
     /* Responsive Breakdown */
     @media (max-width: 768px) {
-      .top-nav { padding: 0.6rem 1rem; }
-      .arcade-hero { padding: 2rem 1rem 1.5rem; }
-      .games-grid { grid-template-columns: 1fr; }
-      .brand-title { font-size: 0.75rem; }
+      .top-nav {
+        padding: 0.6rem 1rem;
+      }
+
+      .arcade-hero {
+        padding: 2rem 1rem 1.5rem;
+      }
+
+      .games-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .brand-title {
+        font-size: 0.75rem;
+      }
     }
   </style>
 </head>
@@ -459,7 +562,7 @@
     <div class="hero-marquee-badge">1990s RETRO COLLECTION · 5 CLASSICS</div>
     <h1 class="hero-title">RETRO ARCADE HUB</h1>
     <p class="hero-subtitle">Five legendary arcade & PC classics preserved in modern WebAssembly, WebGL2, and HTML5.</p>
-    
+
     <div class="pixel-scenery">
       <div class="pixel-item">🏍️</div>
       <div class="pixel-item">🍄</div>
@@ -471,7 +574,8 @@
     </div>
 
     <p style="font-size:0.85rem; color:var(--text-muted); letter-spacing:1px;">
-      PORTED & CURATED BY <a href="https://milanprajapati.in" target="_blank" rel="noopener" style="color:var(--neon-cyan); font-weight:bold; text-decoration:none;">MILAN PRAJAPATI</a>
+      PORTED & CURATED BY <a href="https://milanprajapati.in" target="_blank" rel="noopener"
+        style="color:var(--neon-cyan); font-weight:bold; text-decoration:none;">MILAN PRAJAPATI</a>
     </p>
   </header>
 
@@ -479,9 +583,10 @@
   <main>
     <div class="section-header">
       <span class="section-title">CHOOSE YOUR ADVENTURE</span>
-      <span style="font-size:0.85rem; color:var(--text-muted); font-family:monospace;">100% Client-Side Engine Execution</span>
+      <span style="font-size:0.85rem; color:var(--text-muted); font-family:monospace;">100% Client-Side Engine
+        Execution</span>
     </div>
-    
+
     <div class="games-grid" id="games-grid">
       <!-- Populated dynamically via /games.json with offline fallback -->
     </div>
@@ -489,9 +594,13 @@
 
   <footer>
     <p>Retro Arcade Hub · Built with WebAssembly, WebGL & HTML5 Canvas</p>
-    <p>Maintained by <a href="https://milanprajapati.in" target="_blank" rel="noopener">Milan Prajapati</a> · Code repository on <a href="https://github.com/Mikey-3211/RoadRash" target="_blank" rel="noopener">GitHub</a></p>
+    <p>Maintained by <a href="https://milanprajapati.in" target="_blank" rel="noopener">Milan Prajapati</a> · Code
+      repository on <a href="https://github.com/Mikey-3211/RoadRash" target="_blank" rel="noopener">GitHub</a></p>
     <div class="disclaimer">
-      Legal Disclaimer: Road Rash is © Electronic Arts. Virtua Cop 2 and The House of the Dead 2 are © SEGA / AM2 / AM1. Dangerous Dave is © John Romero / Softdisk. Mario Forever fan content is © Softendo / Nintendo. All trademarks, copyrights, and audio-visual assets remain the property of their respective owners. This portal complies with open-source and emulation guidelines and distributes no proprietary ROM dumps.
+      Legal Disclaimer: Road Rash is © Electronic Arts. Virtua Cop 2 and The House of the Dead 2 are © SEGA / AM2 / AM1.
+      Dangerous Dave is © John Romero / Softdisk. Mario Forever fan content is © Softendo / Nintendo. All trademarks,
+      copyrights, and audio-visual assets remain the property of their respective owners. This portal complies with
+      open-source and emulation guidelines and distributes no proprietary ROM dumps.
     </div>
   </footer>
 
@@ -688,4 +797,5 @@
   </script>
 
 </body>
+
 </html>

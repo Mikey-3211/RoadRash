@@ -31,9 +31,13 @@ const moduleReady = new Promise((resolve) => {
 });
 const s = document.createElement('script');
 s.src = '../game/hotd2.js';
-s.onerror = () => log('../game/hotd2.js is missing: run runtime/build-web.sh first');
+s.onerror = () => {
+	log('../game/hotd2.js is missing: WebAssembly engine is not hosted on this public origin.');
+	const w = $('engine-warning');
+	if (w) w.style.display = 'block';
+};
 document.body.appendChild(s);
-if (!crossOriginIsolated) log('page is not cross-origin isolated; serve it with web/serve.py');
+if (!crossOriginIsolated) log('page is not cross-origin isolated; serve it with web/serve.py or server.mjs');
 
 // EEPROM (settings) and SRAM (bookkeeping, scores) persist in this browser.
 const SAVE_KEY = 'hotd2-web-save-v1';
@@ -116,7 +120,13 @@ async function start(zipBytes) {
 	if (document.activeElement) document.activeElement.blur();   // so Enter reaches the game, not the button
 	log('reading ROM set...');
 	const zip = await readZip(zipBytes);
-	await moduleReady;
+
+	// Validate WebAssembly engine runtime availability with timeout
+	const timeoutPromise = new Promise((_, reject) =>
+		setTimeout(() => reject(new Error('WebAssembly runtime (hotd2.wasm/hotd2.js) not available on this origin')), 4000)
+	);
+	await Promise.race([moduleReady, timeoutPromise]);
+
 	const program = await zip.read(PROGRAM);
 	const cartPtr = Module._web_alloc(CART_SIZE);
 	const progPtr = Module._web_alloc(program.length);
@@ -143,10 +153,13 @@ function run() {
 	const canvas = $('screen');
 	const r = new PvrRenderer(canvas, Module);
 	setupInput(canvas);
-	// render at the canvas's real on-screen resolution (sharper than 640x480 stretched)
+	// Adaptive rendering resolution: optimize for mobile GPU fill-rate (e.g. Adreno 616)
 	new ResizeObserver(() => {
-		const box = canvas.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
-		const w = Math.max(640, Math.min(3840, Math.round(box.width * dpr)));
+		const box = canvas.getBoundingClientRect();
+		const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+		const maxW = isMobile ? 1280 : 1920;
+		const dpr = Math.min(isMobile ? 1.5 : 2, window.devicePixelRatio || 1);
+		const w = Math.max(640, Math.min(maxW, Math.round(box.width * dpr)));
 		if (canvas.width !== w) { canvas.width = w; canvas.height = Math.round(w * 3 / 4); r.lastSeq = -1; }
 	}).observe(canvas);
 	$('fullscreen').hidden = false;
@@ -172,6 +185,11 @@ function setupInput(canvas) {
 	const u8 = (o) => Module.HEAPU8;
 	const set16 = (o, v) => { Module.HEAPU8[base + o] = v & 0xFF; Module.HEAPU8[base + o + 1] = v >> 8; };
 	const get16 = (o) => Module.HEAPU8[base + o] | (Module.HEAPU8[base + o + 1] << 8);
+
+	let triggerTimer = null;
+	let reloadTimer = null;
+	const activePointers = new Set();
+
 	const aim = (e) => {
 		const r = canvas.getBoundingClientRect();
 		const x = Math.round((e.clientX - r.left) / r.width * 639), y = Math.round((e.clientY - r.top) / r.height * 479);
@@ -180,18 +198,53 @@ function setupInput(canvas) {
 		set16(IN.gunY, Math.max(0, Math.min(479, y)));
 		if (!(e.buttons & 2)) Module.HEAPU8[base + IN.offscreen] = inside ? 0 : 1;
 	};
+
 	canvas.addEventListener('pointermove', aim);
+
+	// Low-latency instant tap-to-shoot
 	canvas.addEventListener('pointerdown', (e) => {
+		e.preventDefault();
 		aim(e);
-		if (e.button === 2) Module.HEAPU8[base + IN.offscreen] = 1;     // right button: aim off-screen to reload
-		else set16(IN.buttons, get16(IN.buttons) | TRIGGER);
-		canvas.setPointerCapture(e.pointerId);
+		activePointers.add(e.pointerId);
+
+		if (e.button === 2) {
+			Module.HEAPU8[base + IN.offscreen] = 1;     // right click: aim off-screen to reload
+		} else {
+			set16(IN.buttons, get16(IN.buttons) | TRIGGER);
+			if (triggerTimer) clearTimeout(triggerTimer);
+		}
+		try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
 	});
+
 	canvas.addEventListener('pointerup', (e) => {
-		if (e.button === 2) Module.HEAPU8[base + IN.offscreen] = 0;
-		else set16(IN.buttons, get16(IN.buttons) & ~TRIGGER);
+		e.preventDefault();
+		activePointers.delete(e.pointerId);
+
+		if (e.button === 2) {
+			Module.HEAPU8[base + IN.offscreen] = 0;
+		} else {
+			// Hold trigger pulse for 60ms to ensure 60Hz engine poll catches every tap
+			if (activePointers.size === 0) {
+				if (triggerTimer) clearTimeout(triggerTimer);
+				triggerTimer = setTimeout(() => {
+					if (activePointers.size === 0) {
+						set16(IN.buttons, get16(IN.buttons) & ~TRIGGER);
+					}
+				}, 60);
+			}
+		}
 	});
+
+	canvas.addEventListener('pointercancel', (e) => {
+		activePointers.delete(e.pointerId);
+		if (activePointers.size === 0) {
+			set16(IN.buttons, get16(IN.buttons) & ~TRIGGER);
+			Module.HEAPU8[base + IN.offscreen] = 0;
+		}
+	});
+
 	canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+
 	// The game samples its inputs once per frame: keep a tap held for a few frames.
 	let startDown = 0;
 	window.addEventListener('keydown', (e) => {
@@ -208,6 +261,7 @@ function setupInput(canvas) {
 		if (e.key === '9') Module.HEAPU8[base + IN.test] = 0;
 		if (e.key === '0') set16(IN.buttons, get16(IN.buttons) & ~SERVICE);
 	});
+
 	// Touch and Gamepad Hooks
 	const touchControls = $('touch-controls');
 	if (touchControls) touchControls.hidden = false;
@@ -216,12 +270,14 @@ function setupInput(canvas) {
 	if (btnReload) {
 		const triggerReload = (e) => {
 			e.preventDefault();
-			e.stopPropagation();
+			e.stopPropagation(); // Never bubble or allow tap to register on canvas
+			if (reloadTimer) clearTimeout(reloadTimer);
 			Module.HEAPU8[base + IN.offscreen] = 1;
 			set16(IN.buttons, get16(IN.buttons) | TRIGGER);
-			setTimeout(() => {
+			reloadTimer = setTimeout(() => {
 				set16(IN.buttons, get16(IN.buttons) & ~TRIGGER);
 				Module.HEAPU8[base + IN.offscreen] = 0;
+				reloadTimer = null;
 			}, 80);
 		};
 		btnReload.addEventListener('pointerdown', triggerReload);
@@ -249,6 +305,14 @@ function setupInput(canvas) {
 		btnSound.addEventListener('pointerdown', (e) => {
 			e.preventDefault();
 			prepareAudio();
+		});
+	}
+
+	const btnTouchFs = $('btn-touch-fs');
+	if (btnTouchFs) {
+		btnTouchFs.addEventListener('pointerdown', (e) => {
+			e.preventDefault();
+			toggleFullscreen();
 		});
 	}
 
@@ -301,9 +365,17 @@ $('rom').addEventListener('change', async (e) => {
 	const f = e.target.files[0];
 	prepareAudio();
 	if (f) {
-		const buf = await f.arrayBuffer();
-		saveRomArchive('hotd2', buf, f.name).catch(() => {});
-		start(new Uint8Array(buf)).catch((err) => log('error: ' + err.message));
+		try {
+			log(`📦 Loading ${f.name} (${(f.size / (1024 * 1024)).toFixed(1)} MB)...`);
+			const buf = await f.arrayBuffer();
+			log('Validating archive and caching to device IndexedDB...');
+			await saveRomArchive('hotd2', buf, f.name);
+			log('✅ Stored in persistent browser database. Booting engine...');
+			await start(new Uint8Array(buf));
+		} catch (err) {
+			log('⚠️ Launch error: ' + err.message);
+			$('overlay').hidden = false;
+		}
 	}
 });
 

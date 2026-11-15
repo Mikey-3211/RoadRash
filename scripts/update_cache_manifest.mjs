@@ -28,7 +28,12 @@ const coreHubFiles = [
   '/games/vcop2/',
   '/games/vcop2/index.html',
   '/games/hotd2/',
-  '/games/hotd2/index.html'
+  '/games/hotd2/index.html',
+  '/games/hotd2/player/index.html',
+  '/games/hotd2/player/main.js',
+  '/games/hotd2/player/zip.js',
+  '/games/hotd2/player/gl.js',
+  '/games/hotd2/player/audio-worklet.js'
 ];
 
 // Dangerous Dave assets

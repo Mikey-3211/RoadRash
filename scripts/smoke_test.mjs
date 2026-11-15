@@ -131,7 +131,12 @@ async function runTests() {
     '/assets/main-C2rmrO5w.js',
     '/classic/cd4bef5efafb3ec7/ui.css',
     '/dave/assets2/dave0.png',
-    '/icon-192.png'
+    '/icon-192.png',
+    '/games/hotd2/player/index.html',
+    '/games/hotd2/player/main.js',
+    '/games/hotd2/player/zip.js',
+    '/games/hotd2/player/gl.js',
+    '/games/hotd2/player/audio-worklet.js'
   ];
 
   for (const asset of criticalAssets) {

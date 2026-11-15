@@ -1,0 +1,13 @@
+{
+  "appId": "com.classic.roadrash",
+  "appName": "Road Rash Classic",
+  "webDir": "public",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "backgroundColor": "#000000",
+    "allowMixedContent": true
+  }
+}
+

@@ -8,7 +8,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import AdmZip from 'adm-zip'; // if unavailable, falls back to manual ZIP directory parsing
 
 const EXPECTED_PROGRAM = {
   name: 'epr-21585.ic22',
@@ -87,7 +86,7 @@ function parseZipEntries(buf) {
     const extraLen = buf.readUInt16LE(cur + 30);
     const commentLen = buf.readUInt16LE(cur + 32);
     const fileName = buf.toString('utf8', cur + 46, cur + 46 + fileNameLen);
-    
+
     entries.set(fileName.toLowerCase(), {
       rawName: fileName,
       uncompressedSize,

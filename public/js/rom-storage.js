@@ -21,6 +21,13 @@ function openDB() {
 }
 
 export async function saveRomArchive(id, fileBuffer, fileName) {
+  // Try requesting persistent storage where supported
+  if (navigator.storage && navigator.storage.persist) {
+    try {
+      await navigator.storage.persist();
+    } catch (_) {}
+  }
+
   const db = await openDB();
   return new Promise((resolve, reject) => {
     const tx = db.transaction(STORE_NAME, 'readwrite');

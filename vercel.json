@@ -3,7 +3,7 @@
   "cleanUrls": true,
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/games/hotd2/(.*)",
       "headers": [
         {
           "key": "Cross-Origin-Opener-Policy",

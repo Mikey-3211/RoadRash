@@ -312,6 +312,13 @@ $('rom').addEventListener('change', async (e) => {
 	try {
 		const cached = await getRomArchive('hotd2');
 		if (cached && cached.data && cached.data.byteLength > 10000000) {
+			// Validate that the cached blob actually starts with ZIP magic header (0x50 0x4B 0x03 0x04)
+			const header = new DataView(cached.data).getUint32(0, false);
+			if (header !== 0x504B0304) {
+				log('⚠️ Cached ROM is corrupted or invalid. Please re-select hotd2.zip.');
+				$('overlay').hidden = false;
+				return;
+			}
 			log(`Found previously imported ROM (${cached.name}, ${(cached.size/1024/1024).toFixed(1)} MB).`);
 			log('Auto-starting game engine from local device storage...');
 			$('overlay').hidden = true;
@@ -320,9 +327,13 @@ $('rom').addEventListener('change', async (e) => {
 				log('Auto-start failed: ' + err.message);
 				$('overlay').hidden = false;
 			});
+		} else {
+			// No cached ROM found -> ensure picker overlay is visible
+			$('overlay').hidden = false;
 		}
 	} catch (err) {
 		log('IndexedDB read error: ' + err.message);
+		$('overlay').hidden = false;
 	}
 })();
 if (['localhost', '127.0.0.1'].includes(location.hostname)) {

@@ -325,16 +325,17 @@
 
 		// Attempt to probe for the compiled game module if built locally
 		try {
-			const checkWasm = await fetch('/games/hotd2/game.wasm', { method: 'HEAD' });
+			const checkWasm = await fetch('/games/hotd2/game/hotd2.wasm', { method: 'HEAD' });
 			if (checkWasm.ok) {
-				print('Found local compiled game.wasm! Initializing WebGL2 and WASM context...');
-				statsEl.textContent = 'Starting HOTD2 Recompiled...';
-				overlayEl.hidden = true;
-				// When local game.js and game.wasm are compiled, main.js binds canvas and starts
+				print('Found local compiled hotd2.wasm! Launching full engine player...');
+				statsEl.textContent = 'Redirecting to player...';
+				setTimeout(() => {
+					window.location.href = '/games/hotd2/player/';
+				}, 600);
 			} else {
-				print('Compiled engine binary (game.wasm) is not yet compiled into public/games/hotd2/.', true);
-				print('Instructions: Run `runtime/build-web.sh hotd2.zip` with Emscripten to generate game.wasm.', false);
-				statsEl.textContent = 'Engine binary missing (run build-web.sh)';
+				print('Compiled engine binary (hotd2.wasm) not detected at /games/hotd2/game/hotd2.wasm.', true);
+				print('Instructions: Run `powershell hotd2-upstream/runtime/build-web.ps1` to compile the engine.', false);
+				statsEl.textContent = 'Engine binary missing (run build-web.ps1)';
 			}
 		} catch (err) {
 			print(`Module check failed: ${err.message}`, true);

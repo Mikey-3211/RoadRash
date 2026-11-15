@@ -307,23 +307,22 @@ $('rom').addEventListener('change', async (e) => {
 	}
 });
 
-// Check for existing cached ROM archive in IndexedDB
+// Check for existing cached ROM archive in IndexedDB and auto-launch
 (async () => {
 	try {
 		const cached = await getRomArchive('hotd2');
-		if (cached && cached.data) {
-			log(`Found locally cached ROM (${cached.name}, ${(cached.size/1024/1024).toFixed(1)} MB). Click to start instantly:`);
-			const btn = document.createElement('button');
-			btn.textContent = `▶ Resume with cached ROM (${cached.name})`;
-			btn.style.cssText = 'margin-top: 10px; background: #00ff66; color: #000; font-weight: bold; border-radius: 4px;';
-			btn.onclick = () => {
-				prepareAudio();
-				start(new Uint8Array(cached.data)).catch((err) => log('error: ' + err.message));
-			};
-			$('overlay').querySelector('.picker').appendChild(btn);
+		if (cached && cached.data && cached.data.byteLength > 10000000) {
+			log(`Found previously imported ROM (${cached.name}, ${(cached.size/1024/1024).toFixed(1)} MB).`);
+			log('Auto-starting game engine from local device storage...');
+			$('overlay').hidden = true;
+			prepareAudio();
+			start(new Uint8Array(cached.data)).catch((err) => {
+				log('Auto-start failed: ' + err.message);
+				$('overlay').hidden = false;
+			});
 		}
 	} catch (err) {
-		// IndexedDB fallback silently
+		log('IndexedDB read error: ' + err.message);
 	}
 })();
 if (['localhost', '127.0.0.1'].includes(location.hostname)) {

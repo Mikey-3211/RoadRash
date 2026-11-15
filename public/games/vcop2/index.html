@@ -227,10 +227,24 @@
         </div>
       </div>
 
-      <div class="launch-cta">
-        <a href="https://vcop2.lol/" target="_blank" rel="noopener noreferrer" class="play-large-btn">
-          ▶ LAUNCH GAME AT VCOP2.LOL
+      <div class="launch-cta" style="display:flex; flex-direction:column; gap:12px; align-items:center;">
+        <button id="btn-play-embed" class="play-large-btn" style="border:none; cursor:pointer;">
+          ▶ PLAY IN ARCADE CABINET (SEAMLESS)
+        </button>
+        <a href="https://vcop2.lol/" target="_blank" rel="noopener noreferrer" style="color:var(--muted); font-size:12px; text-decoration:underline;">
+          Open in standalone tab (vcop2.lol) ↗
         </a>
+      </div>
+
+      <!-- Seamless Arcade Stage Container -->
+      <div id="embed-cabinet" style="display:none; width:100%; margin-top:20px; border:2px solid var(--cyan); border-radius:8px; overflow:hidden; background:#000;">
+        <div style="background:#111422; padding:8px 16px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border);">
+          <span style="font-family:var(--arcade-font); font-size:10px; color:var(--cyan);">VIRTUA COP 2 · ARCADE SCREEN</span>
+          <button id="btn-fullscreen-embed" style="background:transparent; border:1px solid var(--cyan); color:var(--cyan); padding:4px 8px; border-radius:4px; font-family:monospace; cursor:pointer;">[ ] FULLSCREEN</button>
+        </div>
+        <div style="position:relative; width:100%; aspect-ratio:4/3; max-height:75vh;">
+          <iframe id="vcop2-iframe" src="" style="width:100%; height:100%; border:none;" allow="autoplay; fullscreen; pointer-lock;"></iframe>
+        </div>
       </div>
 
       <div class="legal-notice">
@@ -240,5 +254,28 @@
     </article>
   </main>
 
+  <script>
+    const btnPlayEmbed = document.getElementById('btn-play-embed');
+    const embedCabinet = document.getElementById('embed-cabinet');
+    const vcop2Iframe = document.getElementById('vcop2-iframe');
+    const btnFullscreenEmbed = document.getElementById('btn-fullscreen-embed');
+
+    btnPlayEmbed.addEventListener('click', () => {
+      embedCabinet.style.display = 'block';
+      if (!vcop2Iframe.src || vcop2Iframe.src === 'about:blank') {
+        vcop2Iframe.src = 'https://vcop2.lol/';
+      }
+      btnPlayEmbed.style.display = 'none';
+      embedCabinet.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    btnFullscreenEmbed.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        embedCabinet.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    });
+  </script>
 </body>
 </html>

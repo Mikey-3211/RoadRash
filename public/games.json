@@ -10,31 +10,37 @@
       "desktop": "Mouse Aim, Left Click Shoot, Right Click Reload, P Pause, ESC Release Mouse",
       "mobile": "Touch screen to aim and shoot, on-screen Reload button, Landscape mode"
     },
-    "status": "External Web Port (Authorized Integration Ready)",
+    "status": "External Web Port (Authorized Source Integration Pending)",
     "statusType": "online",
+    "launchType": "external",
     "route": "/games/vcop2/",
     "externalUrl": "https://vcop2.lol/",
     "engine": "C++ / WebAssembly (divyanshkul)",
-    "badge": "ARCADE LEGEND",
-    "accentColor": "#00f0ff"
+    "badge": "ONLINE ONLY",
+    "offline": false,
+    "accentColor": "#00f0ff",
+    "icon": "🎯"
   },
   {
     "id": "dangerous-dave",
     "title": "Dangerous Dave",
     "genre": "Retro Platformer",
     "year": "1988",
-    "developer": "John Romero (HTML5 Re-creation)",
-    "description": "Guide Dave through treacherous levels packed with fire pits, trophies, jetpacks, and lethal traps.",
+    "developer": "John Romero (HTML5 Canvas Re-creation)",
+    "description": "Guide Dave through perilous levels packed with fire pits, trophies, jetpacks, and lethal traps.",
     "controls": {
       "desktop": "Arrow Keys Move/Jump, Spacebar Jetpack / Fire, R Restart",
       "mobile": "Touch D-pad, Jump button, Fire button, On-screen Restart"
     },
-    "status": "Native WebGL/Canvas (Offline Ready)",
+    "status": "Native HTML5 Canvas (100% Offline Playable)",
     "statusType": "playable",
+    "launchType": "internal",
     "route": "/games/dangerous-dave/",
     "engine": "HTML5 Canvas Engine",
     "badge": "100% OFFLINE",
-    "accentColor": "#ff0055"
+    "offline": true,
+    "accentColor": "#ff0055",
+    "icon": "🏆"
   },
   {
     "id": "road-rash",
@@ -47,12 +53,15 @@
       "desktop": "Arrow Keys Steer/Accelerate/Brake, Space Punch/Kick/Club, Esc Pause",
       "mobile": "Touch Steering, Gas/Brake pedals, Attack buttons, Fullscreen toggle"
     },
-    "status": "Native Three.js WebGL (Offline Ready)",
+    "status": "Native Three.js WebGL (100% Offline Playable)",
     "statusType": "playable",
+    "launchType": "internal",
     "route": "/games/road-rash/",
     "engine": "Three.js WebGL + 483 Track Textures",
     "badge": "FULL GAME INCLUDED",
-    "accentColor": "#ffaa00"
+    "offline": true,
+    "accentColor": "#ffaa00",
+    "icon": "🏍️"
   },
   {
     "id": "hotd2",
@@ -60,17 +69,20 @@
     "genre": "Horror Lightgun Shooter",
     "year": "1998 Sega NAOMI",
     "developer": "SEGA / AM1 (Static Recompilation by yunophilia)",
-    "description": "Survive the undead outbreak in Venice. Battle zombies, rescue civilians, and eliminate biological monstrosities.",
+    "description": "Survive the undead outbreak in Venice. Statically recompiled Sega NAOMI arcade architecture running via WebGL2 and WebAssembly.",
     "controls": {
-      "desktop": "Mouse Aim, Left Click Shoot, Right Click Shoot Offscreen to Reload, Space Coin/Start",
+      "desktop": "Mouse Aim, Left Click Shoot, Right Click Reload, 5 Coin, 1/Enter Start, 9 Test Menu",
       "mobile": "Touch Target, Offscreen Touch to Reload, Landscape orientation"
     },
-    "status": "BYOR WASM Engine (Drop hotd2.zip to Play)",
+    "status": "BYOR WASM Runtime (Requires hotd2.zip Archive)",
     "statusType": "byor",
+    "launchType": "byor",
     "route": "/games/hotd2/",
     "repoUrl": "https://github.com/yunophilia/hotd2-recompiled",
     "engine": "SH-4 Static Recompiled WASM + WebGL2",
-    "badge": "OPEN SOURCE WASM",
-    "accentColor": "#00ff66"
+    "badge": "BYOR WASM",
+    "offline": true,
+    "accentColor": "#00ff66",
+    "icon": "🧟"
   }
 ]

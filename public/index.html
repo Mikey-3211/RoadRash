@@ -46,7 +46,6 @@
       flex-direction: column;
       overflow-x: hidden;
     }
-    /* CRT Scanline overlay */
     body::before {
       content: " ";
       display: block;
@@ -110,7 +109,6 @@
       text-shadow: 0 0 8px var(--neon-amber);
     }
 
-    /* Games Grid */
     main {
       flex: 1;
       max-width: 1300px;
@@ -138,13 +136,9 @@
       transform: translateY(-6px);
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
     }
-    .game-card[data-id="vcop2"]:hover { border-color: var(--neon-cyan); box-shadow: 0 0 25px rgba(0, 240, 255, 0.3); }
-    .game-card[data-id="dangerous-dave"]:hover { border-color: var(--neon-pink); box-shadow: 0 0 25px rgba(255, 0, 85, 0.3); }
-    .game-card[data-id="road-rash"]:hover { border-color: var(--neon-amber); box-shadow: 0 0 25px rgba(255, 170, 0, 0.3); }
-    .game-card[data-id="hotd2"]:hover { border-color: var(--neon-green); box-shadow: 0 0 25px rgba(0, 255, 102, 0.3); }
 
     .card-banner {
-      height: 190px;
+      height: 180px;
       position: relative;
       background: #000;
       display: flex;
@@ -170,22 +164,7 @@
       font-family: var(--arcade-font);
       position: relative;
       user-select: none;
-    }
-    .graphic-vcop2 {
-      background: radial-gradient(circle, #08293d 0%, #030a14 100%);
-      color: var(--neon-cyan);
-    }
-    .graphic-dave {
-      background: radial-gradient(circle, #3d081c 0%, #14030a 100%);
-      color: var(--neon-pink);
-    }
-    .graphic-roadrash {
-      background: radial-gradient(circle, #3d2c08 0%, #140e03 100%);
-      color: var(--neon-amber);
-    }
-    .graphic-hotd2 {
-      background: radial-gradient(circle, #083d1c 0%, #03140a 100%);
-      color: var(--neon-green);
+      background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, #030408 100%);
     }
 
     .banner-icon {
@@ -232,14 +211,10 @@
     .card-genre {
       font-size: 0.85rem;
       font-weight: 700;
-      color: var(--neon-cyan);
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 0.75rem;
     }
-    .game-card[data-id="dangerous-dave"] .card-genre { color: var(--neon-pink); }
-    .game-card[data-id="road-rash"] .card-genre { color: var(--neon-amber); }
-    .game-card[data-id="hotd2"] .card-genre { color: var(--neon-green); }
 
     .card-desc {
       font-size: 0.95rem;
@@ -328,12 +303,7 @@
       transform: scale(1.02);
       filter: brightness(1.15);
     }
-    .game-card[data-id="vcop2"] .btn-play { background: var(--neon-cyan); color: #000; box-shadow: 0 0 15px rgba(0, 240, 255, 0.4); }
-    .game-card[data-id="dangerous-dave"] .btn-play { background: var(--neon-pink); color: #fff; box-shadow: 0 0 15px rgba(255, 0, 85, 0.4); }
-    .game-card[data-id="road-rash"] .btn-play { background: var(--neon-amber); color: #000; box-shadow: 0 0 15px rgba(255, 170, 0, 0.4); }
-    .game-card[data-id="hotd2"] .btn-play { background: var(--neon-green); color: #000; box-shadow: 0 0 15px rgba(0, 255, 102, 0.4); }
 
-    /* Footer & Architecture note */
     footer {
       border-top: 1px solid var(--card-border);
       background: rgba(10, 11, 16, 0.9);
@@ -356,17 +326,11 @@
       font-size: 0.75rem;
       color: #64748b;
     }
-    
+
     @media (max-width: 600px) {
-      .games-grid {
-        grid-template-columns: 1fr;
-      }
-      .card-banner {
-        height: 150px;
-      }
-      .banner-icon {
-        font-size: 2.8rem;
-      }
+      .games-grid { grid-template-columns: 1fr; }
+      .card-banner { height: 150px; }
+      .banner-icon { font-size: 2.8rem; }
     }
   </style>
 </head>
@@ -381,7 +345,7 @@
 
   <main>
     <div class="games-grid" id="games-grid">
-      <!-- Cards rendered from games.json with fallback static structure -->
+      <!-- Dynamically populated from /games.json with offline fallback -->
     </div>
   </main>
 
@@ -394,63 +358,153 @@
   </footer>
 
   <script>
-    async function loadGames() {
-      try {
-        const res = await fetch('/games.json');
-        const games = await res.json();
-        renderGames(games);
-      } catch (err) {
-        console.error('Failed to load games.json, falling back to static schema:', err);
+    // Register Service Worker for offline capability
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js', { scope: '/' })
+          .then((reg) => console.log('[Hub] SW registered with scope:', reg.scope))
+          .catch((err) => console.warn('[Hub] SW registration failed:', err));
+      });
+    }
+
+    // Static fallback catalogue if offline or network fetch fails
+    const FALLBACK_GAMES = [
+      {
+        id: "vcop2",
+        title: "Virtua Cop 2",
+        genre: "3D Rail Shooter",
+        year: "1997 / 2026 Web Port",
+        description: "The quintessential arcade lightgun shooter. Aim, shoot gangsters, avoid civilians, and reload in full 3D action.",
+        controls: {
+          desktop: "Mouse Aim, Left Click Shoot, Right Click Reload, P Pause, ESC Release Mouse",
+          mobile: "Touch screen to aim and shoot, on-screen Reload button, Landscape mode"
+        },
+        status: "External Web Port (Authorized Source Integration Pending)",
+        statusType: "online",
+        launchType: "external",
+        route: "/games/vcop2/",
+        badge: "ONLINE ONLY",
+        accentColor: "#00f0ff",
+        icon: "🎯"
+      },
+      {
+        id: "dangerous-dave",
+        title: "Dangerous Dave",
+        genre: "Retro Platformer",
+        year: "1988",
+        description: "Guide Dave through perilous levels packed with fire pits, trophies, jetpacks, and lethal traps.",
+        controls: {
+          desktop: "Arrow Keys Move/Jump, Spacebar Jetpack / Fire, R Restart",
+          mobile: "Touch D-pad, Jump button, Fire button, On-screen Restart"
+        },
+        status: "Native HTML5 Canvas (100% Offline Playable)",
+        statusType: "playable",
+        launchType: "internal",
+        route: "/games/dangerous-dave/",
+        badge: "100% OFFLINE",
+        accentColor: "#ff0055",
+        icon: "🏆"
+      },
+      {
+        id: "road-rash",
+        title: "Road Rash",
+        genre: "Combat Motorcycle Racing",
+        year: "1996 PC Classic",
+        description: "High-speed motorcycle combat racing across 5 punishing tracks. Kick, club, and outrun rivals and cops to claim cash and upgrades.",
+        controls: {
+          desktop: "Arrow Keys Steer/Accelerate/Brake, Space Punch/Kick/Club, Esc Pause",
+          mobile: "Touch Steering, Gas/Brake pedals, Attack buttons, Fullscreen toggle"
+        },
+        status: "Native Three.js WebGL (100% Offline Playable)",
+        statusType: "playable",
+        launchType: "internal",
+        route: "/games/road-rash/",
+        badge: "FULL GAME INCLUDED",
+        accentColor: "#ffaa00",
+        icon: "🏍️"
+      },
+      {
+        id: "hotd2",
+        title: "The House of the Dead 2",
+        genre: "Horror Lightgun Shooter",
+        year: "1998 Sega NAOMI",
+        description: "Survive the undead outbreak in Venice. Statically recompiled Sega NAOMI arcade architecture running via WebGL2 and WebAssembly.",
+        controls: {
+          desktop: "Mouse Aim, Left Click Shoot, Right Click Reload, 5 Coin, 1/Enter Start, 9 Test Menu",
+          mobile: "Touch Target, Offscreen Touch to Reload, Landscape orientation"
+        },
+        status: "BYOR WASM Runtime (Requires hotd2.zip Archive)",
+        statusType: "byor",
+        launchType: "byor",
+        route: "/games/hotd2/",
+        badge: "BYOR WASM",
+        accentColor: "#00ff66",
+        icon: "🧟"
       }
+    ];
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
     }
 
     function renderGames(games) {
       const container = document.getElementById('games-grid');
       container.innerHTML = games.map(game => {
-        let icon = '🎮';
-        let graphicClass = 'graphic-vcop2';
-        if (game.id === 'vcop2') { icon = '🎯'; graphicClass = 'graphic-vcop2'; }
-        else if (game.id === 'dangerous-dave') { icon = '🏆'; graphicClass = 'graphic-dave'; }
-        else if (game.id === 'road-rash') { icon = '🏍️'; graphicClass = 'graphic-roadrash'; }
-        else if (game.id === 'hotd2') { icon = '🧟'; graphicClass = 'graphic-hotd2'; }
+        const accent = escapeHtml(game.accentColor || '#00f0ff');
+        const icon = escapeHtml(game.icon || '🎮');
+        const title = escapeHtml(game.title);
+        const year = escapeHtml(game.year);
+        const genre = escapeHtml(game.genre);
+        const desc = escapeHtml(game.description);
+        const badge = escapeHtml(game.badge || 'GAME');
+        const route = escapeHtml(game.route);
+        const status = escapeHtml(game.status);
+        const desktopControls = escapeHtml(game.controls?.desktop || 'Keyboard & Mouse');
+        const mobileControls = escapeHtml(game.controls?.mobile || 'Touch Screen Controls');
 
         const statusDotClass = game.statusType === 'playable' ? 'active' : (game.statusType === 'online' ? 'online' : 'byor');
 
         return `
-          <article class="game-card" data-id="${game.id}">
+          <article class="game-card" data-id="${escapeHtml(game.id)}" style="--accent-color: ${accent}">
             <div class="card-banner">
-              <span class="banner-badge" style="color: ${game.accentColor}; border-color: ${game.accentColor};">${game.badge}</span>
-              <div class="banner-graphic ${graphicClass}">
+              <span class="banner-badge" style="color: ${accent}; border-color: ${accent};">${badge}</span>
+              <div class="banner-graphic" style="color: ${accent}">
                 <div class="banner-icon">${icon}</div>
-                <div style="font-size: 0.85rem; letter-spacing: 2px;">${game.title.toUpperCase()}</div>
+                <div style="font-size: 0.85rem; letter-spacing: 2px;">${title.toUpperCase()}</div>
               </div>
             </div>
             <div class="card-content">
               <div class="card-header-line">
-                <h2 class="card-title">${game.title}</h2>
-                <span class="card-year">${game.year}</span>
+                <h2 class="card-title">${title}</h2>
+                <span class="card-year">${year}</span>
               </div>
-              <div class="card-genre">${game.genre}</div>
-              <p class="card-desc">${game.description}</p>
+              <div class="card-genre" style="color: ${accent}">${genre}</div>
+              <p class="card-desc">${desc}</p>
 
               <div class="card-controls">
                 <div class="control-row">
                   <span class="control-label">DESKTOP:</span>
-                  <span>${game.controls.desktop}</span>
+                  <span>${desktopControls}</span>
                 </div>
                 <div class="control-row">
                   <span class="control-label">MOBILE:</span>
-                  <span>${game.controls.mobile}</span>
+                  <span>${mobileControls}</span>
                 </div>
               </div>
 
               <div class="card-status-bar">
                 <span class="status-dot ${statusDotClass}"></span>
-                <span>${game.status}</span>
+                <span>${status}</span>
               </div>
 
               <div class="card-actions">
-                <a href="${game.route}" class="btn-play">▶ LAUNCH GAME</a>
+                <a href="${route}" class="btn-play" style="background: ${accent}; color: #000; box-shadow: 0 0 15px ${accent}66">▶ LAUNCH GAME</a>
               </div>
             </div>
           </article>
@@ -458,7 +512,19 @@
       }).join('');
     }
 
-    loadGames();
+    async function initCatalog() {
+      try {
+        const res = await fetch('/games.json');
+        if (!res.ok) throw new Error('Network response not ok: ' + res.status);
+        const games = await res.json();
+        renderGames(games);
+      } catch (err) {
+        console.warn('[Hub] Falling back to offline static catalogue:', err);
+        renderGames(FALLBACK_GAMES);
+      }
+    }
+
+    initCatalog();
   </script>
 
 </body>

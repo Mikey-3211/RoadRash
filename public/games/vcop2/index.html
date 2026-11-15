@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#101112">
-  <title>Virtua Cop 2 · Arcade Portal</title>
+  <title>Virtua Cop 2 · External Launch Bridge</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@600;700;900&display=swap" rel="stylesheet">
@@ -57,7 +57,10 @@
     .game-meta-badge {
       font-family: var(--arcade-font);
       font-size: 0.6rem;
-      color: var(--muted);
+      color: var(--cyan);
+      border: 1px solid var(--cyan);
+      padding: 4px 8px;
+      border-radius: 4px;
     }
     main {
       flex: 1;
@@ -93,6 +96,17 @@
       font-weight: 700;
       font-size: 1.1rem;
       letter-spacing: 1px;
+    }
+    .notice-badge {
+      display: inline-block;
+      margin-top: 0.75rem;
+      background: rgba(0, 240, 255, 0.15);
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
     }
     .description {
       color: #c7ceea;
@@ -159,11 +173,11 @@
     .legal-notice {
       background: rgba(0, 0, 0, 0.3);
       border-left: 3px solid var(--cyan);
-      padding: 1rem;
+      padding: 1.25rem;
       border-radius: 4px;
       font-size: 0.85rem;
       color: var(--muted);
-      line-height: 1.5;
+      line-height: 1.6;
       margin-top: 2rem;
     }
     .legal-notice strong {
@@ -175,7 +189,7 @@
 
   <header>
     <a href="/" class="back-btn">◀ BACK TO ARCADE</a>
-    <span class="game-meta-badge">VIRTUA COP 2 // SEGA AM2</span>
+    <span class="game-meta-badge">REQUIRES INTERNET · EXTERNAL LAUNCH</span>
   </header>
 
   <main>
@@ -184,10 +198,11 @@
         <div class="hero-icon">🎯</div>
         <h1>VIRTUA COP 2</h1>
         <p class="tagline">3D LIGHTGUN ARCADE SHOOTER</p>
+        <span class="notice-badge">🌐 HOSTED EXTERNALLY AT VCOP2.LOL — INTERNET REQUIRED</span>
       </div>
 
       <p class="description">
-        Originally developed by SEGA AM2 in 1995/1997, <em>Virtua Cop 2</em> revolutionized 3D lightgun shooters with high-octane pursuits, dynamic camera angles, and branching paths across the city.
+        Originally created by SEGA AM2 in 1995/1997, <em>Virtua Cop 2</em> brought police lightgun shooting to 3D polygons. This web build was ported to C++/WebAssembly by developer <a href="https://x.com/divyanshkul" target="_blank" style="color:var(--cyan)">divyanshkul</a>.
       </p>
 
       <div class="controls-grid">
@@ -205,22 +220,22 @@
           <h3>MOBILE CONTROLS</h3>
           <ul>
             <li><strong>Orientation:</strong> Auto-rotates to Landscape</li>
-            <li><strong>Tap Target:</strong> Aim & fire instantly</li>
-            <li><strong>Reload Button:</strong> Large on-screen cylinder refill</li>
-            <li><strong>PWA:</strong> Installable to home screen</li>
+            <li><strong>Tap Screen:</strong> Aim & fire instantly</li>
+            <li><strong>Reload Button:</strong> Dedicated on-screen cylinder refill</li>
+            <li><strong>Fullscreen:</strong> Integrated fullscreen control</li>
           </ul>
         </div>
       </div>
 
       <div class="launch-cta">
         <a href="https://vcop2.lol/" target="_blank" rel="noopener noreferrer" class="play-large-btn">
-          ▶ LAUNCH VIRTUA COP 2 (VCOP2.LOL)
+          ▶ LAUNCH GAME AT VCOP2.LOL
         </a>
       </div>
 
       <div class="legal-notice">
-        <strong>Source & Copyright Notice:</strong><br>
-        Virtua Cop 2 content, characters, and trademarks are © SEGA / AM2. The browser WebAssembly port was engineered by <a href="https://x.com/divyanshkul" target="_blank" style="color:var(--cyan)">divyanshkul</a>. In strict adherence to open-source and copyright principles, our portal routes players directly to the creator's live deployment at <code>vcop2.lol</code> with full credit and no unauthorized asset redistributions.
+        <strong>Source & Copyright Transparency:</strong><br>
+        Virtua Cop 2 game assets, trademarks, and copyright are owned by <strong>© SEGA / AM2</strong>. The web runtime is hosted and maintained by <strong>divyanshkul</strong> at <code>vcop2.lol</code>. In strict compliance with open-source and copyright principles, our portal acts as a launcher bridge rather than scraping or republishing proprietary compiled WebAssembly binaries or SEGA assets without explicit license grant. An active internet connection is required to play.
       </div>
     </article>
   </main>

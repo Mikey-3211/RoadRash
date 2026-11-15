@@ -312,18 +312,40 @@ $('rom').addEventListener('change', async (e) => {
 	try {
 		const cached = await getRomArchive('hotd2');
 		if (cached && cached.data && cached.data.byteLength > 10000000) {
-			// Validate that the cached blob actually starts with ZIP magic header (0x50 0x4B 0x03 0x04)
-			const header = new DataView(cached.data).getUint32(0, false);
-			if (header !== 0x504B0304) {
-				log('⚠️ Cached ROM is corrupted or invalid. Please re-select hotd2.zip.');
+			const u8 = new Uint8Array(cached.data);
+			// Full central directory validation using upstream zip.js parser
+			let zip;
+			try {
+				zip = await readZip(u8);
+			} catch (e) {
+				log('⚠️ Cached ROM archive structure is corrupted (' + e.message + '). Please re-select hotd2.zip.');
 				$('overlay').hidden = false;
 				return;
 			}
-			log(`Found previously imported ROM (${cached.name}, ${(cached.size/1024/1024).toFixed(1)} MB).`);
+
+			// Validate presence of program ROM and mask ROMs
+			const names = new Set(zip.names);
+			if (!names.has(PROGRAM.toLowerCase())) {
+				log(`⚠️ Cached ROM is missing program image (${PROGRAM}). Please re-select hotd2.zip.`);
+				$('overlay').hidden = false;
+				return;
+			}
+
+			let missingCount = 0;
+			for (const [mName] of maskRoms()) {
+				if (!names.has(mName.toLowerCase())) missingCount++;
+			}
+			if (missingCount > 0) {
+				log(`⚠️ Cached ROM is missing ${missingCount} mask ROM files. Please re-select a complete hotd2.zip.`);
+				$('overlay').hidden = false;
+				return;
+			}
+
+			log(`Found verified local ROM (${cached.name}, ${(cached.size/1024/1024).toFixed(1)} MB, ${zip.names.length} entries).`);
 			log('Auto-starting game engine from local device storage...');
 			$('overlay').hidden = true;
 			prepareAudio();
-			start(new Uint8Array(cached.data)).catch((err) => {
+			start(u8).catch((err) => {
 				log('Auto-start failed: ' + err.message);
 				$('overlay').hidden = false;
 			});

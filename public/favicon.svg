@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" shape-rendering="crispEdges">
+  <!-- Retro Arcade Cabinet Silhouette -->
+  <!-- Top Marquee -->
+  <rect x="12" y="4" width="40" height="12" fill="#ff0055" stroke="#ffe600" stroke-width="2"/>
+  <rect x="16" y="8" width="32" height="4" fill="#ffe600"/>
+  
+  <!-- Hood and Screen Bezel -->
+  <polygon points="12,16 6,28 6,56 12,60 52,60 58,56 58,28 52,16" fill="#111422" stroke="#00f0ff" stroke-width="2"/>
+  
+  <!-- CRT Screen (Neon Cyan Glow) -->
+  <rect x="16" y="22" width="32" height="20" fill="#001824" stroke="#00f0ff" stroke-width="2"/>
+  <!-- Scanlines / Mini Graphic -->
+  <rect x="22" y="26" width="20" height="4" fill="#00ff66"/>
+  <rect x="26" y="32" width="12" height="4" fill="#ffaa00"/>
+  
+  <!-- Control Panel -->
+  <polygon points="6,44 14,48 50,48 58,44" fill="#242844"/>
+  <!-- Joystick & Buttons -->
+  <circle cx="22" cy="46" r="2" fill="#ff0055"/>
+  <circle cx="36" cy="46" r="1.5" fill="#00f0ff"/>
+  <circle cx="42" cy="46" r="1.5" fill="#ffe600"/>
+  
+  <!-- Coin Door -->
+  <rect x="26" y="52" width="12" height="6" fill="#0a0c14" stroke="#ffe600" stroke-width="1"/>
+  <rect x="29" y="54" width="2" height="2" fill="#ffaa00"/>
+  <rect x="33" y="54" width="2" height="2" fill="#ffaa00"/>
+</svg>

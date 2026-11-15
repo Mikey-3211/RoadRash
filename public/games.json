@@ -74,14 +74,14 @@
       "desktop": "Mouse Aim, Left Click Shoot, Right Click Reload, 5 Coin, 1/Enter Start, 9 Test Menu",
       "mobile": "Touch Target, Offscreen Touch to Reload, Landscape orientation"
     },
-    "status": "ENGINE BUILD PENDING (Requires local Emscripten build)",
+    "status": "BYOR WASM Runtime (Auto-Resumes from IndexedDB)",
     "statusType": "byor",
     "launchType": "byor",
     "route": "/games/hotd2/",
     "repoUrl": "https://github.com/yunophilia/hotd2-recompiled",
     "engine": "SH-4 Static Recompiled WASM + WebGL2",
-    "badge": "BUILD PENDING",
-    "offline": false,
+    "badge": "BYOR WASM",
+    "offline": true,
     "accentColor": "#00ff66",
     "icon": "🧟"
   },

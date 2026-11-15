@@ -10,7 +10,7 @@
       "desktop": "Mouse Aim, Left Click Shoot, Right Click Reload, P Pause, ESC Release Mouse",
       "mobile": "Touch screen to aim and shoot, on-screen Reload button, Landscape mode"
     },
-    "status": "External Web Port (Authorized Source Integration Pending)",
+    "status": "External Web Port (Hosted at vcop2.lol)",
     "statusType": "online",
     "launchType": "external",
     "route": "/games/vcop2/",
@@ -74,14 +74,14 @@
       "desktop": "Mouse Aim, Left Click Shoot, Right Click Reload, 5 Coin, 1/Enter Start, 9 Test Menu",
       "mobile": "Touch Target, Offscreen Touch to Reload, Landscape orientation"
     },
-    "status": "BYOR WASM Runtime (Requires hotd2.zip Archive)",
+    "status": "ENGINE BUILD PENDING (Requires local Emscripten build)",
     "statusType": "byor",
     "launchType": "byor",
     "route": "/games/hotd2/",
     "repoUrl": "https://github.com/yunophilia/hotd2-recompiled",
     "engine": "SH-4 Static Recompiled WASM + WebGL2",
-    "badge": "BYOR WASM",
-    "offline": true,
+    "badge": "BUILD PENDING",
+    "offline": false,
     "accentColor": "#00ff66",
     "icon": "🧟"
   }

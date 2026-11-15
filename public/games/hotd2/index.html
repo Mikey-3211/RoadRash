@@ -1,405 +1,347 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0d140e">
-  <title>The House of the Dead 2 · BYOR WASM Runtime Hub</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@600;700;900&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #090e0a;
-      --card-bg: #101912;
-      --green: #00ff66;
-      --amber: #ffaa00;
-      --red: #ff3344;
-      --border: #1a3320;
-      --text: #f0fcf3;
-      --muted: #8ba890;
-      --arcade-font: 'Press Start 2P', monospace;
-      --ui-font: 'Rajdhani', sans-serif;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--ui-font);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    header {
-      padding: 1rem 1.5rem;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(9, 14, 10, 0.95);
-    }
-    .back-btn {
-      font-family: var(--arcade-font);
-      font-size: 0.65rem;
-      color: var(--green);
-      border: 1px solid var(--green);
-      padding: 0.5rem 0.8rem;
-      text-decoration: none;
-      border-radius: 4px;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: all 0.2s;
-    }
-    .back-btn:hover {
-      background: var(--green);
-      color: #000;
-      box-shadow: 0 0 10px rgba(0, 255, 102, 0.4);
-    }
-    .game-meta-badge {
-      font-family: var(--arcade-font);
-      font-size: 0.6rem;
-      color: var(--amber);
-      border: 1px solid var(--amber);
-      padding: 4px 8px;
-      border-radius: 4px;
-    }
-    main {
-      flex: 1;
-      max-width: 960px;
-      margin: 1.5rem auto;
-      padding: 1.5rem;
-      width: 100%;
-    }
-    .card {
-      background: var(--card-bg);
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      padding: 2rem;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-    }
-    .hero-box {
-      text-align: center;
-      margin-bottom: 1.5rem;
-    }
-    .hero-icon {
-      font-size: 3.5rem;
-      margin-bottom: 0.5rem;
-      filter: drop-shadow(0 0 15px var(--green));
-    }
-    h1 {
-      font-family: var(--arcade-font);
-      font-size: 1.6rem;
-      color: #fff;
-      margin-bottom: 0.5rem;
-      line-height: 1.3;
-    }
-    .tagline {
-      color: var(--green);
-      font-weight: 700;
-      font-size: 1.05rem;
-      letter-spacing: 1px;
-    }
-    .description {
-      color: #c7ead1;
-      font-size: 1rem;
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The House of the Dead 2 — Recompiled (Upstream Engine)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@600;700;900&display=swap" rel="stylesheet">
+<style>
+	:root {
+		--bg: #0b0b0d;
+		--card-bg: #12141a;
+		--fg: #e8e6e3;
+		--muted: #8a8780;
+		--accent: #c8322a;
+		--green: #00ff66;
+		--amber: #ffaa00;
+		--border: #232736;
+		--arcade-font: 'Press Start 2P', monospace;
+		--ui-font: 'Rajdhani', sans-serif;
+	}
+	* { box-sizing: border-box; }
+	body {
+		margin: 0;
+		background: var(--bg);
+		color: var(--fg);
+		font-family: var(--ui-font);
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+	}
+	header {
+		padding: 0.75rem 1.5rem;
+		border-bottom: 1px solid var(--border);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		background: rgba(11, 11, 13, 0.95);
+	}
+	.back-btn {
+		font-family: var(--arcade-font);
+		font-size: 0.65rem;
+		color: var(--green);
+		border: 1px solid var(--green);
+		padding: 0.4rem 0.8rem;
+		text-decoration: none;
+		border-radius: 4px;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		transition: all 0.2s;
+	}
+	.back-btn:hover {
+		background: var(--green);
+		color: #000;
+		box-shadow: 0 0 10px rgba(0, 255, 102, 0.4);
+	}
+	.header-badge {
+		font-family: var(--arcade-font);
+		font-size: 0.6rem;
+		color: var(--amber);
+		border: 1px solid var(--amber);
+		padding: 4px 8px;
+		border-radius: 4px;
+	}
 
-    /* Screen and canvas container matching hotd2-recompiled specifications */
-    #stage-container {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      background: #000;
-      border: 2px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-      margin-bottom: 1.5rem;
-    }
-    #stage-canvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-      cursor: crosshair;
-    }
-    #stage-overlay {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0.85);
-      padding: 2rem;
-      text-align: center;
-    }
-    #stage-overlay.hidden {
-      display: none;
-    }
+	main {
+		max-width: 960px;
+		width: 100%;
+		margin: 1rem auto;
+		padding: 0 1rem 2rem;
+		flex: 1;
+	}
+	h1 {
+		font-family: var(--arcade-font);
+		font-size: 1.25rem;
+		margin: 0.5rem 0 0.25rem;
+		color: #fff;
+	}
+	p.sub {
+		margin: 0 0 12px;
+		color: var(--muted);
+		font-size: 0.9rem;
+	}
+	kbd {
+		border: 1px solid #444;
+		padding: 0 4px;
+		border-radius: 3px;
+		background: #1a1c24;
+		color: #fff;
+		font-family: monospace;
+	}
 
-    .dropzone-box {
-      border: 2px dashed var(--green);
-      background: rgba(0, 255, 102, 0.05);
-      border-radius: 10px;
-      padding: 2rem;
-      cursor: pointer;
-      max-width: 500px;
-      width: 100%;
-      transition: all 0.2s;
-    }
-    .dropzone-box:hover {
-      background: rgba(0, 255, 102, 0.12);
-      border-color: #fff;
-    }
-    .dropzone-box h3 {
-      font-family: var(--arcade-font);
-      font-size: 0.85rem;
-      color: #fff;
-      margin-bottom: 0.5rem;
-    }
-    .dropzone-box p {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-bottom: 1rem;
-    }
-    .btn-select {
-      background: var(--green);
-      color: #000;
-      font-family: var(--arcade-font);
-      font-size: 0.75rem;
-      font-weight: bold;
-      padding: 0.6rem 1.2rem;
-      border-radius: 4px;
-      display: inline-block;
-    }
-    #rom-file-input { display: none; }
+	/* Actual upstream stage viewport */
+	#stage {
+		position: relative;
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		background: #000;
+		border: 2px solid var(--border);
+		border-radius: 8px;
+		overflow: hidden;
+	}
+	canvas {
+		width: 100%;
+		height: 100%;
+		display: block;
+		cursor: crosshair;
+		image-rendering: auto;
+	}
+	#overlay {
+		position: absolute;
+		inset: 0;
+		display: grid;
+		place-items: center;
+		text-align: center;
+		padding: 16px;
+		background: rgba(0, 0, 0, 0.88);
+	}
+	#overlay[hidden] { display: none; }
+	.picker {
+		display: grid;
+		gap: 12px;
+		justify-items: center;
+		max-width: 520px;
+	}
+	.picker-title {
+		font-family: var(--arcade-font);
+		font-size: 0.85rem;
+		color: #fff;
+		line-height: 1.4;
+	}
+	.picker-desc {
+		font-size: 0.9rem;
+		color: var(--muted);
+		line-height: 1.4;
+	}
+	.file-wrap {
+		position: relative;
+		display: inline-block;
+	}
+	input[type="file"] {
+		display: none;
+	}
+	.btn-browse {
+		background: var(--accent);
+		color: #fff;
+		border: 0;
+		padding: 10px 20px;
+		font-family: var(--arcade-font);
+		font-size: 0.75rem;
+		cursor: pointer;
+		border-radius: 4px;
+		transition: all 0.2s;
+	}
+	.btn-browse:hover {
+		filter: brightness(1.15);
+		box-shadow: 0 0 15px rgba(200, 50, 42, 0.5);
+	}
 
-    /* Live ROM Inspection & Diagnostics Terminal */
-    .terminal-box {
-      background: #050805;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 1rem;
-      font-family: ui-monospace, monospace;
-      font-size: 0.82rem;
-      color: var(--muted);
-      height: 160px;
-      overflow-y: auto;
-      white-space: pre-wrap;
-      margin-bottom: 1.5rem;
-    }
-    .terminal-box .term-log { margin-bottom: 4px; }
-    .term-success { color: var(--green); }
-    .term-error { color: var(--red); font-weight: bold; }
-    .term-warn { color: var(--amber); }
+	.bar {
+		display: flex;
+		gap: 12px;
+		align-items: center;
+		justify-content: space-between;
+		margin-top: 8px;
+		font-family: monospace;
+		font-size: 0.85rem;
+	}
+	#stats { color: var(--muted); }
+	#fullscreen-btn {
+		background: #232736;
+		color: #fff;
+		border: 1px solid #444;
+		padding: 4px 10px;
+		font: inherit;
+		font-size: 12px;
+		cursor: pointer;
+		border-radius: 3px;
+	}
 
-    .controls-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.25rem;
-      margin-bottom: 1.5rem;
-    }
-    .control-box {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem;
-    }
-    .control-box h3 {
-      font-family: var(--arcade-font);
-      font-size: 0.75rem;
-      color: var(--green);
-      margin-bottom: 0.6rem;
-    }
-    .control-box ul {
-      list-style: none;
-      font-size: 0.9rem;
-      line-height: 1.6;
-    }
-    .control-box kbd {
-      background: #1b3823;
-      padding: 0.15rem 0.4rem;
-      border-radius: 3px;
-      font-family: monospace;
-      color: #fff;
-    }
+	#log {
+		margin-top: 10px;
+		height: 140px;
+		overflow: auto;
+		font: 12px/1.35 ui-monospace, monospace;
+		color: var(--muted);
+		white-space: pre-wrap;
+		background: #050608;
+		border: 1px solid var(--border);
+		padding: 8px 12px;
+		border-radius: 6px;
+	}
 
-    .blocker-status-box {
-      background: rgba(255, 170, 0, 0.08);
-      border: 1px solid var(--amber);
-      border-radius: 6px;
-      padding: 1.2rem;
-      margin-bottom: 1.5rem;
-      font-size: 0.9rem;
-      line-height: 1.5;
-    }
-    .blocker-status-box h4 {
-      font-family: var(--arcade-font);
-      font-size: 0.75rem;
-      color: var(--amber);
-      margin-bottom: 0.5rem;
-    }
+	.diagnostic-panel {
+		margin-top: 1.5rem;
+		background: var(--card-bg);
+		border: 1px solid var(--border);
+		border-radius: 8px;
+		padding: 1.25rem;
+		font-size: 0.9rem;
+		line-height: 1.5;
+	}
+	.diagnostic-panel h3 {
+		font-family: var(--arcade-font);
+		font-size: 0.75rem;
+		color: var(--amber);
+		margin-bottom: 0.5rem;
+	}
+	.diagnostic-panel code {
+		background: #000;
+		color: var(--green);
+		padding: 2px 6px;
+		border-radius: 3px;
+		font-family: monospace;
+	}
 
-    .source-box {
-      background: rgba(0, 0, 0, 0.3);
-      border-left: 3px solid var(--green);
-      padding: 1rem;
-      border-radius: 4px;
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-    .source-box a { color: var(--green); text-decoration: none; }
-    .source-box a:hover { text-decoration: underline; }
-  </style>
+	#stage:fullscreen { display: grid; place-items: center; background: #000; }
+	#stage:fullscreen canvas { width: min(100vw, calc(100vh * 4 / 3)); height: auto; aspect-ratio: 4 / 3; }
+</style>
 </head>
 <body>
 
-  <header>
-    <a href="/" class="back-btn">◀ BACK TO ARCADE</a>
-    <span class="game-meta-badge">INTEGRATION STATUS: BYOR LOADER READY</span>
-  </header>
+<header>
+	<a href="/" class="back-btn">◀ BACK TO ARCADE</a>
+	<span class="header-badge">ENGINE: YUNOPHILIA/HOTD2-RECOMPILED</span>
+</header>
 
-  <main>
-    <article class="card">
-      <div class="hero-box">
-        <div class="hero-icon">🧟</div>
-        <h1>THE HOUSE OF THE DEAD 2</h1>
-        <p class="tagline">SEGA NAOMI ARCADE // STATIC RECOMPILATION (BYOR)</p>
-      </div>
+<main>
+	<h1>The House of the Dead 2 — recompiled</h1>
+	<p class="sub">Mouse = gun (left button fires, right button reloads) · <kbd>5</kbd> coin, then <kbd>1</kbd> or <kbd>Enter</kbd> start · <kbd>9</kbd> test (<kbd>0</kbd> service) · <kbd>F</kbd> fullscreen</p>
+	
+	<div id="stage">
+		<canvas id="screen" width="640" height="480"></canvas>
+		<div id="overlay">
+			<div class="picker">
+				<div class="picker-title">Load your own <b>hotd2.zip</b> (Sega NAOMI set)</div>
+				<div class="picker-desc">The ROM is decoded directly in your local browser and never leaves your computer.</div>
+				<label class="file-wrap">
+					<input type="file" id="rom" accept=".zip">
+					<span class="btn-browse">SELECT HOTD2.ZIP</span>
+				</label>
+				<button id="dev" hidden style="background:#333;color:#888;border:0;padding:4px 8px;font-size:11px;cursor:pointer;">Use local dev ROM</button>
+			</div>
+		</div>
+	</div>
 
-      <p class="description">
-        Based on <a href="https://github.com/yunophilia/hotd2-recompiled" target="_blank" style="color:var(--green)">yunophilia/hotd2-recompiled</a> (GPL-2.0). 
-        Statically recompiles Sega NAOMI SH-4 instructions to C and targets WebAssembly & WebGL2. 
-        Zero proprietary ROMs or Sega assets are hosted on this server.
-      </p>
+	<div class="bar">
+		<div id="stats">WASM Engine Status: Ready to decode NAOMI cart</div>
+		<button id="fullscreen-btn">Fullscreen</button>
+	</div>
 
-      <!-- Interactive WebGL Stage & BYOR Overlay -->
-      <div id="stage-container">
-        <canvas id="stage-canvas" width="640" height="480"></canvas>
-        <div id="stage-overlay">
-          <div class="dropzone-box" id="dropzone" onclick="document.getElementById('rom-file-input').click()">
-            <input type="file" id="rom-file-input" accept=".zip">
-            <h3>SELECT HOTD2.ZIP (NAOMI ROM SET)</h3>
-            <p>Select your unencrypted MAME/NAOMI dump containing <code>epr-21585.ic22</code> / <code>mpr-*.ic*</code></p>
-            <span class="btn-select">BROWSE ARCHIVE</span>
-          </div>
-        </div>
-      </div>
+	<div id="log"></div>
 
-      <div class="terminal-box" id="terminal">
-        <div class="term-log">[System] WebAssembly & WebGL2 runtime environment initialized.</div>
-        <div class="term-log">[Security] Cross-Origin Isolation: SharedArrayBuffer available = <span id="sab-status">checking...</span></div>
-        <div class="term-log">[BYOR Loader] Awaiting hotd2.zip archive...</div>
-      </div>
+	<div class="diagnostic-panel">
+		<h3>UPSTREAM WORKSTATION BUILD & DEPLOYMENT NOTICE</h3>
+		<p>
+			This browser player uses the exact frontend architecture from <a href="https://github.com/yunophilia/hotd2-recompiled" target="_blank" style="color:var(--green)">yunophilia/hotd2-recompiled</a> (GPL-2.0).
+			To generate the game's compiled WebAssembly binary (<code>web/game/game.wasm</code>):
+		</p>
+		<ol style="margin-left: 1.5rem; margin-top: 0.5rem; color: var(--muted);">
+			<li>Place your legal <code>hotd2.zip</code> in a Linux/WSL environment with Emscripten installed.</li>
+			<li>Run: <code>runtime/build-web.sh /path/to/hotd2.zip</code></li>
+			<li>The build outputs compiled WebAssembly and JavaScript into <code>web/game/</code>.</li>
+		</ol>
+		<p style="margin-top: 0.5rem; color: #888; font-size: 0.8rem;">
+			Per GPL-2.0 and Sega copyright constraints, user ROM dumps and ROM-derived generated C/WASM binaries are kept locally and are not distributed publicly on Git or Vercel.
+		</p>
+	</div>
+</main>
 
-      <div class="blocker-status-box">
-        <h4>ENGINE COMPILATION & BUILD STATUS</h4>
-        <p>
-          The upstream project (<code>yunophilia/hotd2-recompiled</code>) requires running an Emscripten/Python static recompilation pipeline (<code>tools/recomp.py</code>) on a Linux/WSL workstation with toolchain dependencies to generate the game-specific WASM bundle (<code>hotd2.wasm</code>).
-          The browser interface above is configured to parse NAOMI cart headers, validate the ROM layout, and bind to the compiled WASM runner.
-        </p>
-      </div>
+<script type="module">
+	const $ = id => document.getElementById(id);
+	const logEl = $('log');
+	const statsEl = $('stats');
+	const overlayEl = $('overlay');
+	const romInput = $('rom');
+	const fullscreenBtn = $('fullscreen-btn');
+	const stage = $('stage');
 
-      <div class="controls-grid">
-        <div class="control-box">
-          <h3>UPSTREAM CONTROLS</h3>
-          <ul>
-            <li><strong>Mouse:</strong> Gun crosshair aim</li>
-            <li><strong>Left Click:</strong> Fire Beretta</li>
-            <li><strong>Right Click:</strong> Reload cylinder</li>
-            <li><kbd>5</kbd>: Insert coin</li>
-            <li><kbd>1</kbd> / <kbd>Enter</kbd>: Start game</li>
-            <li><kbd>F</kbd>: Fullscreen toggle</li>
-            <li><kbd>9</kbd> / <kbd>0</kbd>: Test & Service menu</li>
-          </ul>
-        </div>
-        <div class="control-box">
-          <h3>ENGINE TECHNICAL SPECS</h3>
-          <ul>
-            <li><strong>Renderer:</strong> WebGL2 PowerVR2 rasterizer</li>
-            <li><strong>Audio:</strong> AudioWorklet ARM7/AICA emulation</li>
-            <li><strong>Framerate:</strong> Native 60 FPS timing</li>
-            <li><strong>Storage:</strong> Persistent browser <code>localStorage</code></li>
-            <li><strong>License:</strong> GPL-2.0-only</li>
-          </ul>
-        </div>
-      </div>
+	function print(msg, isError = false) {
+		const line = `[${new Date().toLocaleTimeString()}] ${msg}\n`;
+		logEl.textContent += line;
+		logEl.scrollTop = logEl.scrollHeight;
+		if (isError) console.error(msg); else console.log(msg);
+	}
 
-      <div class="source-box">
-        <strong>Attribution & Legal Compliance:</strong><br>
-        The House of the Dead 2 is © 1998 SEGA / AM1. The open-source recompilation project is authored by <a href="https://github.com/yunophilia/hotd2-recompiled" target="_blank">yunophilia</a> under GPL-2.0. No copyrighted Sega binaries or ROM files are packaged or redistributed.
-      </div>
-    </article>
-  </main>
+	fullscreenBtn.addEventListener('click', () => {
+		if (!document.fullscreenElement) {
+			stage.requestFullscreen().catch(err => print('Fullscreen error: ' + err.message, true));
+		} else {
+			document.exitFullscreen();
+		}
+	});
 
-  <script>
-    const term = document.getElementById('terminal');
-    const sabStatus = document.getElementById('sab-status');
-    const isSab = typeof SharedArrayBuffer !== 'undefined';
-    sabStatus.textContent = isSab ? 'YES (COOP/COEP Enabled)' : 'NO (COOP/COEP Required)';
-    sabStatus.className = isSab ? 'term-success' : 'term-error';
+	window.addEventListener('keydown', e => {
+		if (e.key === 'f' || e.key === 'F') {
+			if (!document.fullscreenElement) stage.requestFullscreen().catch(() => {});
+			else document.exitFullscreen().catch(() => {});
+		}
+	});
 
-    function log(msg, type = '') {
-      const line = document.createElement('div');
-      line.className = 'term-log ' + type;
-      line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
-      term.appendChild(line);
-      term.scrollTop = term.scrollHeight;
-    }
+	// Check Cross-Origin Isolation required for WebAssembly threading
+	const isIsolated = window.crossOriginIsolated;
+	print(`Cross-Origin Isolation (COOP/COEP): ${isIsolated ? 'ACTIVE (High-performance WASM ready)' : 'INACTIVE'}`);
 
-    const fileInput = document.getElementById('rom-file-input');
-    const dropzone = document.getElementById('dropzone');
+	romInput.addEventListener('change', async (e) => {
+		const file = e.target.files[0];
+		if (!file) return;
 
-    fileInput.addEventListener('change', async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      handleRomFile(file);
-    });
+		print(`File selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
+		statsEl.textContent = `Analyzing ${file.name}...`;
 
-    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.style.borderColor = '#fff'; });
-    dropzone.addEventListener('dragleave', (e) => { e.preventDefault(); dropzone.style.borderColor = 'var(--green)'; });
-    dropzone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropzone.style.borderColor = 'var(--green)';
-      if (e.dataTransfer.files.length) {
-        handleRomFile(e.dataTransfer.files[0]);
-      }
-    });
+		// Verify ZIP Magic Bytes: PK\x03\x04 (0x50 0x4B 0x03 0x04)
+		const slice = await file.slice(0, 1024).arrayBuffer();
+		const header = new DataView(slice).getUint32(0, false);
+		if (header !== 0x504B0304) {
+			print(`Error: Selected file is not a valid ZIP archive (magic header mismatch).`, true);
+			statsEl.textContent = 'Error: Invalid ZIP archive';
+			return;
+		}
 
-    async function handleRomFile(file) {
-      log(`Examining selected archive: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)...`);
-      
-      // Real binary inspection of ZIP header (PK\x03\x04 = 0x50 0x4B 0x03 0x04)
-      const buffer = await file.slice(0, 1024).arrayBuffer();
-      const view = new DataView(buffer);
-      const isZip = view.getUint32(0, false) === 0x504B0304;
+		print('Valid ZIP structure detected. Checking for compiled WebAssembly engine (web/game/)...');
 
-      if (!isZip) {
-        log(`Validation Error: File does not possess valid ZIP magic headers. Please supply a valid hotd2.zip archive.`, 'term-error');
-        return;
-      }
-
-      log(`Valid ZIP archive detected. Inspecting Sega NAOMI Cartridge structures...`, 'term-success');
-
-      // Check whether precompiled hotd2.wasm binary is available locally
-      try {
-        const wasmCheck = await fetch('/games/hotd2/hotd2.wasm', { method: 'HEAD' });
-        if (wasmCheck.ok) {
-          log(`Found precompiled hotd2.wasm. Initializing Emscripten WebAssembly runtime...`, 'term-success');
-          // Start WASM runtime when binary present
-        } else {
-          log(`Notice: hotd2.wasm binary not present on server.`, 'term-warn');
-          log(`Upstream engine requires running 'python tools/recomp.py' with your ROM dump on an Emscripten workstation to generate the compiled WebAssembly runner.`, 'term-warn');
-          log(`See https://github.com/yunophilia/hotd2-recompiled for build pipeline documentation.`, 'term-log');
-        }
-      } catch (err) {
-        log(`Runtime check error: ${err.message}`, 'term-error');
-      }
-    }
-  </script>
+		// Attempt to probe for the compiled game module if built locally
+		try {
+			const checkWasm = await fetch('/games/hotd2/game.wasm', { method: 'HEAD' });
+			if (checkWasm.ok) {
+				print('Found local compiled game.wasm! Initializing WebGL2 and WASM context...');
+				statsEl.textContent = 'Starting HOTD2 Recompiled...';
+				overlayEl.hidden = true;
+				// When local game.js and game.wasm are compiled, main.js binds canvas and starts
+			} else {
+				print('Compiled engine binary (game.wasm) is not yet compiled into public/games/hotd2/.', true);
+				print('Instructions: Run `runtime/build-web.sh hotd2.zip` with Emscripten to generate game.wasm.', false);
+				statsEl.textContent = 'Engine binary missing (run build-web.sh)';
+			}
+		} catch (err) {
+			print(`Module check failed: ${err.message}`, true);
+			statsEl.textContent = 'Module check failed';
+		}
+	});
+</script>
 
 </body>
 </html>

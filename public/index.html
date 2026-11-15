@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -9,7 +10,9 @@
   <link rel="manifest" href="/manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@500;700;900&family=VT323&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@500;700;900&family=VT323&display=swap"
+    rel="stylesheet">
   <style>
     :root {
       --bg-dark: #0a0b10;
@@ -25,15 +28,17 @@
       --ui-font: 'Rajdhani', sans-serif;
       --retro-font: 'VT323', monospace;
     }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
     }
+
     body {
       background: var(--bg-dark);
-      background-image: 
+      background-image:
         radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.12) 0%, transparent 60%),
         radial-gradient(circle at 100% 100%, rgba(255, 0, 85, 0.08) 0%, transparent 50%),
         linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
@@ -46,22 +51,28 @@
       flex-direction: column;
       overflow-x: hidden;
     }
+
     body::before {
       content: " ";
       display: block;
       position: fixed;
-      top: 0; left: 0; bottom: 0; right: 0;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
       background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
       background-size: 100% 4px;
       z-index: 999;
       pointer-events: none;
       opacity: 0.6;
     }
+
     header {
       padding: 2.5rem 1.5rem 1.5rem;
       text-align: center;
       position: relative;
     }
+
     .badge-arcade {
       display: inline-block;
       font-family: var(--arcade-font);
@@ -75,6 +86,7 @@
       box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
       text-transform: uppercase;
     }
+
     h1.hero-title {
       font-family: var(--arcade-font);
       font-size: clamp(1.6rem, 4.5vw, 3rem);
@@ -86,6 +98,7 @@
       text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
       margin-bottom: 0.75rem;
     }
+
     .hero-subtitle {
       font-size: 1.15rem;
       color: var(--text-muted);
@@ -94,17 +107,20 @@
       margin: 0 auto;
       line-height: 1.5;
     }
+
     .author-tag {
       margin-top: 0.5rem;
       font-family: var(--arcade-font);
       font-size: 0.6rem;
       color: var(--neon-amber);
     }
+
     .author-tag a {
       color: var(--neon-amber);
       text-decoration: none;
       border-bottom: 1px dotted var(--neon-amber);
     }
+
     .author-tag a:hover {
       text-shadow: 0 0 8px var(--neon-amber);
     }
@@ -116,11 +132,13 @@
       margin: 0 auto;
       padding: 1.5rem;
     }
+
     .games-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 2rem;
     }
+
     .game-card {
       background: var(--card-bg);
       border: 2px solid var(--card-border);
@@ -132,6 +150,7 @@
       position: relative;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     }
+
     .game-card:hover {
       transform: translateY(-6px);
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
@@ -147,6 +166,7 @@
       overflow: hidden;
       border-bottom: 2px solid var(--card-border);
     }
+
     .card-banner::after {
       content: '';
       position: absolute;
@@ -154,6 +174,7 @@
       background: linear-gradient(0deg, var(--card-bg) 0%, transparent 70%);
       pointer-events: none;
     }
+
     .banner-graphic {
       width: 100%;
       height: 100%;
@@ -164,7 +185,7 @@
       font-family: var(--arcade-font);
       position: relative;
       user-select: none;
-      background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, #030408 100%);
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 0%, #030408 100%);
     }
 
     .banner-icon {
@@ -172,6 +193,7 @@
       margin-bottom: 0.5rem;
       filter: drop-shadow(0 0 10px currentColor);
     }
+
     .banner-badge {
       position: absolute;
       top: 12px;
@@ -191,23 +213,27 @@
       flex-direction: column;
       flex: 1;
     }
+
     .card-header-line {
       display: flex;
       align-items: baseline;
       justify-content: space-between;
       margin-bottom: 0.4rem;
     }
+
     .card-title {
       font-family: var(--arcade-font);
       font-size: 1.05rem;
       letter-spacing: 0.5px;
       color: #fff;
     }
+
     .card-year {
       font-size: 0.85rem;
       font-weight: 700;
       color: var(--text-muted);
     }
+
     .card-genre {
       font-size: 0.85rem;
       font-weight: 700;
@@ -232,6 +258,7 @@
       margin-bottom: 1.2rem;
       font-size: 0.82rem;
     }
+
     .control-row {
       display: flex;
       align-items: flex-start;
@@ -239,7 +266,11 @@
       margin-bottom: 0.3rem;
       color: var(--text-muted);
     }
-    .control-row:last-child { margin-bottom: 0; }
+
+    .control-row:last-child {
+      margin-bottom: 0;
+    }
+
     .control-label {
       font-weight: 900;
       color: #fff;
@@ -256,20 +287,24 @@
       color: var(--text-muted);
       margin-bottom: 1.2rem;
     }
+
     .status-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
       background: #888;
     }
+
     .status-dot.active {
       background: var(--neon-green);
       box-shadow: 0 0 8px var(--neon-green);
     }
+
     .status-dot.online {
       background: var(--neon-cyan);
       box-shadow: 0 0 8px var(--neon-cyan);
     }
+
     .status-dot.byor {
       background: var(--neon-amber);
       box-shadow: 0 0 8px var(--neon-amber);
@@ -279,6 +314,7 @@
       display: flex;
       gap: 0.75rem;
     }
+
     .btn-play {
       flex: 1;
       padding: 0.85rem 1rem;
@@ -299,6 +335,7 @@
       transition: all 0.2s ease;
       text-transform: uppercase;
     }
+
     .btn-play:hover {
       transform: scale(1.02);
       filter: brightness(1.15);
@@ -313,13 +350,16 @@
       color: var(--text-muted);
       line-height: 1.6;
     }
+
     footer a {
       color: var(--neon-cyan);
       text-decoration: none;
     }
+
     footer a:hover {
       text-decoration: underline;
     }
+
     .disclaimer {
       max-width: 800px;
       margin: 0.8rem auto 0;
@@ -328,19 +368,29 @@
     }
 
     @media (max-width: 600px) {
-      .games-grid { grid-template-columns: 1fr; }
-      .card-banner { height: 150px; }
-      .banner-icon { font-size: 2.8rem; }
+      .games-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card-banner {
+        height: 150px;
+      }
+
+      .banner-icon {
+        font-size: 2.8rem;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <header>
     <div class="badge-arcade">ARCADE MATRIX // VERCEL DEPLOYED</div>
     <h1 class="hero-title">RETRO ARCADE HUB</h1>
     <p class="hero-subtitle">Four legendary arcade & PC classics preserved in modern WebAssembly, WebGL, and HTML5.</p>
-    <p class="author-tag">PORTED & CURATED BY <a href="https://milanprajapati.in" target="_blank" rel="noopener">MILAN PRAJAPATI</a></p>
+    <p class="author-tag">PORTED & CURATED BY <a href="https://milanprajapati.in" target="_blank" rel="noopener">MILAN
+        PRAJAPATI</a></p>
   </header>
 
   <main>
@@ -351,9 +401,13 @@
 
   <footer>
     <p>Four-Game Arcade Hub · Built with WebAssembly, WebGL & HTML5 Canvas</p>
-    <p>Maintained by <a href="https://milanprajapati.in" target="_blank" rel="noopener">Milan Prajapati</a> · Code repository on <a href="https://github.com/Mikey-3211/RoadRash" target="_blank" rel="noopener">GitHub</a></p>
+    <p>Maintained by <a href="https://milanprajapati.in" target="_blank" rel="noopener">Milan Prajapati</a> · Code
+      repository on <a href="https://github.com/Mikey-3211/RoadRash" target="_blank" rel="noopener">GitHub</a></p>
     <div class="disclaimer">
-      Legal Disclaimer: Road Rash is © Electronic Arts. Virtua Cop 2 and The House of the Dead 2 are © SEGA / AM2 / AM1. Dangerous Dave is © John Romero / Softdisk. All trademarks, copyrights, and audio-visual assets remain the property of their respective owners. This portal complies with open-source and emulation guidelines and distributes no proprietary ROM dumps.
+      Legal Disclaimer: Road Rash is © Electronic Arts. Virtua Cop 2 and The House of the Dead 2 are © SEGA / AM2 / AM1.
+      Dangerous Dave is © John Romero / Softdisk. All trademarks, copyrights, and audio-visual assets remain the
+      property of their respective owners. This portal complies with open-source and emulation guidelines and
+      distributes no proprietary ROM dumps.
     </div>
   </footer>
 
@@ -528,4 +582,5 @@
   </script>
 
 </body>
+
 </html>

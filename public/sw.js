@@ -11,6 +11,8 @@ self.addEventListener('install', (event) => {
         const cache = await caches.open(CACHE_NAME);
         console.log(`[SW] Pre-caching ${assets.length} arcade files for offline play...`);
         const batchSize = 25;
+        let failedUrls = [];
+
         for (let i = 0; i < assets.length; i += batchSize) {
           const batch = assets.slice(i, i + batchSize);
           await Promise.all(
@@ -18,12 +20,20 @@ self.addEventListener('install', (event) => {
               fetch(url)
                 .then((resp) => {
                   if (resp.ok) return cache.put(url, resp);
+                  failedUrls.push({ url, status: resp.status });
                 })
-                .catch(() => {})
+                .catch((err) => {
+                  failedUrls.push({ url, error: err.message });
+                })
             )
           );
         }
-        console.log('[SW] Arcade Hub & game assets cached! Ready for offline.');
+
+        if (failedUrls.length > 0) {
+          console.warn(`[SW] Pre-cached with ${failedUrls.length} failed assets:`, failedUrls.slice(0, 10));
+        } else {
+          console.log('[SW] 100% of arcade files successfully cached! Offline ready.');
+        }
       })
       .then(() => self.skipWaiting())
       .catch((err) => {
@@ -38,7 +48,6 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((keys) => {
       return Promise.all(
         keys.map((key) => {
-          // Only remove previous versions of our arcade caches, leaving foreign origin caches untouched
           if (key.startsWith('arcade-hub-') && key !== CACHE_NAME) {
             console.log('[SW] Purging outdated arcade cache:', key);
             return caches.delete(key);
@@ -56,12 +65,12 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // External requests (e.g. vcop2.lol, analytics, google fonts) handled by browser network
+  // External requests handled by browser network
   if (url.origin !== self.location.origin) {
     return;
   }
 
-  // Navigation requests (HTML documents)
+  // Navigation requests
   if (event.request.mode === 'navigate' || event.request.destination === 'document') {
     event.respondWith(
       fetch(event.request)
@@ -73,11 +82,9 @@ self.addEventListener('fetch', (event) => {
           return networkResponse;
         })
         .catch(async () => {
-          // Offline fallback
           const cached = await caches.match(event.request);
           if (cached) return cached;
 
-          // Route-specific fallbacks
           if (url.pathname.startsWith('/games/road-rash')) {
             const rr = await caches.match('/games/road-rash/index.html');
             if (rr) return rr;
@@ -95,7 +102,6 @@ self.addEventListener('fetch', (event) => {
             if (vc) return vc;
           }
 
-          // Hub fallback
           const hub = await caches.match('/index.html') || await caches.match('/');
           if (hub) return hub;
 
@@ -108,7 +114,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Static Assets: Cache-First strategy with dynamic caching fallback
+  // Static Assets
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {

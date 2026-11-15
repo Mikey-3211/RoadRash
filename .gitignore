@@ -11,3 +11,10 @@ roms/*.zip
 public/games/hotd2/game/
 hotd2-upstream/
 
+
+# HOTD2 PC Game and disc extraction (never commit)
+The_House_of_the_Dead_2_Win_ROM_EN.7z
+hotd2_extracted_game/
+hotd2_pc_disc/
+hotd2_pc_installed/
+

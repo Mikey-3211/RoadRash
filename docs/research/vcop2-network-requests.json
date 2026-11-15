@@ -1,0 +1,26 @@
+{
+  "auditDate": "2026-11-15T23:25:00Z",
+  "target": "https://vcop2.lol/",
+  "totalAssetsCount": 116,
+  "totalAssetsSizeBytes": 32753343,
+  "engine": {
+    "orchestrator": "play.js (11,008 bytes)",
+    "worker": "startup-worker.js (24,710 bytes)",
+    "wasmModule": "build/vcop2.wasm (649,442 bytes)",
+    "wasmGlue": "build/vcop2.js (14,151 bytes)"
+  },
+  "endpoints": {
+    "manifest": "https://vcop2.lol/build/game/manifest.json",
+    "multiplayerSignaling": "wss://vcop2.lol/rooms",
+    "cdAudioDisc": "https://vcop2.lol/build/game/music/disc.bin (546 MB streaming range requests)"
+  },
+  "offlineSinglePlayerCapability": {
+    "technicallyPossible": true,
+    "webSocketRequiredForSinglePlayer": false,
+    "cacheMechanism": "CacheStorage (vcop2-game-assets-v1)"
+  },
+  "permissionsRequired": [
+    "SEGA / AM2 copyright for 116 PC asset files (31.2 MB)",
+    "divyanshkul distribution license for build/vcop2.wasm (649 KB)"
+  ]
+}

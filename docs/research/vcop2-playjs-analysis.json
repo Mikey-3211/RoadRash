@@ -1,0 +1,13 @@
+{
+  "play_js_size_bytes": 11008,
+  "has_websocket_api": false,
+  "has_fetch_api": false,
+  "has_xhr_api": false,
+  "wasm_references": [],
+  "data_references": [
+    ";\n    if (button.dataset.action === action) continue;\n    button.dataset.action = action;\n    button.setAttribute("
+  ],
+  "ws_urls": [],
+  "http_urls": [],
+  "ws_instantiations": []
+}

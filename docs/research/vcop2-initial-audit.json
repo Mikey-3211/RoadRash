@@ -1,0 +1,31 @@
+{
+  "url": "https://vcop2.lol/",
+  "status": 200,
+  "headers": {
+    "Server": "nginx/1.31.6",
+    "Date": "Sun, 15 Nov 2026 17:52:12 GMT",
+    "Content-Type": "text/html",
+    "Content-Length": "8196",
+    "Connection": "close",
+    "Last-Modified": "Sun, 01 Nov 2026 20:43:17 GMT",
+    "ETag": "\"6ae7a465-2004\"",
+    "Cross-Origin-Opener-Policy": "same-origin",
+    "Cross-Origin-Embedder-Policy": "require-corp",
+    "Cross-Origin-Resource-Policy": "same-origin",
+    "X-Content-Type-Options": "nosniff",
+    "Cache-Control": "no-cache",
+    "Accept-Ranges": "bytes"
+  },
+  "scripts": [
+    "./play.js"
+  ],
+  "links": [
+    "./manifest.webmanifest",
+    "./icons/apple-touch-icon.png",
+    "./game.css",
+    "./game-viewport.css"
+  ],
+  "wasm_references": [],
+  "data_references": [],
+  "websocket_references": []
+}

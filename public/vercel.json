@@ -1,6 +1,21 @@
 {
   "version": 2,
   "cleanUrls": true,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Cross-Origin-Embedder-Policy",
+          "value": "require-corp"
+        }
+      ]
+    }
+  ],
   "routes": [
     {
       "src": "/classic/cd4bef5efafb3ec7/(.*)",
@@ -11,9 +26,28 @@
       "dest": "/classic-assets/414a4427a4dcdcc4/$1"
     },
     {
+      "src": "/games/road-rash/?$",
+      "dest": "/games/road-rash/index.html"
+    },
+    {
+      "src": "/games/dangerous-dave/?$",
+      "dest": "/games/dangerous-dave/index.html"
+    },
+    {
+      "src": "/games/vcop2/?$",
+      "dest": "/games/vcop2/index.html"
+    },
+    {
+      "src": "/games/hotd2/?$",
+      "dest": "/games/hotd2/index.html"
+    },
+    {
+      "src": "/dave/?(.*)",
+      "dest": "/dave/$1"
+    },
+    {
       "src": "/(.*)",
       "dest": "/$1"
     }
   ]
 }
-

@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101112">
+  <title>Virtua Cop 2 · Arcade Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0c14;
+      --card-bg: #111422;
+      --cyan: #00f0ff;
+      --border: #1e2538;
+      --text: #f0f3fc;
+      --muted: #8b92b2;
+      --arcade-font: 'Press Start 2P', monospace;
+      --ui-font: 'Rajdhani', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--ui-font);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(10, 12, 20, 0.95);
+    }
+    .back-btn {
+      font-family: var(--arcade-font);
+      font-size: 0.65rem;
+      color: var(--cyan);
+      border: 1px solid var(--cyan);
+      padding: 0.5rem 0.8rem;
+      text-decoration: none;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .back-btn:hover {
+      background: var(--cyan);
+      color: #000;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+    }
+    .game-meta-badge {
+      font-family: var(--arcade-font);
+      font-size: 0.6rem;
+      color: var(--muted);
+    }
+    main {
+      flex: 1;
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      width: 100%;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+    .hero-box {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .hero-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 0 15px var(--cyan));
+    }
+    h1 {
+      font-family: var(--arcade-font);
+      font-size: 1.8rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .tagline {
+      color: var(--cyan);
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+    }
+    .description {
+      color: #c7ceea;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .control-box {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+    }
+    .control-box h3 {
+      font-family: var(--arcade-font);
+      font-size: 0.75rem;
+      color: var(--cyan);
+      margin-bottom: 0.75rem;
+    }
+    .control-box ul {
+      list-style: none;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--text);
+    }
+    .control-box kbd {
+      background: #252b45;
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      font-family: monospace;
+      color: #fff;
+    }
+    .launch-cta {
+      text-align: center;
+      margin: 2rem 0;
+    }
+    .play-large-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      background: var(--cyan);
+      color: #000;
+      font-family: var(--arcade-font);
+      font-size: 1rem;
+      padding: 1.2rem 2.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.5);
+      transition: all 0.2s;
+    }
+    .play-large-btn:hover {
+      transform: scale(1.03);
+      filter: brightness(1.15);
+      box-shadow: 0 0 35px rgba(0, 240, 255, 0.8);
+    }
+    .legal-notice {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 3px solid var(--cyan);
+      padding: 1rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-top: 2rem;
+    }
+    .legal-notice strong {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="back-btn">◀ BACK TO ARCADE</a>
+    <span class="game-meta-badge">VIRTUA COP 2 // SEGA AM2</span>
+  </header>
+
+  <main>
+    <article class="card">
+      <div class="hero-box">
+        <div class="hero-icon">🎯</div>
+        <h1>VIRTUA COP 2</h1>
+        <p class="tagline">3D LIGHTGUN ARCADE SHOOTER</p>
+      </div>
+
+      <p class="description">
+        Originally developed by SEGA AM2 in 1995/1997, <em>Virtua Cop 2</em> revolutionized 3D lightgun shooters with high-octane pursuits, dynamic camera angles, and branching paths across the city.
+      </p>
+
+      <div class="controls-grid">
+        <div class="control-box">
+          <h3>DESKTOP CONTROLS</h3>
+          <ul>
+            <li><strong>Mouse:</strong> Aim crosshairs</li>
+            <li><strong>Left Click:</strong> Fire weapon</li>
+            <li><strong>Right Click:</strong> Reload cylinder</li>
+            <li><kbd>P</kbd> or <strong>Middle Click:</strong> Pause / Start</li>
+            <li><kbd>ESC</kbd>: Release mouse capture</li>
+          </ul>
+        </div>
+        <div class="control-box">
+          <h3>MOBILE CONTROLS</h3>
+          <ul>
+            <li><strong>Orientation:</strong> Auto-rotates to Landscape</li>
+            <li><strong>Tap Target:</strong> Aim & fire instantly</li>
+            <li><strong>Reload Button:</strong> Large on-screen cylinder refill</li>
+            <li><strong>PWA:</strong> Installable to home screen</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="launch-cta">
+        <a href="https://vcop2.lol/" target="_blank" rel="noopener noreferrer" class="play-large-btn">
+          ▶ LAUNCH VIRTUA COP 2 (VCOP2.LOL)
+        </a>
+      </div>
+
+      <div class="legal-notice">
+        <strong>Source & Copyright Notice:</strong><br>
+        Virtua Cop 2 content, characters, and trademarks are © SEGA / AM2. The browser WebAssembly port was engineered by <a href="https://x.com/divyanshkul" target="_blank" style="color:var(--cyan)">divyanshkul</a>. In strict adherence to open-source and copyright principles, our portal routes players directly to the creator's live deployment at <code>vcop2.lol</code> with full credit and no unauthorized asset redistributions.
+      </div>
+    </article>
+  </main>
+
+</body>
+</html>

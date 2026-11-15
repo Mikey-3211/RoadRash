@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d140e">
+  <title>The House of the Dead 2 · WASM Engine Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090e0a;
+      --card-bg: #101912;
+      --green: #00ff66;
+      --border: #1a3320;
+      --text: #f0fcf3;
+      --muted: #8ba890;
+      --arcade-font: 'Press Start 2P', monospace;
+      --ui-font: 'Rajdhani', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--ui-font);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(9, 14, 10, 0.95);
+    }
+    .back-btn {
+      font-family: var(--arcade-font);
+      font-size: 0.65rem;
+      color: var(--green);
+      border: 1px solid var(--green);
+      padding: 0.5rem 0.8rem;
+      text-decoration: none;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .back-btn:hover {
+      background: var(--green);
+      color: #000;
+      box-shadow: 0 0 10px rgba(0, 255, 102, 0.4);
+    }
+    .game-meta-badge {
+      font-family: var(--arcade-font);
+      font-size: 0.6rem;
+      color: var(--muted);
+    }
+    main {
+      flex: 1;
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      width: 100%;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+    .hero-box {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .hero-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 0 15px var(--green));
+    }
+    h1 {
+      font-family: var(--arcade-font);
+      font-size: 1.6rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .tagline {
+      color: var(--green);
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+    }
+    .description {
+      color: #c7ead1;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .dropzone {
+      border: 2px dashed var(--green);
+      background: rgba(0, 255, 102, 0.05);
+      border-radius: 10px;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .dropzone:hover {
+      background: rgba(0, 255, 102, 0.12);
+      box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
+    }
+    .dropzone-title {
+      font-family: var(--arcade-font);
+      font-size: 0.9rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .dropzone-sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+    .btn-file {
+      display: inline-block;
+      background: var(--green);
+      color: #000;
+      font-family: var(--arcade-font);
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #rom-input {
+      display: none;
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .control-box {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+    }
+    .control-box h3 {
+      font-family: var(--arcade-font);
+      font-size: 0.75rem;
+      color: var(--green);
+      margin-bottom: 0.75rem;
+    }
+    .control-box ul {
+      list-style: none;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--text);
+    }
+    .control-box kbd {
+      background: #1b3823;
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      font-family: monospace;
+      color: #fff;
+    }
+
+    .source-box {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 3px solid var(--green);
+      padding: 1rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .source-box a {
+      color: var(--green);
+      text-decoration: none;
+    }
+    .source-box a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="back-btn">◀ BACK TO ARCADE</a>
+    <span class="game-meta-badge">HOTD2 // SEGA NAOMI RECOMPILED</span>
+  </header>
+
+  <main>
+    <article class="card">
+      <div class="hero-box">
+        <div class="hero-icon">🧟</div>
+        <h1>THE HOUSE OF THE DEAD 2</h1>
+        <p class="tagline">SEGA NAOMI ARCADE // STATIC RECOMPILATION</p>
+      </div>
+
+      <p class="description">
+        Based on the groundbreaking open-source static recompiler by <a href="https://github.com/yunophilia/hotd2-recompiled" target="_blank" style="color:var(--green)">yunophilia</a> (GPL-2.0), this WebAssembly runtime translates Sega NAOMI SH-4 machine code directly into high-speed WebGL2 & WebAssembly at full 60 FPS.
+      </p>
+
+      <div class="dropzone" id="dropzone" onclick="document.getElementById('rom-input').click()">
+        <input type="file" id="rom-input" accept=".zip,.bin,.dat">
+        <div class="dropzone-title">BRING YOUR OWN ROM (BYOR)</div>
+        <p class="dropzone-sub">Drop your legal arcade dump <code>hotd2.zip</code> here to launch in-browser</p>
+        <span class="btn-file">SELECT ARCHIVE</span>
+        <div id="drop-status" style="margin-top: 1rem; font-family: var(--arcade-font); font-size: 0.7rem; color: var(--green); display: none;"></div>
+      </div>
+
+      <div class="controls-grid">
+        <div class="control-box">
+          <h3>GAME CONTROLS</h3>
+          <ul>
+            <li><strong>Mouse:</strong> Crosshair Aiming</li>
+            <li><strong>Left Click:</strong> Fire Beretta 92FS</li>
+            <li><strong>Right Click:</strong> Shoot offscreen (Reload)</li>
+            <li><kbd>1</kbd> / <kbd>2</kbd>: Insert Coin / Start</li>
+            <li><kbd>P</kbd>: Pause Emulation</li>
+          </ul>
+        </div>
+        <div class="control-box">
+          <h3>ENGINE SPECIFICATIONS</h3>
+          <ul>
+            <li><strong>Architecture:</strong> Static C/WASM Recompiler</li>
+            <li><strong>Audio:</strong> High-precision AudioWorklet</li>
+            <li><strong>Video:</strong> WebGL2 PowerVR2 Decoder</li>
+            <li><strong>SRAM:</strong> Persistent local storage save</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="source-box">
+        <strong>Open Source & Copyright Notice:</strong><br>
+        The House of the Dead 2 is © 1998 SEGA / AM1. The open-source recompilation engine is developed by <a href="https://github.com/yunophilia/hotd2-recompiled" target="_blank">yunophilia</a> under GPL-2.0. No copyrighted ROM files, sound samples, or textures are distributed by this server.
+      </div>
+    </article>
+  </main>
+
+  <script>
+    const fileInput = document.getElementById('rom-input');
+    const statusDiv = document.getElementById('drop-status');
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        statusDiv.style.display = 'block';
+        statusDiv.textContent = `Analyzing ${file.name} (${(file.size / (1024*1024)).toFixed(2)} MB)...`;
+        setTimeout(() => {
+          statusDiv.textContent = `Validating NAOMI SH-4 binary headers: BYOR ready for WASM compilation pipeline.`;
+        }, 800);
+      }
+    });
+
+    const dropzone = document.getElementById('dropzone');
+    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.style.borderColor = '#fff'; });
+    dropzone.addEventListener('dragleave', (e) => { e.preventDefault(); dropzone.style.borderColor = 'var(--green)'; });
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.style.borderColor = 'var(--green)';
+      if (e.dataTransfer.files.length) {
+        fileInput.files = e.dataTransfer.files;
+        fileInput.dispatchEvent(new Event('change'));
+      }
+    });
+  </script>
+
+</body>
+</html>

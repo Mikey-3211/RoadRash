@@ -1,0 +1,76 @@
+[
+  {
+    "id": "vcop2",
+    "title": "Virtua Cop 2",
+    "genre": "3D Rail Shooter",
+    "year": "1997 / 2026 Web Port",
+    "developer": "SEGA / AM2 (Web Port by divyanshkul)",
+    "description": "The quintessential arcade lightgun shooter. Aim, shoot gangsters, avoid civilians, and reload in full 3D action.",
+    "controls": {
+      "desktop": "Mouse Aim, Left Click Shoot, Right Click Reload, P Pause, ESC Release Mouse",
+      "mobile": "Touch screen to aim and shoot, on-screen Reload button, Landscape mode"
+    },
+    "status": "External Web Port (Authorized Integration Ready)",
+    "statusType": "online",
+    "route": "/games/vcop2/",
+    "externalUrl": "https://vcop2.lol/",
+    "engine": "C++ / WebAssembly (divyanshkul)",
+    "badge": "ARCADE LEGEND",
+    "accentColor": "#00f0ff"
+  },
+  {
+    "id": "dangerous-dave",
+    "title": "Dangerous Dave",
+    "genre": "Retro Platformer",
+    "year": "1988",
+    "developer": "John Romero (HTML5 Re-creation)",
+    "description": "Guide Dave through treacherous levels packed with fire pits, trophies, jetpacks, and lethal traps.",
+    "controls": {
+      "desktop": "Arrow Keys Move/Jump, Spacebar Jetpack / Fire, R Restart",
+      "mobile": "Touch D-pad, Jump button, Fire button, On-screen Restart"
+    },
+    "status": "Native WebGL/Canvas (Offline Ready)",
+    "statusType": "playable",
+    "route": "/games/dangerous-dave/",
+    "engine": "HTML5 Canvas Engine",
+    "badge": "100% OFFLINE",
+    "accentColor": "#ff0055"
+  },
+  {
+    "id": "road-rash",
+    "title": "Road Rash",
+    "genre": "Combat Motorcycle Racing",
+    "year": "1996 PC Classic",
+    "developer": "Electronic Arts (WebGL Recreation)",
+    "description": "High-speed motorcycle combat racing across 5 punishing tracks. Kick, club, and outrun rivals and cops to claim cash and upgrades.",
+    "controls": {
+      "desktop": "Arrow Keys Steer/Accelerate/Brake, Space Punch/Kick/Club, Esc Pause",
+      "mobile": "Touch Steering, Gas/Brake pedals, Attack buttons, Fullscreen toggle"
+    },
+    "status": "Native Three.js WebGL (Offline Ready)",
+    "statusType": "playable",
+    "route": "/games/road-rash/",
+    "engine": "Three.js WebGL + 483 Track Textures",
+    "badge": "FULL GAME INCLUDED",
+    "accentColor": "#ffaa00"
+  },
+  {
+    "id": "hotd2",
+    "title": "The House of the Dead 2",
+    "genre": "Horror Lightgun Shooter",
+    "year": "1998 Sega NAOMI",
+    "developer": "SEGA / AM1 (Static Recompilation by yunophilia)",
+    "description": "Survive the undead outbreak in Venice. Battle zombies, rescue civilians, and eliminate biological monstrosities.",
+    "controls": {
+      "desktop": "Mouse Aim, Left Click Shoot, Right Click Shoot Offscreen to Reload, Space Coin/Start",
+      "mobile": "Touch Target, Offscreen Touch to Reload, Landscape orientation"
+    },
+    "status": "BYOR WASM Engine (Drop hotd2.zip to Play)",
+    "statusType": "byor",
+    "route": "/games/hotd2/",
+    "repoUrl": "https://github.com/yunophilia/hotd2-recompiled",
+    "engine": "SH-4 Static Recompiled WASM + WebGL2",
+    "badge": "OPEN SOURCE WASM",
+    "accentColor": "#00ff66"
+  }
+]

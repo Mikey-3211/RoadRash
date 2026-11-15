@@ -6,3 +6,4 @@ cloudflared.exe
 *.log
 candidate_textures.json
 *.mjs
+

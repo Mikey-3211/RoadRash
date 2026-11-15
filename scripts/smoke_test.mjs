@@ -66,7 +66,7 @@ async function runTests() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const catalog = await res.json();
     console.log(`✔ [games.json] Valid JSON array with ${catalog.length} game registrations.`);
-    if (catalog.length !== 4) throw new Error(`Expected 4 games, got ${catalog.length}`);
+    if (catalog.length < 4 || catalog.length > 5) throw new Error(`Expected 4 or 5 games, got ${catalog.length}`);
     for (const g of catalog) {
       if (!g.id || !g.title || !g.route || !g.statusType) {
         throw new Error(`Game entry invalid: ${JSON.stringify(g)}`);

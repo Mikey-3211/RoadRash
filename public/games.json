@@ -84,5 +84,27 @@
     "offline": false,
     "accentColor": "#00ff66",
     "icon": "🧟"
+  },
+  {
+    "id": "mario-forever",
+    "title": "Mario Forever",
+    "genre": "Retro Platformer",
+    "year": "2003 / 2026 Web Port",
+    "developer": "Buziol Games / Softendo (Web Port: Klawiatura)",
+    "description": "The beloved PC fan game reborn. Experience challenging platforming across classic Worlds, power-ups, custom physics, and retro soundtrack.",
+    "controls": {
+      "desktop": "Arrow Keys Move/Duck, Z/Space Jump, X/Shift Run/Fireball, P Pause",
+      "mobile": "Touch D-Pad, A (Jump), B (Run/Fire), Landscape orientation"
+    },
+    "status": "IN DEVELOPMENT (Klawiatura C/WASM Engine Integration)",
+    "statusType": "pending",
+    "launchType": "internal",
+    "route": "/games/mario-forever/",
+    "repoUrl": "https://github.com/toggins/Klawiatura",
+    "engine": "C11/C++20 SDL3 WebAssembly Engine",
+    "badge": "IN DEVELOPMENT",
+    "offline": false,
+    "accentColor": "#ffdd00",
+    "icon": "🍄"
   }
 ]

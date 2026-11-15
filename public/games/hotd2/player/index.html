@@ -24,6 +24,60 @@
 	#stage:fullscreen canvas { width: min(100vw, calc(100vh * 4 / 3)); height: auto; aspect-ratio: 4 / 3; }
 	.bar { display: flex; gap: 12px; align-items: center; justify-content: space-between; margin-top: 8px; }
 	.bar button { padding: 4px 10px; font-size: 12px; }
+
+	/* Touch Mobile Overlay */
+	#touch-controls {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		z-index: 10;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: 12px;
+	}
+	.touch-top-bar {
+		display: flex;
+		justify-content: space-between;
+		pointer-events: auto;
+	}
+	.touch-btn {
+		background: rgba(20, 20, 25, 0.75);
+		color: #fff;
+		border: 1px solid rgba(255, 255, 255, 0.3);
+		padding: 8px 14px;
+		font-family: monospace;
+		font-size: 12px;
+		font-weight: bold;
+		border-radius: 6px;
+		touch-action: manipulation;
+		cursor: pointer;
+		user-select: none;
+		backdrop-filter: blur(4px);
+	}
+	.touch-btn:active {
+		background: var(--accent);
+		border-color: #fff;
+	}
+	.touch-bottom-bar {
+		display: flex;
+		justify-content: flex-end;
+		pointer-events: auto;
+	}
+	#btn-reload {
+		background: rgba(200, 50, 42, 0.85);
+		border: 2px solid #ff4444;
+		color: #fff;
+		padding: 14px 28px;
+		font-size: 16px;
+		font-weight: 900;
+		border-radius: 8px;
+		box-shadow: 0 4px 12px rgba(200, 50, 42, 0.5);
+	}
+	#btn-reload:active {
+		background: #ff2222;
+		transform: scale(0.96);
+	}
 </style>
 </head>
 <body>
@@ -36,6 +90,18 @@
 	<p class="sub">Mouse = gun (left button fires, right button reloads) · <kbd>5</kbd> coin, then <kbd>1</kbd> or <kbd>Enter</kbd> start · <kbd>9</kbd> test (<kbd>0</kbd> service) · <kbd>F</kbd> fullscreen</p>
 	<div id="stage">
 		<canvas id="screen" width="640" height="480"></canvas>
+		<div id="touch-controls" hidden>
+			<div class="touch-top-bar">
+				<div style="display:flex; gap:8px;">
+					<button id="btn-coin" class="touch-btn">COIN (5)</button>
+					<button id="btn-start" class="touch-btn">START (1)</button>
+				</div>
+				<button id="btn-sound" class="touch-btn">🔊 SOUND</button>
+			</div>
+			<div class="touch-bottom-bar">
+				<button id="btn-reload" class="touch-btn">RELOAD</button>
+			</div>
+		</div>
 		<div id="overlay">
 			<div class="picker">
 				<div>Load your own <b>hotd2.zip</b> (NAOMI set). It stays in this browser.</div>

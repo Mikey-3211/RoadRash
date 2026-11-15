@@ -3,6 +3,8 @@
 'use strict';
 import { readZip } from './zip.js';
 import { PvrRenderer } from './gl.js';
+import { getRomArchive, saveRomArchive } from '/js/rom-storage.js';
+import { GamepadManager } from '/js/gamepad-manager.js';
 
 const $ = (id) => document.getElementById(id);
 const log = (m) => { $('log').textContent += m + '\n'; $('log').scrollTop = 1e9; };
@@ -206,6 +208,86 @@ function setupInput(canvas) {
 		if (e.key === '9') Module.HEAPU8[base + IN.test] = 0;
 		if (e.key === '0') set16(IN.buttons, get16(IN.buttons) & ~SERVICE);
 	});
+	// Touch and Gamepad Hooks
+	const touchControls = $('touch-controls');
+	if (touchControls) touchControls.hidden = false;
+
+	const btnReload = $('btn-reload');
+	if (btnReload) {
+		const triggerReload = (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			Module.HEAPU8[base + IN.offscreen] = 1;
+			set16(IN.buttons, get16(IN.buttons) | TRIGGER);
+			setTimeout(() => {
+				set16(IN.buttons, get16(IN.buttons) & ~TRIGGER);
+				Module.HEAPU8[base + IN.offscreen] = 0;
+			}, 80);
+		};
+		btnReload.addEventListener('pointerdown', triggerReload);
+	}
+
+	const btnCoin = $('btn-coin');
+	if (btnCoin) {
+		btnCoin.addEventListener('pointerdown', (e) => {
+			e.preventDefault();
+			set16(IN.coins, get16(IN.coins) + 2);
+		});
+	}
+
+	const btnStart = $('btn-start');
+	if (btnStart) {
+		btnStart.addEventListener('pointerdown', (e) => {
+			e.preventDefault();
+			set16(IN.buttons, get16(IN.buttons) | START);
+			setTimeout(() => set16(IN.buttons, get16(IN.buttons) & ~START), 150);
+		});
+	}
+
+	const btnSound = $('btn-sound');
+	if (btnSound) {
+		btnSound.addEventListener('pointerdown', (e) => {
+			e.preventDefault();
+			prepareAudio();
+		});
+	}
+
+	// Universal Gamepad Support
+	new GamepadManager({
+		onButtonDown: (btnIdx) => {
+			if (btnIdx === 0 || btnIdx === 7) { // A or Right Trigger: Shoot
+				set16(IN.buttons, get16(IN.buttons) | TRIGGER);
+			} else if (btnIdx === 1 || btnIdx === 2) { // B or X: Reload
+				Module.HEAPU8[base + IN.offscreen] = 1;
+				set16(IN.buttons, get16(IN.buttons) | TRIGGER);
+			} else if (btnIdx === 9) { // Start
+				set16(IN.buttons, get16(IN.buttons) | START);
+			} else if (btnIdx === 8) { // Select / Coin
+				set16(IN.coins, get16(IN.coins) + 2);
+			}
+		},
+		onButtonUp: (btnIdx) => {
+			if (btnIdx === 0 || btnIdx === 7) {
+				set16(IN.buttons, get16(IN.buttons) & ~TRIGGER);
+			} else if (btnIdx === 1 || btnIdx === 2) {
+				set16(IN.buttons, get16(IN.buttons) & ~TRIGGER);
+				Module.HEAPU8[base + IN.offscreen] = 0;
+			} else if (btnIdx === 9) {
+				set16(IN.buttons, get16(IN.buttons) & ~START);
+			}
+		},
+		onAxisMove: (axes) => {
+			if (axes.length >= 4) { // Right stick aiming
+				const ax = axes[2], ay = axes[3];
+				if (Math.abs(ax) > 0.1 || Math.abs(ay) > 0.1) {
+					const curX = get16(IN.gunX), curY = get16(IN.gunY);
+					set16(IN.gunX, Math.max(0, Math.min(639, curX + Math.round(ax * 12))));
+					set16(IN.gunY, Math.max(0, Math.min(479, curY + Math.round(ay * 12))));
+				}
+			}
+		}
+	});
+
 	void u8;
 }
 
@@ -218,8 +300,32 @@ $('fullscreen').addEventListener('click', (e) => { e.currentTarget.blur(); toggl
 $('rom').addEventListener('change', async (e) => {
 	const f = e.target.files[0];
 	prepareAudio();
-	if (f) start(new Uint8Array(await f.arrayBuffer())).catch((err) => log('error: ' + err.message));
+	if (f) {
+		const buf = await f.arrayBuffer();
+		saveRomArchive('hotd2', buf, f.name).catch(() => {});
+		start(new Uint8Array(buf)).catch((err) => log('error: ' + err.message));
+	}
 });
+
+// Check for existing cached ROM archive in IndexedDB
+(async () => {
+	try {
+		const cached = await getRomArchive('hotd2');
+		if (cached && cached.data) {
+			log(`Found locally cached ROM (${cached.name}, ${(cached.size/1024/1024).toFixed(1)} MB). Click to start instantly:`);
+			const btn = document.createElement('button');
+			btn.textContent = `▶ Resume with cached ROM (${cached.name})`;
+			btn.style.cssText = 'margin-top: 10px; background: #00ff66; color: #000; font-weight: bold; border-radius: 4px;';
+			btn.onclick = () => {
+				prepareAudio();
+				start(new Uint8Array(cached.data)).catch((err) => log('error: ' + err.message));
+			};
+			$('overlay').querySelector('.picker').appendChild(btn);
+		}
+	} catch (err) {
+		// IndexedDB fallback silently
+	}
+})();
 if (['localhost', '127.0.0.1'].includes(location.hostname)) {
 	$('dev').hidden = false;
 	$('dev').addEventListener('click', async () => {

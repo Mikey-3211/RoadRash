@@ -910,6 +910,49 @@ window.addEventListener("keyup"  ,Set_Move_False);
     if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') Dave.moveRight = false;
     if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W' || e.key === ' ') Dave.jump = false;
   });
+
+  // Physical Gamepad Support
+  import('/js/gamepad-manager.js').then(({ GamepadManager }) => {
+    new GamepadManager({
+      onButtonDown: (btnIdx) => {
+        getAudio();
+        if (btnIdx === 0 || btnIdx === 1) { // A or B: Jump
+          if (!Dave.jump && Dave.alive) sfxJump();
+          Dave.jump = true;
+        } else if (btnIdx === 14) { // D-pad Left
+          Dave.moveLeft = true;
+        } else if (btnIdx === 15) { // D-pad Right
+          Dave.moveRight = true;
+        } else if (btnIdx === 9) { // Start
+          fullRestartGame();
+        }
+      },
+      onButtonUp: (btnIdx) => {
+        if (btnIdx === 0 || btnIdx === 1) {
+          Dave.jump = false;
+        } else if (btnIdx === 14) {
+          Dave.moveLeft = false;
+        } else if (btnIdx === 15) {
+          Dave.moveRight = false;
+        }
+      },
+      onAxisMove: (axes) => {
+        if (axes.length >= 1) {
+          const stickX = axes[0];
+          if (stickX < -0.3) {
+            Dave.moveLeft = true;
+            Dave.moveRight = false;
+          } else if (stickX > 0.3) {
+            Dave.moveRight = true;
+            Dave.moveLeft = false;
+          } else {
+            Dave.moveLeft = false;
+            Dave.moveRight = false;
+          }
+        }
+      }
+    });
+  }).catch(() => {});
   </script>
 </body>
 </html>

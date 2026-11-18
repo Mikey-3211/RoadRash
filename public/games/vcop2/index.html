@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -7,7 +8,8 @@
   <title>Virtua Cop 2 · External Launch Bridge</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@600;700;900&display=swap"
+    rel="stylesheet">
   <style>
     :root {
       --bg: #0a0c14;
@@ -19,7 +21,13 @@
       --arcade-font: 'Press Start 2P', monospace;
       --ui-font: 'Rajdhani', sans-serif;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       background: var(--bg);
       color: var(--text);
@@ -28,6 +36,7 @@
       display: flex;
       flex-direction: column;
     }
+
     header {
       padding: 1rem 1.5rem;
       border-bottom: 1px solid var(--border);
@@ -36,6 +45,7 @@
       justify-content: space-between;
       background: rgba(10, 12, 20, 0.95);
     }
+
     .back-btn {
       font-family: var(--arcade-font);
       font-size: 0.65rem;
@@ -49,11 +59,13 @@
       gap: 0.4rem;
       transition: all 0.2s;
     }
+
     .back-btn:hover {
       background: var(--cyan);
       color: #000;
       box-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
     }
+
     .game-meta-badge {
       font-family: var(--arcade-font);
       font-size: 0.6rem;
@@ -62,6 +74,7 @@
       padding: 4px 8px;
       border-radius: 4px;
     }
+
     main {
       flex: 1;
       max-width: 900px;
@@ -69,6 +82,7 @@
       padding: 1.5rem;
       width: 100%;
     }
+
     .card {
       background: var(--card-bg);
       border: 2px solid var(--border);
@@ -76,27 +90,32 @@
       padding: 2rem;
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     }
+
     .hero-box {
       text-align: center;
       margin-bottom: 2rem;
     }
+
     .hero-icon {
       font-size: 4rem;
       margin-bottom: 1rem;
       filter: drop-shadow(0 0 15px var(--cyan));
     }
+
     h1 {
       font-family: var(--arcade-font);
       font-size: 1.8rem;
       color: #fff;
       margin-bottom: 0.5rem;
     }
+
     .tagline {
       color: var(--cyan);
       font-weight: 700;
       font-size: 1.1rem;
       letter-spacing: 1px;
     }
+
     .notice-badge {
       display: inline-block;
       margin-top: 0.75rem;
@@ -108,36 +127,42 @@
       font-size: 0.85rem;
       font-weight: bold;
     }
+
     .description {
       color: #c7ceea;
       font-size: 1.05rem;
       line-height: 1.6;
       margin-bottom: 2rem;
     }
+
     .controls-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 1.5rem;
       margin-bottom: 2rem;
     }
+
     .control-box {
       background: rgba(0, 0, 0, 0.4);
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 1rem 1.25rem;
     }
+
     .control-box h3 {
       font-family: var(--arcade-font);
       font-size: 0.75rem;
       color: var(--cyan);
       margin-bottom: 0.75rem;
     }
+
     .control-box ul {
       list-style: none;
       font-size: 0.95rem;
       line-height: 1.7;
       color: var(--text);
     }
+
     .control-box kbd {
       background: #252b45;
       padding: 0.15rem 0.4rem;
@@ -145,10 +170,12 @@
       font-family: monospace;
       color: #fff;
     }
+
     .launch-cta {
       text-align: center;
       margin: 2rem 0;
     }
+
     .play-large-btn {
       display: inline-flex;
       align-items: center;
@@ -165,11 +192,13 @@
       box-shadow: 0 0 25px rgba(0, 240, 255, 0.5);
       transition: all 0.2s;
     }
+
     .play-large-btn:hover {
       transform: scale(1.03);
       filter: brightness(1.15);
       box-shadow: 0 0 35px rgba(0, 240, 255, 0.8);
     }
+
     .legal-notice {
       background: rgba(0, 0, 0, 0.3);
       border-left: 3px solid var(--cyan);
@@ -180,11 +209,13 @@
       line-height: 1.6;
       margin-top: 2rem;
     }
+
     .legal-notice strong {
       color: #fff;
     }
   </style>
 </head>
+
 <body>
 
   <header>
@@ -202,7 +233,9 @@
       </div>
 
       <p class="description">
-        Originally created by SEGA AM2 in 1995/1997, <em>Virtua Cop 2</em> brought police lightgun shooting to 3D polygons. This web build was ported to C++/WebAssembly by developer <a href="https://x.com/divyanshkul" target="_blank" style="color:var(--cyan)">divyanshkul</a>.
+        Originally created by SEGA AM2 in 1995/1997, <em>Virtua Cop 2</em> brought police lightgun shooting to 3D
+        polygons. This web build was ported to C++/WebAssembly by developer <a href="https://x.com/divyanshkul"
+          target="_blank" style="color:var(--cyan)">divyanshkul</a>.
       </p>
 
       <div class="controls-grid">
@@ -231,25 +264,36 @@
         <button id="btn-play-embed" class="play-large-btn" style="border:none; cursor:pointer;">
           ▶ PLAY IN ARCADE CABINET (SEAMLESS)
         </button>
-        <a href="https://vcop2.lol/" target="_blank" rel="noopener noreferrer" style="color:var(--muted); font-size:12px; text-decoration:underline;">
+        <a id="link-standalone" href="https://vcop2.lol/" target="_blank" rel="noopener noreferrer"
+          style="color:var(--muted); font-size:12px; text-decoration:underline;">
           Open in standalone tab (vcop2.lol) ↗
         </a>
       </div>
 
       <!-- Seamless Arcade Stage Container -->
-      <div id="embed-cabinet" style="display:none; width:100%; margin-top:20px; border:2px solid var(--cyan); border-radius:8px; overflow:hidden; background:#000;">
-        <div style="background:#111422; padding:8px 16px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border);">
-          <span style="font-family:var(--arcade-font); font-size:10px; color:var(--cyan);">VIRTUA COP 2 · ARCADE SCREEN</span>
-          <button id="btn-fullscreen-embed" style="background:transparent; border:1px solid var(--cyan); color:var(--cyan); padding:4px 8px; border-radius:4px; font-family:monospace; cursor:pointer;">[ ] FULLSCREEN</button>
+      <div id="embed-cabinet"
+        style="display:none; width:100%; margin-top:20px; border:2px solid var(--cyan); border-radius:8px; overflow:hidden; background:#000;">
+        <div
+          style="background:#111422; padding:8px 16px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border);">
+          <span style="font-family:var(--arcade-font); font-size:10px; color:var(--cyan);">VIRTUA COP 2 · ARCADE
+            SCREEN</span>
+          <button id="btn-fullscreen-embed"
+            style="background:transparent; border:1px solid var(--cyan); color:var(--cyan); padding:4px 8px; border-radius:4px; font-family:monospace; cursor:pointer;">[
+            ] FULLSCREEN</button>
         </div>
         <div style="position:relative; width:100%; aspect-ratio:4/3; max-height:75vh;">
-          <iframe id="vcop2-iframe" src="" style="width:100%; height:100%; border:none;" allow="autoplay; fullscreen; pointer-lock;"></iframe>
+          <iframe id="vcop2-iframe" src="" style="width:100%; height:100%; border:none;"
+            allow="autoplay; fullscreen; pointer-lock;"></iframe>
         </div>
       </div>
 
       <div class="legal-notice">
         <strong>Source & Copyright Transparency:</strong><br>
-        Virtua Cop 2 game assets, trademarks, and copyright are owned by <strong>© SEGA / AM2</strong>. The web runtime is hosted and maintained by <strong>divyanshkul</strong> at <code>vcop2.lol</code>. In strict compliance with open-source and copyright principles, our portal acts as a launcher bridge rather than scraping or republishing proprietary compiled WebAssembly binaries or SEGA assets without explicit license grant. An active internet connection is required to play.
+        Virtua Cop 2 game assets, trademarks, and copyright are owned by <strong>© SEGA / AM2</strong>. The web runtime
+        is hosted and maintained by <strong>divyanshkul</strong> at <code>vcop2.lol</code>. In strict compliance with
+        open-source and copyright principles, our portal acts as a launcher bridge rather than scraping or republishing
+        proprietary compiled WebAssembly binaries or SEGA assets without explicit license grant. An active internet
+        connection is required to play.
       </div>
     </article>
   </main>
@@ -266,6 +310,11 @@
       if (metaBadge) metaBadge.textContent = '100% OFFLINE · LOCAL BUILD DETECTED';
       const noticeBadge = document.querySelector('.notice-badge');
       if (noticeBadge) noticeBadge.textContent = '⚡ RUNNING LOCALLY FROM AIR-GAPPED MIRROR (NO INTERNET NEEDED)';
+      const linkStandalone = document.getElementById('link-standalone');
+      if (linkStandalone) {
+        linkStandalone.href = '/games/vcop2/local/';
+        linkStandalone.textContent = 'Open in standalone tab (Local Offline Mirror) ↗';
+      }
     }
 
     btnPlayEmbed.addEventListener('click', () => {
@@ -279,11 +328,12 @@
 
     btnFullscreenEmbed.addEventListener('click', () => {
       if (!document.fullscreenElement) {
-        embedCabinet.requestFullscreen().catch(() => {});
+        embedCabinet.requestFullscreen().catch(() => { });
       } else {
-        document.exitFullscreen().catch(() => {});
+        document.exitFullscreen().catch(() => { });
       }
     });
   </script>
 </body>
+
 </html>

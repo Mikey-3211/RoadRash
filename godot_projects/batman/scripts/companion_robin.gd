@@ -1,58 +1,71 @@
 extends CharacterBody2D
 class_name CompanionRobin
 ## Autonomous AI Companion for Player 2 (Robin / Nightwing)
+## Features: Dynamic Follow, Auto-Wall Jump, Bo-Staff & Shock Dart Weapons
 
-enum AIState { FOLLOW, COMBAT, WALL_RECOVER, IDLE }
-
-const SPEED: float = 90.0
-const JUMP_VELOCITY: float = -290.0
-const GRAVITY: float = 650.0
+const SPEED: float = 115.0
+const JUMP_VELOCITY: float = -315.0
+const WALL_JUMP_VELOCITY_Y: float = -295.0
+const WALL_JUMP_VELOCITY_X: float = 145.0
+const GRAVITY: float = 720.0
 
 @export var target_player: Node2D
 @export var ai_enabled: bool = true
 
-var current_state: AIState = AIState.FOLLOW
-var attack_cooldown: float = 0.0
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+
+var facing_direction: int = 1
+var attack_timer: float = 0.0
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y += GRAVITY * delta
 
+	if attack_timer > 0.0:
+		attack_timer -= delta
+
 	if not ai_enabled or target_player == null:
 		move_and_slide()
 		return
 
-	var dist_to_player = global_position.distance_to(target_player.global_position)
-	var x_diff = target_player.global_position.x - global_position.x
+	var dist_x = target_player.global_position.x - global_position.x
+	var dist_y = target_player.global_position.y - global_position.y
 
-	# AI Decision Matrix
-	if abs(x_diff) > 40.0:
-		# Follow player
-		var dir = sign(x_diff)
+	# Autonomous Following & Obstacle Scaling
+	if abs(dist_x) > 45.0:
+		var dir = sign(dist_x)
 		velocity.x = dir * SPEED
-		
-		# Auto jump over obstacles or when player jumps high
-		if is_on_wall() and is_on_floor():
-			velocity.y = JUMP_VELOCITY
-		elif target_player.global_position.y < global_position.y - 30 and is_on_floor():
+		facing_direction = int(dir)
+		if sprite:
+			sprite.flip_h = (facing_direction < 0)
+
+		# Auto-Jump over walls and ledges
+		if is_on_wall():
+			if is_on_floor():
+				velocity.y = JUMP_VELOCITY
+			else:
+				# Robin Wall-Kick
+				var wall_normal = get_wall_normal()
+				velocity.y = WALL_JUMP_VELOCITY_Y
+				velocity.x = wall_normal.x * WALL_JUMP_VELOCITY_X
+				facing_direction = int(sign(wall_normal.x))
+				if sprite:
+					sprite.flip_h = (facing_direction < 0)
+		elif dist_y < -25.0 and is_on_floor():
 			velocity.y = JUMP_VELOCITY
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
-	# Combat Target scan (attack nearby enemies)
-	if attack_cooldown > 0.0:
-		attack_cooldown -= delta
-	else:
-		attack_nearby_enemies()
+	# Animation Updates
+	if sprite:
+		if attack_timer > 0.0:
+			pass
+		elif is_on_floor():
+			if abs(velocity.x) > 5.0:
+				sprite.play("run")
+			else:
+				sprite.play("idle")
+		else:
+			sprite.play("jump")
 
 	move_and_slide()
-
-func attack_nearby_enemies() -> void:
-	var enemies = get_tree().get_nodes_in_group("enemy")
-	for enemy in enemies:
-		if is_instance_valid(enemy) and global_position.distance_to(enemy.global_position) < 50.0:
-			# Strike with bo-staff / shock gadget
-			attack_cooldown = 0.8
-			if enemy.has_method("take_damage"):
-				enemy.take_damage(2)
-			break

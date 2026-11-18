@@ -8,11 +8,15 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Contra"
 run/main_scene="uid://oim1a676pe5l"
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -73,6 +77,10 @@ window/size/viewport_height=240
 window/size/mode=4
 window/stretch/mode="viewport"
 window/stretch/scale_mode="integer"
+
+[dotnet]
+
+project/assembly_name="Contra"
 
 [editor]
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
   <title>Contra · Godot Engine Arcade Port</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +18,7 @@
       --arcade-font: 'Press Start 2P', monospace;
       --ui-font: 'Rajdhani', sans-serif;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
     body {
       background: var(--bg);
       color: var(--text);
@@ -57,30 +57,30 @@
     }
     main {
       flex: 1;
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 1.5rem;
+      max-width: 960px;
+      margin: 1.5rem auto;
+      padding: 1rem;
       width: 100%;
     }
     .card {
       background: var(--card-bg);
       border: 2px solid var(--border);
       border-radius: 12px;
-      padding: 2rem;
+      padding: 1.5rem;
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
     }
     .hero {
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
     .hero-icon {
-      font-size: 4rem;
-      margin-bottom: 1rem;
+      font-size: 3.5rem;
+      margin-bottom: 0.5rem;
       filter: drop-shadow(0 0 15px var(--orange));
     }
     h1 {
       font-family: var(--arcade-font);
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       color: #fff;
       margin-bottom: 0.5rem;
       text-shadow: 0 0 10px rgba(255, 51, 0, 0.7);
@@ -88,31 +88,138 @@
     .tagline {
       color: var(--orange);
       font-weight: 700;
-      font-size: 1.1rem;
+      font-size: 1rem;
       letter-spacing: 1px;
     }
     .badge {
       display: inline-block;
-      margin-top: 0.75rem;
+      margin-top: 0.5rem;
       background: rgba(255, 51, 0, 0.15);
       border: 1px solid var(--orange);
       color: var(--orange);
-      padding: 6px 14px;
+      padding: 5px 12px;
       border-radius: 20px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: bold;
     }
-    .description {
-      color: #c7ceea;
-      font-size: 1.05rem;
-      line-height: 1.6;
-      margin-bottom: 2rem;
+
+    /* Cabinet Screen */
+    .cabinet-container {
+      margin: 1.5rem 0;
+      border: 2px solid var(--orange);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 0 25px rgba(255, 51, 0, 0.3);
     }
+    .cabinet-topbar {
+      background: #190e28;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .cabinet-title {
+      font-family: var(--arcade-font);
+      font-size: 10px;
+      color: var(--orange);
+    }
+    .arcade-viewport {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      max-height: 520px;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    canvas#game-canvas {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      image-rendering: pixelated;
+    }
+
+    /* On-Screen Mobile Touch Overlay */
+    .touch-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 18px 24px;
+      z-index: 10;
+    }
+    .dpad, .action-buttons {
+      pointer-events: auto;
+      display: flex;
+    }
+    .dpad {
+      display: grid;
+      grid-template-columns: repeat(3, 48px);
+      grid-template-rows: repeat(3, 48px);
+      gap: 4px;
+    }
+    .dpad-btn {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      border-radius: 8px;
+      color: #fff;
+      font-family: var(--arcade-font);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+      backdrop-filter: blur(4px);
+    }
+    .dpad-btn:active, .dpad-btn.pressed {
+      background: rgba(255, 51, 0, 0.6);
+      border-color: #fff;
+    }
+    .action-buttons {
+      display: flex;
+      gap: 16px;
+      align-items: flex-end;
+      margin-bottom: 8px;
+    }
+    .action-btn {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(255, 51, 0, 0.3);
+      border: 2px solid var(--orange);
+      color: #fff;
+      font-family: var(--arcade-font);
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 0 10px rgba(255, 51, 0, 0.4);
+    }
+    .action-btn:active, .action-btn.pressed {
+      background: var(--orange);
+      transform: scale(0.95);
+      box-shadow: 0 0 20px var(--orange);
+    }
+    .action-sub {
+      font-size: 7px;
+      font-family: var(--ui-font);
+      opacity: 0.8;
+      margin-top: 2px;
+    }
+
     .controls-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 1.5rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
     .control-box {
       background: rgba(0, 0, 0, 0.3);
@@ -137,30 +244,12 @@
       padding-bottom: 4px;
     }
     .control-box strong { color: #fff; }
-    .godot-specs {
-      background: rgba(255, 51, 0, 0.08);
-      border: 1px solid var(--orange);
-      border-radius: 8px;
-      padding: 1.25rem;
-      margin-bottom: 2rem;
-    }
-    .godot-specs h3 {
-      font-family: var(--arcade-font);
-      font-size: 0.8rem;
-      color: #fff;
-      margin-bottom: 0.75rem;
-    }
-    .godot-specs p {
-      font-size: 0.95rem;
-      color: #e0d0f0;
-      line-height: 1.5;
-    }
   </style>
 </head>
 <body>
   <header>
     <a href="/" class="back-btn">◀ BACK TO ARCADE</a>
-    <span class="meta-badge">GODOT 4.7 ENGINE · IN DEVELOPMENT</span>
+    <span class="meta-badge">GODOT 4.7 ENGINE · WEB WASM INTEGRATION</span>
   </header>
 
   <main>
@@ -169,42 +258,136 @@
         <div class="hero-icon">🎖️</div>
         <h1>CONTRA</h1>
         <p class="tagline">2D RUN AND GUN ARCADE CLASSIC</p>
-        <span class="badge">⚙️ POWERED BY GODOT 4.7 ENGINE (WEB/WASM)</span>
+        <span class="badge">⚙️ POWERED BY GODOT 4.7 ENGINE · NATIVE WASM + MOBILE CONTROLS</span>
       </div>
 
-      <p class="description">
-        Konami's legendary 1987 arcade run-and-gun shooter. Take control of Bill Rizer and Lance Bean as you fight through the Galuga archipelago against the alien entity Red Falcon. Re-engineered in <strong>Godot Engine 4.7</strong> with exact 8-direction aiming, authentic jumping arcs, platform drop-downs, and iconic weapons (Rifle, Machine Gun, Spread Gun, Laser, Flame).
-      </p>
+      <!-- Arcade Screen Frame with Smooth Touch Overlay -->
+      <div class="cabinet-container">
+        <div class="cabinet-topbar">
+          <span class="cabinet-title">CONTRA · ARCADE STAGE 1 (JUNGLE)</span>
+          <button id="btn-fullscreen" style="background:transparent; border:1px solid var(--orange); color:var(--orange); padding:4px 8px; border-radius:4px; font-family:monospace; cursor:pointer;">[ ] FULLSCREEN</button>
+        </div>
+        <div class="arcade-viewport" id="viewport">
+          <canvas id="game-canvas"></canvas>
+
+          <!-- Smooth Android Touch Overlay -->
+          <div class="touch-overlay" id="touch-controls">
+            <!-- 8-way D-Pad -->
+            <div class="dpad">
+              <div class="dpad-btn" id="dpad-ul">↖</div>
+              <div class="dpad-btn" id="dpad-u">▲</div>
+              <div class="dpad-btn" id="dpad-ur">↗</div>
+              <div class="dpad-btn" id="dpad-l">◀</div>
+              <div style="background:transparent;"></div>
+              <div class="dpad-btn" id="dpad-r">▶</div>
+              <div class="dpad-btn" id="dpad-dl">↙</div>
+              <div class="dpad-btn" id="dpad-d">▼</div>
+              <div class="dpad-btn" id="dpad-dr">↘</div>
+            </div>
+
+            <!-- Jump & Shoot Buttons -->
+            <div class="action-buttons">
+              <button class="action-btn" id="btn-shoot">
+                <span>FIRE</span>
+                <span class="action-sub">(HOLD)</span>
+              </button>
+              <button class="action-btn" id="btn-jump" style="background:rgba(0, 240, 255, 0.25); border-color:#00f0ff; box-shadow:0 0 10px rgba(0, 240, 255, 0.4);">
+                <span>JUMP</span>
+                <span class="action-sub">(FLIP)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="controls-grid">
         <div class="control-box">
-          <h3>DESKTOP CONTROLS</h3>
+          <h3>DESKTOP KEYBOARD</h3>
           <ul>
-            <li><span>Move & Aim:</span> <strong>WASD / Arrow Keys</strong></li>
+            <li><span>Move & Aim (8-Way):</span> <strong>WASD / Arrow Keys</strong></li>
             <li><span>Fire Weapon:</span> <strong>J / Z</strong></li>
             <li><span>Jump:</span> <strong>K / X</strong></li>
-            <li><span>Drop Through:</span> <strong>Down + Jump</strong></li>
+            <li><span>Drop Platform:</span> <strong>Down + Jump</strong></li>
             <li><span>Pause:</span> <strong>P / Esc</strong></li>
           </ul>
         </div>
         <div class="control-box">
-          <h3>MOBILE CONTROLS</h3>
+          <h3>ANDROID & TOUCH</h3>
           <ul>
-            <li><span>8-Way Directional:</span> <strong>Virtual Arcade D-Pad</strong></li>
-            <li><span>Action:</span> <strong>Fire (A) & Jump (B)</strong></li>
-            <li><span>Rapid Fire:</span> <strong>Autofire Toggle</strong></li>
-            <li><span>Screen:</span> <strong>Landscape Orientation</strong></li>
+            <li><span>8-Way Directional:</span> <strong>Smooth D-Pad Touch</strong></li>
+            <li><span>Jump Button:</span> <strong>Tactile Right Thumb Button</strong></li>
+            <li><span>Fire Button:</span> <strong>Rapid Hold Action</strong></li>
+            <li><span>Orientation:</span> <strong>Landscape Mode Recommended</strong></li>
           </ul>
         </div>
       </div>
-
-      <div class="godot-specs">
-        <h3>ENGINE ARCHITECTURE</h3>
-        <p>
-          Built natively using <strong>Godot 4.7 Mono (C# / GDScript)</strong>. Uses <code>CharacterBody2D</code> with pixel-accurate 60Hz deterministic movement, custom <code>Area2D</code> bullet collision layers, and <code>TileMapLayer</code> collision surfaces. Exports directly to HTML5 WebAssembly + WebGL2 for seamless zero-install playback in the browser.
-        </p>
-      </div>
     </article>
   </main>
+
+  <script>
+    // Fullscreen support
+    const btnFullscreen = document.getElementById('btn-fullscreen');
+    const viewport = document.getElementById('viewport');
+    btnFullscreen.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        viewport.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    });
+
+    // Touch button dispatch to keyboard events for universal Godot/Wasm compatibility
+    function mapTouchToKey(elementId, keyCode, key, code) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+
+      const triggerEvent = (type) => {
+        const evt = new KeyboardEvent(type, {
+          key: key,
+          code: code,
+          keyCode: keyCode,
+          which: keyCode,
+          bubbles: true
+        });
+        window.dispatchEvent(evt);
+        document.dispatchEvent(evt);
+      };
+
+      el.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        el.classList.add('pressed');
+        triggerEvent('keydown');
+      }, { passive: false });
+
+      el.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        el.classList.remove('pressed');
+        triggerEvent('keyup');
+      }, { passive: false });
+
+      el.addEventListener('touchcancel', (e) => {
+        e.preventDefault();
+        el.classList.remove('pressed');
+        triggerEvent('keyup');
+      }, { passive: false });
+    }
+
+    // Map Jump (X) and Fire (Z)
+    mapTouchToKey('btn-jump', 88, 'x', 'KeyX');
+    mapTouchToKey('btn-shoot', 90, 'z', 'KeyZ');
+
+    // Map D-Pad Directions
+    mapTouchToKey('dpad-u', 38, 'ArrowUp', 'ArrowUp');
+    mapTouchToKey('dpad-d', 40, 'ArrowDown', 'ArrowDown');
+    mapTouchToKey('dpad-l', 37, 'ArrowLeft', 'ArrowLeft');
+    mapTouchToKey('dpad-r', 39, 'ArrowRight', 'ArrowRight');
+
+    // Only show touch overlay on touch-capable devices
+    const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+    const overlay = document.getElementById('touch-controls');
+    if (!isTouch && overlay) {
+      overlay.style.opacity = '0.4';
+    }
+  </script>
 </body>
 </html>

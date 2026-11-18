@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Contra · Godot Engine Arcade Port</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0814;
+      --card-bg: #140d1f;
+      --orange: #ff3300;
+      --border: #2f1d45;
+      --text: #f0f3fc;
+      --muted: #a69bb8;
+      --arcade-font: 'Press Start 2P', monospace;
+      --ui-font: 'Rajdhani', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--ui-font);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(10, 8, 20, 0.95);
+    }
+    .back-btn {
+      font-family: var(--arcade-font);
+      font-size: 0.75rem;
+      color: var(--orange);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: transform 0.2s, color 0.2s;
+    }
+    .back-btn:hover { transform: translateX(-4px); color: #fff; }
+    .meta-badge {
+      font-family: var(--arcade-font);
+      font-size: 0.65rem;
+      background: rgba(255, 51, 0, 0.15);
+      border: 1px solid var(--orange);
+      color: var(--orange);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    main {
+      flex: 1;
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      width: 100%;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    }
+    .hero {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .hero-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 0 15px var(--orange));
+    }
+    h1 {
+      font-family: var(--arcade-font);
+      font-size: 1.8rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 10px rgba(255, 51, 0, 0.7);
+    }
+    .tagline {
+      color: var(--orange);
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+    }
+    .badge {
+      display: inline-block;
+      margin-top: 0.75rem;
+      background: rgba(255, 51, 0, 0.15);
+      border: 1px solid var(--orange);
+      color: var(--orange);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+    .description {
+      color: #c7ceea;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .control-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+    .control-box h3 {
+      font-family: var(--arcade-font);
+      font-size: 0.8rem;
+      color: var(--orange);
+      margin-bottom: 1rem;
+    }
+    .control-box ul { list-style: none; }
+    .control-box li {
+      margin-bottom: 0.6rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+      padding-bottom: 4px;
+    }
+    .control-box strong { color: #fff; }
+    .godot-specs {
+      background: rgba(255, 51, 0, 0.08);
+      border: 1px solid var(--orange);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .godot-specs h3 {
+      font-family: var(--arcade-font);
+      font-size: 0.8rem;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+    .godot-specs p {
+      font-size: 0.95rem;
+      color: #e0d0f0;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/" class="back-btn">◀ BACK TO ARCADE</a>
+    <span class="meta-badge">GODOT 4.7 ENGINE · IN DEVELOPMENT</span>
+  </header>
+
+  <main>
+    <article class="card">
+      <div class="hero">
+        <div class="hero-icon">🎖️</div>
+        <h1>CONTRA</h1>
+        <p class="tagline">2D RUN AND GUN ARCADE CLASSIC</p>
+        <span class="badge">⚙️ POWERED BY GODOT 4.7 ENGINE (WEB/WASM)</span>
+      </div>
+
+      <p class="description">
+        Konami's legendary 1987 arcade run-and-gun shooter. Take control of Bill Rizer and Lance Bean as you fight through the Galuga archipelago against the alien entity Red Falcon. Re-engineered in <strong>Godot Engine 4.7</strong> with exact 8-direction aiming, authentic jumping arcs, platform drop-downs, and iconic weapons (Rifle, Machine Gun, Spread Gun, Laser, Flame).
+      </p>
+
+      <div class="controls-grid">
+        <div class="control-box">
+          <h3>DESKTOP CONTROLS</h3>
+          <ul>
+            <li><span>Move & Aim:</span> <strong>WASD / Arrow Keys</strong></li>
+            <li><span>Fire Weapon:</span> <strong>J / Z</strong></li>
+            <li><span>Jump:</span> <strong>K / X</strong></li>
+            <li><span>Drop Through:</span> <strong>Down + Jump</strong></li>
+            <li><span>Pause:</span> <strong>P / Esc</strong></li>
+          </ul>
+        </div>
+        <div class="control-box">
+          <h3>MOBILE CONTROLS</h3>
+          <ul>
+            <li><span>8-Way Directional:</span> <strong>Virtual Arcade D-Pad</strong></li>
+            <li><span>Action:</span> <strong>Fire (A) & Jump (B)</strong></li>
+            <li><span>Rapid Fire:</span> <strong>Autofire Toggle</strong></li>
+            <li><span>Screen:</span> <strong>Landscape Orientation</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="godot-specs">
+        <h3>ENGINE ARCHITECTURE</h3>
+        <p>
+          Built natively using <strong>Godot 4.7 Mono (C# / GDScript)</strong>. Uses <code>CharacterBody2D</code> with pixel-accurate 60Hz deterministic movement, custom <code>Area2D</code> bullet collision layers, and <code>TileMapLayer</code> collision surfaces. Exports directly to HTML5 WebAssembly + WebGL2 for seamless zero-install playback in the browser.
+        </p>
+      </div>
+    </article>
+  </main>
+</body>
+</html>

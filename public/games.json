@@ -106,5 +106,26 @@
     "offline": false,
     "accentColor": "#ffdd00",
     "icon": "🍄"
+  },
+  {
+    "id": "contra",
+    "title": "Contra",
+    "genre": "2D Run and Gun",
+    "year": "1987 Konami Classic",
+    "developer": "Konami (Godot Engine Web Port)",
+    "description": "The iconic 2-player run-and-gun combat shooter. Infiltrate the Galuga archipelago, blast through alien defenses with 8-way directional aiming, Spread Gun, and acrobatics.",
+    "controls": {
+      "desktop": "Arrow Keys / WASD Aim & Move, J / Z Shoot, K / X Jump, Down + Jump Drop down",
+      "mobile": "Touch 8-Way D-Pad, Jump button, Fire button, Rapid-fire toggle"
+    },
+    "status": "Godot Engine Port (In Development)",
+    "statusType": "pending",
+    "launchType": "internal",
+    "route": "/games/contra/",
+    "engine": "Godot 4.7 C# / WebAssembly Engine",
+    "badge": "IN DEVELOPMENT",
+    "offline": true,
+    "accentColor": "#ff3300",
+    "icon": "🎖️"
   }
 ]

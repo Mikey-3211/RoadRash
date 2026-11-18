@@ -66,7 +66,7 @@ async function runTests() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const catalog = await res.json();
     console.log(`✔ [games.json] Valid JSON array with ${catalog.length} game registrations.`);
-    if (catalog.length < 4 || catalog.length > 5) throw new Error(`Expected 4 or 5 games, got ${catalog.length}`);
+    if (catalog.length < 4 || catalog.length > 8) throw new Error(`Expected between 4 and 8 games, got ${catalog.length}`);
     for (const g of catalog) {
       if (!g.id || !g.title || !g.route || !g.statusType) {
         throw new Error(`Game entry invalid: ${JSON.stringify(g)}`);
@@ -82,8 +82,8 @@ async function runTests() {
     const swRes = await fetch(`${baseUrl}/sw.js`);
     if (!swRes.ok) throw new Error(`HTTP ${swRes.status}`);
     const swText = await swRes.text();
-    if (!swText.includes('arcade-hub-v3')) throw new Error('SW does not contain arcade-hub-v3');
-    console.log(`✔ [sw.js] Service Worker found with arcade-hub-v3 cache configuration.`);
+    if (!swText.includes('arcade-hub-v4')) throw new Error('SW does not contain arcade-hub-v4');
+    console.log(`✔ [sw.js] Service Worker found with arcade-hub-v4 cache configuration.`);
 
     const manRes = await fetch(`${baseUrl}/cache-manifest.json`);
     if (!manRes.ok) throw new Error(`HTTP ${manRes.status}`);

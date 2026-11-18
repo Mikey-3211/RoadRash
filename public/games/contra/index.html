@@ -171,83 +171,84 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      padding: 16px 20px;
+      padding: 18px 24px;
       z-index: 10;
     }
     .dpad, .action-buttons {
       pointer-events: auto;
       display: flex;
     }
-    /* Bigger D-pad: 3 x 60px = 180px wide */
+    /* Extra Large D-pad: 3 x 68px = 216px wide */
     .dpad {
       display: grid;
-      grid-template-columns: repeat(3, 58px);
-      grid-template-rows: repeat(3, 58px);
-      gap: 6px;
+      grid-template-columns: repeat(3, 68px);
+      grid-template-rows: repeat(3, 68px);
+      gap: 7px;
     }
     .dpad-btn {
-      background: rgba(255, 255, 255, 0.15);
-      border: 2px solid rgba(255, 255, 255, 0.45);
-      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.18);
+      border: 2px solid rgba(255, 255, 255, 0.55);
+      border-radius: 14px;
       color: #fff;
       font-family: var(--arcade-font);
-      font-size: 16px;
+      font-size: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
       touch-action: none;
-      backdrop-filter: blur(6px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
     }
     .dpad-btn:active, .dpad-btn.pressed {
-      background: rgba(255, 51, 0, 0.7);
+      background: rgba(255, 51, 0, 0.85);
       border-color: #fff;
-      transform: scale(0.95);
+      transform: scale(0.94);
+      box-shadow: 0 0 20px rgba(255, 51, 0, 0.8);
     }
-    /* Bigger Action buttons: 82px diameter */
+    /* Extra Large Action buttons: 96px diameter */
     .action-buttons {
       display: flex;
-      gap: 20px;
+      gap: 22px;
       align-items: flex-end;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
     .action-btn {
-      width: 82px;
-      height: 82px;
+      width: 96px;
+      height: 96px;
       border-radius: 50%;
-      background: rgba(255, 51, 0, 0.35);
-      border: 3px solid var(--orange);
+      background: rgba(255, 51, 0, 0.4);
+      border: 3.5px solid var(--orange);
       color: #fff;
       font-family: var(--arcade-font);
-      font-size: 15px;
+      font-size: 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       touch-action: none;
-      backdrop-filter: blur(6px);
-      box-shadow: 0 0 15px rgba(255, 51, 0, 0.5);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 20px rgba(255, 51, 0, 0.6);
     }
     .action-btn:active, .action-btn.pressed {
       background: var(--orange);
-      transform: scale(0.93);
-      box-shadow: 0 0 30px var(--orange);
+      transform: scale(0.92);
+      box-shadow: 0 0 35px var(--orange);
     }
     .action-btn.btn-jump {
-      background: rgba(0, 240, 255, 0.3);
+      background: rgba(0, 240, 255, 0.35);
       border-color: var(--cyan);
-      box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
     }
     .action-btn.btn-jump:active, .action-btn.btn-jump.pressed {
       background: var(--cyan);
       color: #000;
-      box-shadow: 0 0 30px var(--cyan);
+      box-shadow: 0 0 35px var(--cyan);
     }
     .action-sub {
-      font-size: 8px;
+      font-size: 9px;
       font-family: var(--ui-font);
-      opacity: 0.85;
-      margin-top: 3px;
+      opacity: 0.9;
+      margin-top: 4px;
     }
 
     .controls-grid {

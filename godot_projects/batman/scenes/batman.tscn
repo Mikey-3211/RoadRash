@@ -1,0 +1,62 @@
+[gd_scene load_steps=8 format=3 uid="uid://cbatman001"]
+
+[ext_resource type="Script" path="res://scripts/player_batman.gd" id="1_batman"]
+[ext_resource type="Texture2D" path="res://assets/sprites/batman/batman_idle.png" id="2_idle"]
+[ext_resource type="Texture2D" path="res://assets/sprites/batman/batman_run_0.png" id="3_run0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/batman/batman_run_1.png" id="4_run1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/batman/batman_jump.png" id="5_jump"]
+[ext_resource type="Texture2D" path="res://assets/sprites/batman/batman_wall.png" id="6_wall"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_batman"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_idle")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_jump")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_run0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_run1")
+}],
+"loop": true,
+"name": &"run",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_wall")
+}],
+"loop": true,
+"name": &"wall",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_col"]
+size = Vector2(14, 28)
+
+[node name="Batman" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_batman")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_batman")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_col")

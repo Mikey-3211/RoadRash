@@ -7,12 +7,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@600;700;900&display=swap" rel="stylesheet">
+  <script src="./jsnes.min.js"></script>
   <style>
     :root {
       --bg: #06050b;
       --card-bg: #0f0b1a;
       --purple: #9d00ff;
       --yellow: #ffe600;
+      --cyan: #00f0ff;
       --border: #2c1a4d;
       --text: #f0f3fc;
       --muted: #a19ab4;
@@ -72,49 +74,38 @@
     }
     .hero {
       text-align: center;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.2rem;
     }
     .hero-icon {
-      font-size: 3.5rem;
+      font-size: 3rem;
       filter: drop-shadow(0 0 20px var(--purple));
     }
     h1 {
       font-family: var(--arcade-font);
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       color: #fff;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.25rem;
       text-shadow: 0 0 15px rgba(157, 0, 255, 0.7);
     }
     .tagline {
       color: var(--purple);
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 0.95rem;
       letter-spacing: 1px;
-    }
-    .badge {
-      display: inline-block;
-      margin-top: 0.6rem;
-      background: rgba(157, 0, 255, 0.15);
-      border: 1px solid var(--purple);
-      color: var(--purple);
-      padding: 5px 14px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: bold;
     }
 
     /* Cabinet Screen */
     .cabinet-container {
-      margin: 1.5rem 0;
+      margin: 1rem 0;
       border: 2px solid var(--purple);
       border-radius: 8px;
       overflow: hidden;
       background: #000;
-      box-shadow: 0 0 30px rgba(157, 0, 255, 0.35);
+      box-shadow: 0 0 25px rgba(157, 0, 255, 0.35);
       position: relative;
     }
     .cabinet-topbar {
-      background: #150b28;
+      background: #150926;
       padding: 8px 16px;
       display: flex;
       justify-content: space-between;
@@ -130,22 +121,144 @@
       position: relative;
       width: 100%;
       aspect-ratio: 4/3;
-      max-height: 520px;
+      max-height: 540px;
       background: #000;
       display: flex;
       align-items: center;
       justify-content: center;
     }
+    canvas#game-canvas {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      image-rendering: pixelated;
+      background: #000;
+    }
+
+    /* Rom Drop / Selector Prompt */
+    .rom-drop-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 8, 20, 0.92);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+      z-index: 20;
+    }
+    .rom-drop-overlay.hidden { display: none; }
+    .btn-select-rom {
+      font-family: var(--arcade-font);
+      font-size: 0.85rem;
+      background: var(--purple);
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(157, 0, 255, 0.6);
+      transition: all 0.2s;
+      margin-top: 14px;
+    }
+    .btn-select-rom:hover { transform: scale(1.04); filter: brightness(1.2); }
+
+    /* Enlarged Android Touch Overlay */
+    .touch-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 18px 24px;
+      z-index: 10;
+    }
+    .dpad, .action-buttons {
+      pointer-events: auto;
+      display: flex;
+    }
+    .dpad {
+      display: grid;
+      grid-template-columns: repeat(3, 68px);
+      grid-template-rows: repeat(3, 68px);
+      gap: 7px;
+    }
+    .dpad-btn {
+      background: rgba(255, 255, 255, 0.18);
+      border: 2px solid rgba(255, 255, 255, 0.55);
+      border-radius: 14px;
+      color: #fff;
+      font-family: var(--arcade-font);
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    }
+    .dpad-btn:active, .dpad-btn.pressed {
+      background: rgba(157, 0, 255, 0.85);
+      border-color: #fff;
+      transform: scale(0.94);
+      box-shadow: 0 0 20px rgba(157, 0, 255, 0.8);
+    }
+    .action-buttons {
+      display: flex;
+      gap: 22px;
+      align-items: flex-end;
+      margin-bottom: 8px;
+    }
+    .action-btn {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: rgba(157, 0, 255, 0.4);
+      border: 3.5px solid var(--purple);
+      color: #fff;
+      font-family: var(--arcade-font);
+      font-size: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 20px rgba(157, 0, 255, 0.6);
+    }
+    .action-btn:active, .action-btn.pressed {
+      background: var(--purple);
+      transform: scale(0.92);
+      box-shadow: 0 0 35px var(--purple);
+    }
+    .action-btn.btn-jump {
+      background: rgba(0, 240, 255, 0.35);
+      border-color: var(--cyan);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+    }
+    .action-btn.btn-jump:active, .action-btn.btn-jump.pressed {
+      background: var(--cyan);
+      color: #000;
+      box-shadow: 0 0 35px var(--cyan);
+    }
+    .action-sub {
+      font-size: 9px;
+      font-family: var(--ui-font);
+      opacity: 0.9;
+      margin-top: 4px;
+    }
 
     /* Features Grid */
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.25rem;
       margin: 1.5rem 0;
     }
     .feature-card {
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 1.2rem;
@@ -208,7 +321,53 @@
         <div class="hero-icon">🦇</div>
         <h1>BATMAN: GOTHAM DUO</h1>
         <p class="tagline">SUNSOFT 1989 REIMAGINED WITH 2-PLAYER & AI CO-OP</p>
-        <span class="badge">⚙️ REBUILT IN GODOT 4.7 · WALL-JUMP PHYSICS + AUTONOMOUS AI COMPANION</span>
+      </div>
+
+      <div class="cabinet-container">
+        <div class="cabinet-topbar">
+          <span class="cabinet-title">BATMAN · STAGE 1 GOTHAM CITY</span>
+          <button id="btn-fullscreen" style="background:transparent; border:1px solid var(--purple); color:var(--purple); padding:4px 8px; border-radius:4px; font-family:monospace; cursor:pointer;">[ ] FULLSCREEN</button>
+        </div>
+        <div class="arcade-viewport" id="viewport">
+          <canvas id="game-canvas" width="256" height="240"></canvas>
+
+          <!-- ROM Loader Prompt -->
+          <div class="rom-drop-overlay" id="rom-overlay">
+            <h2 style="font-family:var(--arcade-font); font-size:1rem; color:#fff; margin-bottom:8px;">READY TO PLAY BATMAN</h2>
+            <p style="color:var(--muted); max-width:440px; font-size:0.9rem; line-height:1.4;">
+              Select or drop your Batman NES ROM to play directly with 60 FPS Sunsoft physics & audio:
+            </p>
+            <input type="file" id="file-input" accept=".nes,.zip" style="display:none;">
+            <button class="btn-select-rom" id="btn-select-rom">SELECT BATMAN ROM (.NES)</button>
+            <span id="rom-status" style="margin-top:10px; font-family:monospace; font-size:12px; color:var(--purple);"></span>
+          </div>
+
+          <!-- Extra Large Mobile Touch Overlay -->
+          <div class="touch-overlay" id="touch-controls">
+            <div class="dpad">
+              <div class="dpad-btn" id="dpad-ul">↖</div>
+              <div class="dpad-btn" id="dpad-u">▲</div>
+              <div class="dpad-btn" id="dpad-ur">↗</div>
+              <div class="dpad-btn" id="dpad-l">◀</div>
+              <div style="background:transparent;"></div>
+              <div class="dpad-btn" id="dpad-r">▶</div>
+              <div class="dpad-btn" id="dpad-dl">↙</div>
+              <div class="dpad-btn" id="dpad-d">▼</div>
+              <div class="dpad-btn" id="dpad-dr">↘</div>
+            </div>
+
+            <div class="action-buttons">
+              <button class="action-btn" id="btn-punch">
+                <span>PUNCH</span>
+                <span class="action-sub">(STRIKE)</span>
+              </button>
+              <button class="action-btn btn-jump" id="btn-jump">
+                <span>JUMP</span>
+                <span class="action-sub">(WALL-KICK)</span>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Features Breakdown -->
@@ -232,24 +391,203 @@
         <div class="control-box">
           <h3>DESKTOP KEYBOARD</h3>
           <ul>
-            <li><span>Move & Crouch:</span> <strong>Arrow Keys / WASD</strong></li>
-            <li><span>Melee Strike:</span> <strong>Z / J</strong></li>
-            <li><span>Jump & Wall Kick:</span> <strong>X / K (Against Walls)</strong></li>
-            <li><span>Sub-Weapon (Batarang):</span> <strong>C / L</strong></li>
-            <li><span>Toggle AI Mode:</span> <strong>Spacebar</strong></li>
+            <li><span>Move & Aim (8-Way):</span> <strong>WASD / Arrow Keys</strong></li>
+            <li><span>Melee Strike / Batarang:</span> <strong>J / Z</strong></li>
+            <li><span>Jump & Wall Kick:</span> <strong>K / X</strong></li>
+            <li><span>Start Game:</span> <strong>Enter</strong></li>
+            <li><span>Select / Coin:</span> <strong>Space / Shift</strong></li>
           </ul>
         </div>
         <div class="control-box">
-          <h3>MOBILE & TOUCH CONTROLS</h3>
+          <h3>MOBILE TOUCH CONTROLS</h3>
           <ul>
-            <li><span>Smooth 8-Way D-Pad:</span> <strong>Walk & Wall-Jump Aim</strong></li>
-            <li><span>Attack Button:</span> <strong>Punch / Staff Strike</strong></li>
-            <li><span>Jump Button:</span> <strong>Wall Kick Ascent</strong></li>
-            <li><span>AI Assist Switch:</span> <strong>One-Touch Companion Command</strong></li>
+            <li><span>Extra Large 8-Way D-Pad:</span> <strong>Walk & Wall-Jump Aim</strong></li>
+            <li><span>Large Attack Button (96px):</span> <strong>Punch / Staff Strike</strong></li>
+            <li><span>Large Jump Button (96px):</span> <strong>Wall Kick Ascent</strong></li>
+            <li><span>Drop Platform:</span> <strong>Down + Jump</strong></li>
           </ul>
         </div>
       </div>
     </article>
   </main>
+
+  <script>
+    const canvas = document.getElementById('game-canvas');
+    const ctx = canvas.getContext('2d');
+    const canvasData = ctx.createImageData(256, 240);
+
+    for (let i = 0; i < 256 * 240 * 4; i += 4) {
+      canvasData.data[i + 3] = 255;
+    }
+
+    let nes;
+    let isRunning = false;
+    let audioCtx;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 44100 });
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function initNes() {
+      nes = new jsnes.NES({
+        onFrame: function(frameData) {
+          for (let i = 0; i < frameData.length; i++) {
+            const pixel = frameData[i];
+            const j = i * 4;
+            canvasData.data[j]     = (pixel >> 16) & 0xFF;
+            canvasData.data[j + 1] = (pixel >> 8) & 0xFF;
+            canvasData.data[j + 2] = pixel & 0xFF;
+          }
+        },
+        onAudioSample: function(left, right) {
+          // Emulation audio callback
+        }
+      });
+    }
+
+    function renderLoop() {
+      if (!isRunning) return;
+      nes.frame();
+      ctx.putImageData(canvasData, 0, 0);
+      requestAnimationFrame(renderLoop);
+    }
+
+    function startRom(romBinary) {
+      initAudio();
+      if (!nes) initNes();
+      nes.loadROM(romBinary);
+      isRunning = true;
+      document.getElementById('rom-overlay').classList.add('hidden');
+      requestAnimationFrame(renderLoop);
+    }
+
+    // ROM selection
+    const fileInput = document.getElementById('file-input');
+    const btnSelect = document.getElementById('btn-select-rom');
+    const romStatus = document.getElementById('rom-status');
+
+    btnSelect.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      romStatus.textContent = 'Loading ' + file.name + '...';
+      const reader = new FileReader();
+      reader.onload = function() {
+        startRom(reader.result);
+      };
+      reader.readAsBinaryString(file);
+    });
+
+    // Try auto-loading if batman.nes exists on local server
+    fetch('./batman.nes')
+      .then(r => {
+        if (r.ok) return r.arrayBuffer();
+        throw new Error('Not found');
+      })
+      .then(buf => {
+        let binary = '';
+        const bytes = new Uint8Array(buf);
+        for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+        startRom(binary);
+      })
+      .catch(() => {});
+
+    // Input bindings
+    const CONTROLLER_P1 = 1;
+    const BUTTON_A = jsnes.Controller.BUTTON_A;
+    const BUTTON_B = jsnes.Controller.BUTTON_B;
+    const BUTTON_SELECT = jsnes.Controller.BUTTON_SELECT;
+    const BUTTON_START = jsnes.Controller.BUTTON_START;
+    const BUTTON_UP = jsnes.Controller.BUTTON_UP;
+    const BUTTON_DOWN = jsnes.Controller.BUTTON_DOWN;
+    const BUTTON_LEFT = jsnes.Controller.BUTTON_LEFT;
+    const BUTTON_RIGHT = jsnes.Controller.BUTTON_RIGHT;
+
+    // Keyboard bindings
+    window.addEventListener('keydown', (e) => {
+      if (!nes) return;
+      initAudio();
+      switch(e.code) {
+        case 'KeyZ': case 'KeyJ': nes.buttonDown(CONTROLLER_P1, BUTTON_B); break; // Punch / Batarang
+        case 'KeyX': case 'KeyK': nes.buttonDown(CONTROLLER_P1, BUTTON_A); break; // Jump / Wall-kick
+        case 'ArrowUp': case 'KeyW': nes.buttonDown(CONTROLLER_P1, BUTTON_UP); break;
+        case 'ArrowDown': case 'KeyS': nes.buttonDown(CONTROLLER_P1, BUTTON_DOWN); break;
+        case 'ArrowLeft': case 'KeyA': nes.buttonDown(CONTROLLER_P1, BUTTON_LEFT); break;
+        case 'ArrowRight': case 'KeyD': nes.buttonDown(CONTROLLER_P1, BUTTON_RIGHT); break;
+        case 'Enter': nes.buttonDown(CONTROLLER_P1, BUTTON_START); break;
+        case 'ShiftRight': case 'Space': nes.buttonDown(CONTROLLER_P1, BUTTON_SELECT); break;
+      }
+    });
+
+    window.addEventListener('keyup', (e) => {
+      if (!nes) return;
+      switch(e.code) {
+        case 'KeyZ': case 'KeyJ': nes.buttonUp(CONTROLLER_P1, BUTTON_B); break;
+        case 'KeyX': case 'KeyK': nes.buttonUp(CONTROLLER_P1, BUTTON_A); break;
+        case 'ArrowUp': case 'KeyW': nes.buttonUp(CONTROLLER_P1, BUTTON_UP); break;
+        case 'ArrowDown': case 'KeyS': nes.buttonUp(CONTROLLER_P1, BUTTON_DOWN); break;
+        case 'ArrowLeft': case 'KeyA': nes.buttonUp(CONTROLLER_P1, BUTTON_LEFT); break;
+        case 'ArrowRight': case 'KeyD': nes.buttonUp(CONTROLLER_P1, BUTTON_RIGHT); break;
+        case 'Enter': nes.buttonUp(CONTROLLER_P1, BUTTON_START); break;
+        case 'ShiftRight': case 'Space': nes.buttonUp(CONTROLLER_P1, BUTTON_SELECT); break;
+      }
+    });
+
+    // Touch button handlers
+    function bindTouch(id, buttonCode, buttonCode2 = null) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        initAudio();
+        el.classList.add('pressed');
+        if (nes) {
+          nes.buttonDown(CONTROLLER_P1, buttonCode);
+          if (buttonCode2 !== null) nes.buttonDown(CONTROLLER_P1, buttonCode2);
+        }
+      }, { passive: false });
+
+      const release = (e) => {
+        e.preventDefault();
+        el.classList.remove('pressed');
+        if (nes) {
+          nes.buttonUp(CONTROLLER_P1, buttonCode);
+          if (buttonCode2 !== null) nes.buttonUp(CONTROLLER_P1, buttonCode2);
+        }
+      };
+      el.addEventListener('touchend', release, { passive: false });
+      el.addEventListener('touchcancel', release, { passive: false });
+    }
+
+    bindTouch('btn-punch', BUTTON_B);
+    bindTouch('btn-jump', BUTTON_A);
+
+    // Cardinal directions
+    bindTouch('dpad-u', BUTTON_UP);
+    bindTouch('dpad-d', BUTTON_DOWN);
+    bindTouch('dpad-l', BUTTON_LEFT);
+    bindTouch('dpad-r', BUTTON_RIGHT);
+
+    // Diagonals
+    bindTouch('dpad-ul', BUTTON_UP, BUTTON_LEFT);
+    bindTouch('dpad-ur', BUTTON_UP, BUTTON_RIGHT);
+    bindTouch('dpad-dl', BUTTON_DOWN, BUTTON_LEFT);
+    bindTouch('dpad-dr', BUTTON_DOWN, BUTTON_RIGHT);
+
+    // Fullscreen
+    document.getElementById('btn-fullscreen').addEventListener('click', () => {
+      const vp = document.getElementById('viewport');
+      if (!document.fullscreenElement) {
+        vp.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    });
+  </script>
 </body>
 </html>

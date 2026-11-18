@@ -1,113 +1,71 @@
-[gd_scene load_steps=18 format=3 uid="uid://cgothamstage1_001"]
+[gd_scene load_steps=12 format=3 uid="uid://creal_stage1_nes"]
 
-[ext_resource type="Texture2D" path="res://assets/gotham_stage1_full.png" id="1_bg"]
+[ext_resource type="Texture2D" path="res://assets/real_stage1_nes.png" id="1_nes_map"]
 [ext_resource type="PackedScene" path="res://scenes/batman.tscn" id="2_batman"]
 [ext_resource type="PackedScene" path="res://scenes/robin.tscn" id="3_robin"]
 
-[sub_resource type="RectangleShape2D" id="Col_Street"]
-size = Vector2(2048, 32)
+[sub_resource type="RectangleShape2D" id="Col_Floor"]
+size = Vector2(2292, 58)
 
-[sub_resource type="RectangleShape2D" id="Col_Bldg1"]
-size = Vector2(96, 64)
+[sub_resource type="RectangleShape2D" id="Col_LeftWall"]
+size = Vector2(32, 250)
 
-[sub_resource type="RectangleShape2D" id="Col_Bldg2"]
-size = Vector2(96, 96)
+[sub_resource type="RectangleShape2D" id="Col_RightWall"]
+size = Vector2(32, 250)
 
-[sub_resource type="RectangleShape2D" id="Col_Tower"]
-size = Vector2(80, 128)
+[sub_resource type="RectangleShape2D" id="Col_MidPlatform1"]
+size = Vector2(400, 16)
 
-[sub_resource type="RectangleShape2D" id="Col_Roof"]
-size = Vector2(128, 64)
+[sub_resource type="RectangleShape2D" id="Col_MidPlatform2"]
+size = Vector2(500, 16)
 
-[sub_resource type="RectangleShape2D" id="Col_Catwalk"]
-size = Vector2(112, 80)
+[sub_resource type="RectangleShape2D" id="Col_UpperPlatform"]
+size = Vector2(800, 16)
 
-[sub_resource type="RectangleShape2D" id="Col_Factory"]
-size = Vector2(140, 112)
+[node name="Stage1_Area1" type="Node2D"]
 
-[sub_resource type="RectangleShape2D" id="Col_Hall"]
-size = Vector2(140, 64)
+[node name="ActualNesBackground" type="Sprite2D" parent="."]
+position = Vector2(1146, 125)
+texture = ExtResource("1_nes_map")
 
-[sub_resource type="RectangleShape2D" id="Col_Security"]
-size = Vector2(160, 96)
-
-[sub_resource type="RectangleShape2D" id="Col_Arena"]
-size = Vector2(168, 128)
-
-[sub_resource type="RectangleShape2D" id="Col_WallLeft"]
-size = Vector2(32, 300)
-
-[sub_resource type="RectangleShape2D" id="Col_WallRight"]
-size = Vector2(32, 300)
-
-[node name="GothamStage1" type="Node2D"]
-
-[node name="Background" type="Sprite2D" parent="."]
-position = Vector2(1024, 120)
-texture = ExtResource("1_bg")
-
-[node name="Geometry" type="StaticBody2D" parent="."]
+[node name="SolidGeometry" type="StaticBody2D" parent="."]
 collision_layer = 1
 collision_mask = 2
 
-[node name="Street" type="CollisionShape2D" parent="Geometry"]
-position = Vector2(1024, 224)
-shape = SubResource("Col_Street")
+[node name="Ground" type="CollisionShape2D" parent="SolidGeometry"]
+position = Vector2(1146, 221)
+shape = SubResource("Col_Floor")
 
-[node name="Bldg1" type="CollisionShape2D" parent="Geometry"]
-position = Vector2(208, 176)
-shape = SubResource("Col_Bldg1")
+[node name="LeftWall" type="CollisionShape2D" parent="SolidGeometry"]
+position = Vector2(16, 125)
+shape = SubResource("Col_LeftWall")
 
-[node name="Bldg2" type="CollisionShape2D" parent="Geometry"]
-position = Vector2(368, 160)
-shape = SubResource("Col_Bldg2")
+[node name="RightWall" type="CollisionShape2D" parent="SolidGeometry"]
+position = Vector2(2276, 125)
+shape = SubResource("Col_RightWall")
 
-[node name="Tower" type="CollisionShape2D" parent="Geometry"]
-position = Vector2(520, 144)
-shape = SubResource("Col_Tower")
+[node name="UpperPlatform" type="CollisionShape2D" parent="SolidGeometry"]
+position = Vector2(440, 72)
+shape = SubResource("Col_UpperPlatform")
 
-[node name="Roof" type="CollisionShape2D" parent="Geometry"]
-position = Vector2(704, 176)
-shape = SubResource("Col_Roof")
+[node name="MidPlatform1" type="CollisionShape2D" parent="SolidGeometry"]
+position = Vector2(700, 130)
+shape = SubResource("Col_MidPlatform1")
 
-[node name="Catwalk" type="CollisionShape2D" parent="Geometry"]
-position = Vector2(936, 168)
-shape = SubResource("Col_Catwalk")
-
-[node name="Factory" type="CollisionShape2D" parent="Geometry"]
-position = Vector2(1170, 152)
-shape = SubResource("Col_Factory")
-
-[node name="Hall" type="CollisionShape2D" parent="Geometry"]
-position = Vector2(1430, 176)
-shape = SubResource("Col_Hall")
-
-[node name="Security" type="CollisionShape2D" parent="Geometry"]
-position = Vector2(1700, 160)
-shape = SubResource("Col_Security")
-
-[node name="Arena" type="CollisionShape2D" parent="Geometry"]
-position = Vector2(1964, 144)
-shape = SubResource("Col_Arena")
-
-[node name="WallLeft" type="CollisionShape2D" parent="Geometry"]
-position = Vector2(-16, 120)
-shape = SubResource("Col_WallLeft")
-
-[node name="WallRight" type="CollisionShape2D" parent="Geometry"]
-position = Vector2(2064, 120)
-shape = SubResource("Col_WallRight")
+[node name="MidPlatform2" type="CollisionShape2D" parent="SolidGeometry"]
+position = Vector2(1400, 130)
+shape = SubResource("Col_MidPlatform2")
 
 [node name="Batman" parent="." instance=ExtResource("2_batman")]
-position = Vector2(70, 190)
+position = Vector2(100, 175)
 
 [node name="Camera2D" type="Camera2D" parent="Batman"]
 limit_left = 0
 limit_top = 0
-limit_right = 2048
-limit_bottom = 240
+limit_right = 2292
+limit_bottom = 250
 position_smoothing_enabled = true
 
 [node name="Robin" parent="." node_paths=PackedStringArray("target_player") instance=ExtResource("3_robin")]
-position = Vector2(30, 190)
+position = Vector2(60, 175)
 target_player = NodePath("../Batman")

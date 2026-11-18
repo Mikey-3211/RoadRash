@@ -1,4 +1,4 @@
-const CACHE_NAME = 'arcade-hub-v3';
+const CACHE_NAME = 'arcade-hub-v4';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -67,6 +67,11 @@ self.addEventListener('fetch', (event) => {
 
   // External requests handled by browser network
   if (url.origin !== self.location.origin) {
+    return;
+  }
+
+  // Never intercept local VCop2 assets - let them stream directly from server
+  if (url.pathname.startsWith('/games/vcop2/local/')) {
     return;
   }
 

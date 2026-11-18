@@ -22,6 +22,7 @@ hotd2_pc_installed/
 # VCop2 offline mirror & proprietary PC assets (never commit)
 offline/
 vcop.py
+offline_vcop2_gameplay.png
 
 hotd2.zip
 

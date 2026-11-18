@@ -260,10 +260,18 @@
     const vcop2Iframe = document.getElementById('vcop2-iframe');
     const btnFullscreenEmbed = document.getElementById('btn-fullscreen-embed');
 
+    const isLocal = ['localhost', '127.0.0.1'].includes(location.hostname);
+    if (isLocal) {
+      const metaBadge = document.querySelector('.game-meta-badge');
+      if (metaBadge) metaBadge.textContent = '100% OFFLINE · LOCAL BUILD DETECTED';
+      const noticeBadge = document.querySelector('.notice-badge');
+      if (noticeBadge) noticeBadge.textContent = '⚡ RUNNING LOCALLY FROM AIR-GAPPED MIRROR (NO INTERNET NEEDED)';
+    }
+
     btnPlayEmbed.addEventListener('click', () => {
       embedCabinet.style.display = 'block';
       if (!vcop2Iframe.src || vcop2Iframe.src === 'about:blank') {
-        vcop2Iframe.src = 'https://vcop2.lol/';
+        vcop2Iframe.src = isLocal ? '/games/vcop2/local/' : 'https://vcop2.lol/';
       }
       btnPlayEmbed.style.display = 'none';
       embedCabinet.scrollIntoView({ behavior: 'smooth' });

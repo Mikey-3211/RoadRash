@@ -1,0 +1,110 @@
+[gd_scene load_steps=6 format=3 uid="uid://dpbl0nsk3itn7"]
+
+[ext_resource type="Script" uid="uid://cgj7lbn2skd7v" path="res://Title/game_over.gd" id="1_0tr3g"]
+[ext_resource type="Texture2D" uid="uid://bhiujqxlfrlck" path="res://Title/StageBase.png" id="2_7ab0i"]
+[ext_resource type="Texture2D" uid="uid://b8igsuq2f16cr" path="res://Title/Cursor.png" id="4_7ab0i"]
+[ext_resource type="FontFile" uid="uid://qpqqiilsm86c" path="res://nintendo-nes-font.otf" id="4_o0hqf"]
+[ext_resource type="AudioStream" uid="uid://na4mqguptnpj" path="res://Sounds/GameOver.wav" id="4_phcvx"]
+
+[node name="Game Over" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0tr3g")
+
+[node name="Base" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 256.0
+offset_bottom = 240.0
+texture = ExtResource("2_7ab0i")
+
+[node name="1P" type="Label" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 32.0
+offset_right = 32.0
+offset_bottom = 40.0
+theme_override_fonts/font = ExtResource("4_o0hqf")
+theme_override_font_sizes/font_size = 8
+text = "1P"
+
+[node name="Score" type="Label" parent="."]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 32.0
+offset_right = 96.0
+offset_bottom = 40.0
+theme_override_fonts/font = ExtResource("4_o0hqf")
+theme_override_font_sizes/font_size = 8
+text = "0"
+
+[node name="HI" type="Label" parent="."]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 72.0
+offset_right = 96.0
+offset_bottom = 80.0
+theme_override_fonts/font = ExtResource("4_o0hqf")
+theme_override_font_sizes/font_size = 8
+text = "HI"
+
+[node name="HighScore" type="Label" parent="."]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 72.0
+offset_right = 160.0
+offset_bottom = 80.0
+theme_override_fonts/font = ExtResource("4_o0hqf")
+theme_override_font_sizes/font_size = 8
+text = "20000"
+
+[node name="GameOver" type="Label" parent="."]
+layout_mode = 0
+offset_left = 81.0
+offset_top = 135.0
+offset_right = 153.0
+offset_bottom = 143.0
+theme_override_fonts/font = ExtResource("4_o0hqf")
+theme_override_font_sizes/font_size = 8
+text = "GAME OVER"
+
+[node name="Continue" type="Label" parent="."]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 167.0
+offset_right = 168.0
+offset_bottom = 175.0
+theme_override_fonts/font = ExtResource("4_o0hqf")
+theme_override_font_sizes/font_size = 8
+text = "CONTINUE"
+
+[node name="End" type="Label" parent="."]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 183.0
+offset_right = 120.0
+offset_bottom = 191.0
+theme_override_fonts/font = ExtResource("4_o0hqf")
+theme_override_font_sizes/font_size = 8
+text = "END"
+
+[node name="Cursor" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 166.0
+offset_right = 90.0
+offset_bottom = 178.0
+texture = ExtResource("4_7ab0i")
+
+[node name="LabelFlashingTimer" type="Timer" parent="."]
+wait_time = 0.3
+autostart = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_phcvx")
+autoplay = true
+
+[connection signal="timeout" from="LabelFlashingTimer" to="." method="_on_label_flashing_timer_timeout"]

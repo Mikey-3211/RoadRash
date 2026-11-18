@@ -1,0 +1,120 @@
+[gd_scene load_steps=16 format=3 uid="uid://bgedjmw5o3wam"]
+
+[ext_resource type="Script" uid="uid://dpjnhmujie0oy" path="res://Enemies/turret_soldier.gd" id="1_hnwc0"]
+[ext_resource type="Texture2D" uid="uid://c3cowvvhl10xq" path="res://Enemies/TurretSoldier_Death.png" id="1_rsf4t"]
+[ext_resource type="Texture2D" uid="uid://b5jjyjh3xx5bi" path="res://Enemies/TurretSoldier_ShootDown_0.png" id="2_hnwc0"]
+[ext_resource type="Texture2D" uid="uid://clreqd0vgeo4l" path="res://Enemies/TurretSoldier_ShootStraight_0.png" id="3_5nkct"]
+[ext_resource type="Texture2D" uid="uid://bsqs3c86kj65x" path="res://Explosions/Explosion2_0.png" id="3_kn7qq"]
+[ext_resource type="Texture2D" uid="uid://bnivlm4tbaq4x" path="res://Enemies/TurretSoldier_ShootDown_1.png" id="3_pj8v8"]
+[ext_resource type="Texture2D" uid="uid://4woe5otvd8vt" path="res://Explosions/Explosion2_1.png" id="4_c06od"]
+[ext_resource type="Texture2D" uid="uid://d0275rqa5ltu2" path="res://Enemies/TurretSoldier_ShootUp_0.png" id="4_ctkrr"]
+[ext_resource type="Texture2D" uid="uid://cw8xqy6wwnggt" path="res://Explosions/Explosion2_2.png" id="5_1fim0"]
+[ext_resource type="Texture2D" uid="uid://blp5ekkva2v7" path="res://Enemies/TurretSoldier_ShootStraight_1.png" id="6_3ai5x"]
+[ext_resource type="Texture2D" uid="uid://bukhq0sdvauwv" path="res://Enemies/TurretSoldier_ShootUp_1.png" id="6_5nkct"]
+[ext_resource type="Texture2D" uid="uid://c56x4e8shosjj" path="res://Bullet/R.png" id="9_3ai5x"]
+[ext_resource type="AudioStream" uid="uid://cdr0ngbxu1hls" path="res://Levels/TekiOut.wav" id="10_b75ll"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pj8v8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_rsf4t")
+}],
+"loop": false,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_kn7qq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_c06od")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_1fim0")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"explode",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_hnwc0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_pj8v8")
+}],
+"loop": false,
+"name": &"shoot_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_3ai5x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_5nkct")
+}],
+"loop": false,
+"name": &"shoot_straight",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_ctkrr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_5nkct")
+}],
+"loop": false,
+"name": &"shoot_up",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5f3y1"]
+size = Vector2(16, 30)
+
+[node name="TurretSoldier" type="Area2D" groups=["enemy"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_hnwc0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_pj8v8")
+animation = &"shoot_up"
+autoplay = "shoot_straight"
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_5f3y1")
+
+[node name="Muzzle" type="Marker2D" parent="."]
+position = Vector2(14, -11)
+
+[node name="Sprite2D" type="Sprite2D" parent="Muzzle"]
+visible = false
+position = Vector2(-0.453125, -0.453125)
+scale = Vector2(0.921875, 0.921875)
+texture = ExtResource("9_3ai5x")
+offset = Vector2(3, 3)
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="DeathExplosionSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_b75ll")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-1, 0)
+scale = Vector2(0.8, 1.5)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="finished" from="DeathExplosionSFX" to="." method="_on_death_explosion_sfx_finished"]
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

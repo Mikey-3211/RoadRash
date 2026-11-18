@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=3 uid="uid://dcb4mk1nuoud"]
+
+[ext_resource type="Script" uid="uid://8be5xobawgap" path="res://Bullet/bullet_f.gd" id="1_hml0p"]
+[ext_resource type="Texture2D" uid="uid://rrs6oysprfqt" path="res://Bullet/F.png" id="2_hml0p"]
+[ext_resource type="Texture2D" uid="uid://6m4j15luli5t" path="res://Bullet/Hit.png" id="3_i7rgq"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m6eqi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_hml0p")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_i7rgq")
+}],
+"loop": false,
+"name": &"hit",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4n8gp"]
+size = Vector2(3, 3)
+
+[node name="Bullet_F" type="Area2D" groups=["bullet"]]
+collision_layer = 2
+collision_mask = 164
+script = ExtResource("1_hml0p")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_m6eqi")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_4n8gp")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(1.49012e-07, 1.78814e-07)
+scale = Vector2(0.3, 0.3)
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.69
+one_shot = true
+autostart = true
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

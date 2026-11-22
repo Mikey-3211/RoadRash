@@ -220,7 +220,7 @@
 
   <header>
     <a href="/" class="back-btn">◀ BACK TO ARCADE</a>
-    <span class="game-meta-badge">REQUIRES INTERNET · EXTERNAL LAUNCH</span>
+    <span class="game-meta-badge" style="color:#00f0ff;border-color:#00f0ff;">⚡ 100% OFFLINE · EMBEDDED IN AIR-GAPPED CABINET</span>
   </header>
 
   <main>
@@ -229,7 +229,7 @@
         <div class="hero-icon">🎯</div>
         <h1>VIRTUA COP 2</h1>
         <p class="tagline">3D LIGHTGUN ARCADE SHOOTER</p>
-        <span class="notice-badge">🌐 HOSTED EXTERNALLY AT VCOP2.LOL — INTERNET REQUIRED</span>
+        <span class="notice-badge" style="background:rgba(0,240,255,0.2);">⚡ 100% OFFLINE AIR-GAPPED BUILD · ZERO EXTERNAL CONNECTIONS NEEDED</span>
       </div>
 
       <p class="description">
@@ -264,9 +264,9 @@
         <button id="btn-play-embed" class="play-large-btn" style="border:none; cursor:pointer;">
           ▶ PLAY IN ARCADE CABINET (SEAMLESS)
         </button>
-        <a id="link-standalone" href="https://vcop2.lol/" target="_blank" rel="noopener noreferrer"
+        <a id="link-standalone" href="/games/vcop2/local/" target="_blank" rel="noopener noreferrer"
           style="color:var(--muted); font-size:12px; text-decoration:underline;">
-          Open in standalone tab (vcop2.lol) ↗
+          Open in standalone tab (Offline WebAssembly Mirror) ↗
         </a>
       </div>
 
@@ -319,7 +319,7 @@
 
     btnPlayEmbed.addEventListener('click', () => {
       embedCabinet.style.display = 'block';
-      const targetSrc = isLocal ? '/games/vcop2/local/' : 'https://vcop2.lol/';
+      const targetSrc = '/games/vcop2/local/';
       if (vcop2Iframe.getAttribute('src') !== targetSrc) {
         vcop2Iframe.setAttribute('src', targetSrc);
       }

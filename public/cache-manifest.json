@@ -1407,5 +1407,9 @@
   "/classic-assets/414a4427a4dcdcc4/assets/img/chars/sam-portrait-ai-v1.webp",
   "/classic-assets/414a4427a4dcdcc4/assets/img/chars/sid-portrait-ai-v1.webp",
   "/classic-assets/414a4427a4dcdcc4/assets/img/chars/spike-portrait-ai-v1.webp",
-  "/classic-assets/414a4427a4dcdcc4/assets/img/chars/zippy-portrait-ai-v1.webp"
+  "/classic-assets/414a4427a4dcdcc4/assets/img/chars/zippy-portrait-ai-v1.webp",
+  "/games/vcop2/local/index.html",
+  "/games/vcop2/local/play.js",
+  "/games/vcop2/local/build/vcop2.js",
+  "/games/vcop2/local/build/vcop2.wasm"
 ]

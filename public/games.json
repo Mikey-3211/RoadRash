@@ -5,21 +5,22 @@
     "genre": "3D Rail Shooter",
     "year": "1997 / 2026 Web Port",
     "developer": "SEGA / AM2 (Web Port by divyanshkul)",
-    "description": "The quintessential arcade lightgun shooter. Aim, shoot gangsters, avoid civilians, and reload in full 3D action.",
+    "description": "SEGA AM2 classic 3D arcade lightgun shooter running 100% offline via embedded WebAssembly.",
     "controls": {
       "desktop": "Mouse Aim, Left Click Shoot, Right Click Reload, P Pause, ESC Release Mouse",
       "mobile": "Touch screen to aim and shoot, on-screen Reload button, Landscape mode"
     },
-    "status": "External Web Port (Hosted at vcop2.lol)",
-    "statusType": "online",
-    "launchType": "external",
+    "status": "100% Offline (Local Mirror)",
+    "statusType": "offline",
+    "launchType": "local",
     "route": "/games/vcop2/",
     "externalUrl": "https://vcop2.lol/",
     "engine": "C++ / WebAssembly (divyanshkul)",
-    "badge": "ONLINE ONLY",
-    "offline": false,
+    "badge": "100% OFFLINE",
+    "offline": true,
     "accentColor": "#00f0ff",
-    "icon": "🎯"
+    "icon": "🎯",
+    "offlineStatus": "100% Offline (Embedded)"
   },
   {
     "id": "dangerous-dave",

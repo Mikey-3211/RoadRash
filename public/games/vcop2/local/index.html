@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101112">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="VCop2">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
+  <title>Virtua Cop 2 · Play</title>
+  <link rel="stylesheet" href="./game.css">
+  <link rel="stylesheet" href="./game-viewport.css">
+  <script type="module" src="./play.js"></script>
+</head>
+<body>
+  <main class="arcade">
+    <header class="masthead">
+      <a class="wordmark" href="./" aria-label="Virtua Cop 2 home"><img src="./build/game/branding/vcop2-logo.png" alt="Virtua Cop 2" width="2400" height="801"></a>
+    </header>
+    <div class="cabinet-space" id="cabinet-space">
+      <section class="cabinet" aria-label="Virtua Cop 2 game">
+        <div class="screen" id="game-screen">
+          <div class="game-surface" id="game-surface">
+            <canvas id="game-canvas" width="640" height="480" tabindex="0" aria-label="Virtua Cop 2 game display" aria-describedby="game-controls"></canvas>
+            <div class="launch-overlay" id="launch-overlay">
+              <div class="launch-copy">
+                <h1><img class="game-logo" src="./build/game/branding/vcop2-logo.png" alt="Virtua Cop 2" width="2400" height="801" fetchpriority="high"></h1>
+                <div id="coming-soon" class="coming-soon" hidden role="status">
+                  <p class="mode-name">PROVING GROUND</p>
+                  <h2>COMING SOON</h2>
+                </div>
+                <div class="launch-actions">
+                  <button class="play-button" id="play-button">PLAY GAME</button>
+                  <button class="room-button" id="create-room">CREATE ROOM</button>
+                  <button class="room-button" id="join-room">JOIN ROOM</button>
+                </div>
+                <form id="join-room-form" class="room-form" hidden>
+                  <label for="room-code">ROOM CODE</label>
+                  <input id="room-code" name="code" minlength="6" pattern="[A-Za-z0-9]{6}" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="room-join-help" required placeholder="ABC123">
+                  <button class="room-button" type="submit">JOIN</button>
+                  <button id="join-room-back" class="room-button" type="button">BACK</button>
+                  <p id="room-join-help" class="room-help" role="status">Enter your friend’s six-character code.</p>
+                </form>
+                <div id="room-panel" class="room-panel" hidden>
+                  <div id="room-code-card" class="room-code-card" hidden>
+                    <span class="room-code-heading">ROOM CODE</span>
+                    <div class="room-code-actions">
+                      <output id="room-code-label" class="room-code-label" aria-label="Room code"></output>
+                      <button id="copy-room-code" class="room-button" type="button">COPY CODE</button>
+                    </div>
+                    <button id="copy-room-link" class="room-link-button" type="button">COPY INVITE LINK</button>
+                    <input id="room-invite-fallback" class="room-invite-fallback" aria-label="Invite link" readonly hidden>
+                    <span id="room-player-label" class="room-player-label"></span>
+                    <span id="room-copy-status" class="room-help" role="status" aria-live="polite"></span>
+                  </div>
+                  <p id="room-status" role="status" aria-live="polite"></p>
+                  <button id="room-ready" class="room-button" disabled>READY</button>
+                  <button id="leave-room" class="room-button">LEAVE ROOM</button>
+                </div>
+                <p id="launch-status" class="launch-status" role="status" aria-live="polite"></p>
+                <div class="load-track" id="load-track" hidden><div id="load-fill"></div></div>
+              </div>
+            </div>
+            <button id="resume-input" class="resume-input" hidden>Click to get back into the game</button>
+          </div>
+          <div class="fullscreen-touch-controls touch-only">
+            <div class="immersive-menu">
+              <p class="touch-shoot-help">Touch on the enemy to shoot them.</p>
+              <button class="touch-start" disabled>Start / pause</button>
+              <button class="touch-sound" aria-pressed="false">Sound on</button>
+              <button id="touch-exit-fullscreen">Exit</button>
+              <button id="touch-leave-room" hidden>Leave room</button>
+            </div>
+            <button class="touch-reload immersive-reload" aria-label="Reload" disabled>
+              <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M31 14a13 13 0 1 0 1 11M31 5v10H21" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>RELOAD</span>
+            </button>
+          </div>
+          <dialog id="mobile-play-prompt" class="mobile-play-prompt" aria-labelledby="mobile-play-title" aria-describedby="mobile-play-description">
+            <img src="./build/game/branding/vcop2-logo.png" alt="Virtua Cop 2" width="2400" height="801">
+            <div class="rotate-phone" aria-hidden="true"></div>
+            <h2 id="mobile-play-title">Rotate your phone</h2>
+            <p id="mobile-play-description">Turn your phone sideways to play.</p>
+            <button id="mobile-play-button" class="play-button">PLAY IN LANDSCAPE</button>
+            <details id="home-screen-guide" class="home-screen-guide" hidden>
+              <summary>Add to Home Screen</summary>
+              <p>Launch without the browser address bar.</p>
+              <p id="home-screen-instructions"></p>
+              <button id="install-app-button" hidden>INSTALL GAME</button>
+              <p class="install-note">Internet required. Your first Home Screen launch may download the game again.</p>
+            </details>
+          </dialog>
+        </div>
+        <div class="game-toolbar">
+          <div class="game-actions">
+            <button class="touch-reload touch-only" disabled>Reload</button>
+            <button id="start-button" disabled title="P or middle mouse button">Start / pause <kbd>P</kbd></button>
+            <button id="sound-button" aria-pressed="false" aria-label="Mute sound">Sound on</button>
+            <button id="fullscreen-button" aria-label="Enter fullscreen">Fullscreen <span aria-hidden="true">⛶</span></button>
+            <button id="restart-button" disabled>Restart</button>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="below-screen" id="game-controls">
+      <div id="room-banner" class="room-banner" hidden><span id="room-banner-text"></span> <button id="room-banner-leave">Leave room</button></div>
+      <p class="control-line mouse-help">
+        <span class="control-group"><span class="control-key">MOUSE</span> Aim</span>
+        <span class="control-group"><span class="control-key">LEFT CLICK</span> Shoot</span>
+        <span class="control-group"><span class="control-key">RIGHT CLICK</span> Reload</span>
+        <span class="control-group keyboard-control"><kbd>P</kbd> Start / pause</span>
+        <span class="control-group keyboard-control"><kbd>ESC</kbd> Release mouse</span>
+      </p>
+      <p class="touch-only touch-help">Tap to aim and shoot · Reload to refill<br>Stages: tap a panel · Mode menu: swipe, then OK</p>
+      <p class="site-stats" id="site-stats" title="This counter starts at 91 and adds recorded page visits.">Games played: 91</p>
+    </div>
+    <footer><span>Original game © SEGA / AM2. All rights reserved.<br>Game content and trademarks belong to their respective owners.<br>Built by <a href="https://x.com/divyanshkul" target="_blank" rel="noopener noreferrer">divyanshkul</a></span></footer>
+  </main>
+</body>
+</html>

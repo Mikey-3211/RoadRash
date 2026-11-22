@@ -3,7 +3,7 @@
   "cleanUrls": true,
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/games/hotd2/(.*)",
       "headers": [
         {
           "key": "Cross-Origin-Opener-Policy",
@@ -17,6 +17,10 @@
     }
   ],
   "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/[...path].js"
+    },
     {
       "src": "/classic/cd4bef5efafb3ec7/(.*)",
       "dest": "/classic/cd4bef5efafb3ec7/$1"
@@ -40,6 +44,14 @@
     {
       "src": "/games/hotd2/?$",
       "dest": "/games/hotd2/index.html"
+    },
+    {
+      "src": "/games/contra/?$",
+      "dest": "/games/contra/index.html"
+    },
+    {
+      "src": "/games/batman/?$",
+      "dest": "/games/batman/index.html"
     },
     {
       "src": "/dave/?(.*)",

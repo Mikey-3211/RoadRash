@@ -1,4 +1,4 @@
-const CACHE_NAME = 'arcade-hub-v4';
+const CACHE_NAME = 'arcade-hub-v5';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(

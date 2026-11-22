@@ -1,0 +1,15 @@
+{
+  "user": {
+    "id": "offline-player-1",
+    "username": "RoadRider",
+    "displayName": "RoadRider",
+    "kind": "guest"
+  },
+  "career": {
+    "char": "axle",
+    "cash": 200,
+    "bike": 1,
+    "level": 1,
+    "qualified": {}
+  }
+}

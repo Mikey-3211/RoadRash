@@ -1,4 +1,5 @@
 import http from 'node:http';
+import https from 'node:https';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
@@ -355,6 +356,60 @@ function getLocalIP() {
   }
   return 'localhost';
 }
+
+// WebSocket Upgrade Proxy for /mano multiplayer
+server.on('upgrade', (clientReq, clientSocket, clientHead) => {
+  if (clientReq.url.startsWith('/mano')) {
+    const targetReq = https.request({
+      hostname: 'roadrash.site',
+      port: 443,
+      path: clientReq.url,
+      method: 'GET',
+      headers: {
+        ...clientReq.headers,
+        host: 'roadrash.site',
+        origin: 'https://roadrash.site'
+      }
+    });
+
+    targetReq.on('upgrade', (targetRes, targetSocket, targetHead) => {
+      let headersStr = `HTTP/1.1 101 Switching Protocols\r\n`;
+      for (const [key, val] of Object.entries(targetRes.headers)) {
+        if (Array.isArray(val)) {
+          for (const v of val) headersStr += `${key}: ${v}\r\n`;
+        } else {
+          headersStr += `${key}: ${val}\r\n`;
+        }
+      }
+      headersStr += '\r\n';
+
+      clientSocket.write(headersStr);
+
+      if (targetHead && targetHead.length) clientSocket.write(targetHead);
+      if (clientHead && clientHead.length) targetSocket.write(clientHead);
+
+      clientSocket.pipe(targetSocket);
+      targetSocket.pipe(clientSocket);
+
+      clientSocket.on('error', () => targetSocket.destroy());
+      targetSocket.on('error', () => clientSocket.destroy());
+      clientSocket.on('close', () => targetSocket.destroy());
+      targetSocket.on('close', () => clientSocket.destroy());
+    });
+
+    targetReq.on('response', res => {
+      clientSocket.write(`HTTP/1.1 ${res.statusCode} ${res.statusMessage}\r\n\r\n`);
+      clientSocket.destroy();
+    });
+
+    targetReq.on('error', err => {
+      console.error('Multiplayer proxy error:', err);
+      clientSocket.destroy();
+    });
+
+    targetReq.end();
+  }
+});
 
 server.listen(PORT, '0.0.0.0', () => {
   const ip = getLocalIP();

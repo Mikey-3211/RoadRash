@@ -610,7 +610,7 @@
     // Register Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js?v=7', { scope: '/' }).then(reg => { reg.update(); return reg; })
+        navigator.serviceWorker.register('/sw.js?v=8', { scope: '/' }).then(reg => { reg.update(); return reg; })
           .then((reg) => console.log('[Hub] SW registered with scope:', reg.scope))
           .catch((err) => console.warn('[Hub] SW registration failed:', err));
       });

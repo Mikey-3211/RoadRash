@@ -82,8 +82,8 @@ async function runTests() {
     const swRes = await fetch(`${baseUrl}/sw.js`);
     if (!swRes.ok) throw new Error(`HTTP ${swRes.status}`);
     const swText = await swRes.text();
-    if (!swText.includes('arcade-hub-v9')) throw new Error('SW does not contain arcade-hub-v4');
-    console.log(`✔ [sw.js] Service Worker found with arcade-hub-v4 cache configuration.`);
+    if (!swText.includes('arcade-hub-v10')) throw new Error('SW does not contain arcade-hub-v10');
+    console.log(`✔ [sw.js] Service Worker found with arcade-hub-v10 cache configuration.`);
 
     const manRes = await fetch(`${baseUrl}/cache-manifest.json`);
     if (!manRes.ok) throw new Error(`HTTP ${manRes.status}`);
